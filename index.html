@@ -504,7 +504,11 @@
       <input class="rupiah-input" style="width:200px" id="totalHarta" type="text" inputmode="numeric" placeholder="cth. 500.000.000">
     </div>
     <div class="row">
-      <label>Hutang pewaris (Rp) <span class="hint">dilunasi dulu sebelum dibagi waris, opsional</span></label>
+      <label>Biaya pengurusan jenazah (Rp) <span class="hint">kafan, pemakaman, dll &mdash; diambil pertama dari harta, opsional</span></label>
+      <input class="rupiah-input" style="width:200px" id="biayaJenazah" type="text" inputmode="numeric" placeholder="0">
+    </div>
+    <div class="row">
+      <label>Hutang pewaris (Rp) <span class="hint">dilunasi setelah biaya jenazah, sebelum dibagi waris, opsional</span></label>
       <input class="rupiah-input" style="width:200px" id="hutangPewaris" type="text" inputmode="numeric" placeholder="0">
     </div>
     <div class="row">
@@ -563,13 +567,13 @@
     <p class="sub">Otomatis terhalang (hajb) bila ada anak laki-laki, cucu laki-laki, ayah, atau kakek.</p>
     <div class="dzawil-note">Anak dari saudara <b>perempuan</b> (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.</div>
     <div class="section-label">Kandung (seayah-seibu)</div>
-    <div class="row"><label>Saudara laki-laki</label><input type="number" id="saudaraK" min="0" value="0"></div>
-    <div class="row"><label>Saudari perempuan</label><input type="number" id="saudariK" min="0" value="0"></div>
+    <div class="row" id="rowSaudaraK"><label>Saudara laki-laki</label><input type="number" id="saudaraK" min="0" value="0"></div>
+    <div class="row" id="rowSaudariK"><label>Saudari perempuan</label><input type="number" id="saudariK" min="0" value="0"></div>
     <div class="section-label">Seayah saja</div>
-    <div class="row"><label>Saudara laki-laki</label><input type="number" id="saudaraA" min="0" value="0"></div>
-    <div class="row"><label>Saudari perempuan</label><input type="number" id="saudariA" min="0" value="0"></div>
+    <div class="row" id="rowSaudaraA"><label>Saudara laki-laki</label><input type="number" id="saudaraA" min="0" value="0"></div>
+    <div class="row" id="rowSaudariA"><label>Saudari perempuan</label><input type="number" id="saudariA" min="0" value="0"></div>
     <div class="section-label">Seibu saja</div>
-    <div class="row"><label>Saudara/i (laki-laki &amp; perempuan, bagian sama)</label><input type="number" id="saudaraIbu" min="0" value="0"></div>
+    <div class="row" id="rowSaudaraIbu"><label>Saudara/i (laki-laki &amp; perempuan, bagian sama)</label><input type="number" id="saudaraIbu" min="0" value="0"></div>
     </div>
   </div>
 
@@ -716,6 +720,7 @@ function resetForm(){
     if(el) el.value = '0';
   });
   document.getElementById('totalHarta').value = '';
+  document.getElementById('biayaJenazah').value = '';
   document.getElementById('hutangPewaris').value = '';
   document.getElementById('wasiatPewaris').value = '';
 
@@ -794,10 +799,38 @@ function syncDependentRows(){
   // keponakan (bila ada) menghalangi paman.
   const kakek = document.getElementById('kakek').checked;
   const cucuL = +document.getElementById('cucuL').value || 0;
-  const saudaraK = +document.getElementById('saudaraK').value || 0;
-  const saudaraA = +document.getElementById('saudaraA').value || 0;
   const hasFarWarisMudzakkarClient = anakL>0 || (noAnakLaki && cucuL>0);
-  const blocked = hasFarWarisMudzakkarClient || ayah || kakek || saudaraK>0 || saudaraA>0;
+
+  // Saudara/i: terhalang TOTAL bila ada anak laki-laki, cucu laki-laki (bila tak ada anak
+  // laki-laki), ayah, atau kakek. Saudara/i SEIBU saja juga terhalang bila ada anak/cucu
+  // perempuan sekalipun (far' waris apa pun), persis seperti pada fungsi hitung().
+  const anakPval = +document.getElementById('anakP').value || 0;
+  const cucuPval = +document.getElementById('cucuP').value || 0;
+  const hasFarWarisClient = anakL>0 || anakPval>0 || cucuL>0 || cucuPval>0;
+  const blockAllSiblings = hasFarWarisMudzakkarClient || ayah || kakek;
+  const blockSaudaraIbu = blockAllSiblings || hasFarWarisClient;
+
+  const sdrK = document.getElementById('saudaraK');
+  const sdrIK = document.getElementById('saudariK');
+  const sdrA = document.getElementById('saudaraA');
+  const sdrIA = document.getElementById('saudariA');
+  const sdrIbu = document.getElementById('saudaraIbu');
+  const sdrKval = +sdrK.value || 0;
+
+  ['rowSaudaraK','rowSaudariK'].forEach(id=>document.getElementById(id).classList.toggle('disabled', blockAllSiblings));
+  sdrK.disabled = blockAllSiblings; if(blockAllSiblings) sdrK.value=0;
+  sdrIK.disabled = blockAllSiblings; if(blockAllSiblings) sdrIK.value=0;
+
+  // Seayah juga terhalang tambahan bila ada saudara kandung laki-laki (kandung menghalangi seayah)
+  const blockSeayahSaudara = blockAllSiblings || sdrKval>0;
+  ['rowSaudaraA','rowSaudariA'].forEach(id=>document.getElementById(id).classList.toggle('disabled', blockSeayahSaudara));
+  sdrA.disabled = blockSeayahSaudara; if(blockSeayahSaudara) sdrA.value=0;
+  sdrIA.disabled = blockSeayahSaudara; if(blockSeayahSaudara) sdrIA.value=0;
+
+  document.getElementById('rowSaudaraIbu').classList.toggle('disabled', blockSaudaraIbu);
+  sdrIbu.disabled = blockSaudaraIbu; if(blockSaudaraIbu) sdrIbu.value=0;
+
+  const blocked = hasFarWarisMudzakkarClient || ayah || kakek || sdrKval>0 || (+sdrA.value||0)>0;
   const kK = document.getElementById('keponakanKandung');
   const kA = document.getElementById('keponakanSeayah');
   const pK = document.getElementById('pamanKandung');
@@ -837,7 +870,7 @@ function syncDependentRows(){
   document.getElementById('rowSepupuA').classList.toggle('disabled', blockSepupuSeayah);
   sA.disabled = blockSepupuSeayah; if(blockSepupuSeayah) sA.value=0;
 }
-['ayah','ibu','anakL','anakP','kakek','cucuL','saudaraK','saudaraA','keponakanKandung','keponakanSeayah','pamanKandung','pamanSeayah','sepupuKandung'].forEach(id=>document.getElementById(id).addEventListener('input', syncDependentRows));
+['ayah','ibu','anakL','anakP','kakek','cucuL','cucuP','saudaraK','saudariK','saudaraA','keponakanKandung','keponakanSeayah','pamanKandung','pamanSeayah','sepupuKandung'].forEach(id=>document.getElementById(id).addEventListener('input', syncDependentRows));
 document.getElementById('ayah').addEventListener('change', syncDependentRows);
 document.getElementById('ibu').addEventListener('change', syncDependentRows);
 document.getElementById('kakek').addEventListener('change', syncDependentRows);
@@ -855,7 +888,7 @@ function formatRupiahInput(el){
   const digits = rupiahDigits(el.value);
   el.value = digits ? Number(digits).toLocaleString('id-ID') : '';
 }
-['totalHarta','hutangPewaris','wasiatPewaris'].forEach(id=>{
+['totalHarta','biayaJenazah','hutangPewaris','wasiatPewaris'].forEach(id=>{
   const el = document.getElementById(id);
   if(!el) return;
   el.addEventListener('input', ()=>formatRupiahInput(el));
@@ -896,10 +929,17 @@ function hitungFaraidh(){
   let sepupuSeayah = val('sepupuSeayah');
 
   const totalHartaRaw = rupiahVal('totalHarta');
+  const jenazahRaw = rupiahVal('biayaJenazah');
   const hutangRaw = rupiahVal('hutangPewaris');
   const wasiatRaw = rupiahVal('wasiatPewaris');
 
-  const hartaSetelahHutang = Math.max(0, totalHartaRaw - hutangRaw);
+  // Urutan pengambilan dari harta peninggalan (sesuai fiqih): biaya pengurusan jenazah
+  // (tajhiz) diambil PALING PERTAMA, baru pelunasan hutang, baru wasiat (maks 1/3 dari
+  // sisa setelah jenazah & hutang), sisanya barulah dibagi ke ahli waris.
+  const hartaSetelahJenazah = Math.max(0, totalHartaRaw - jenazahRaw);
+  const jenazahDibatasi = jenazahRaw > totalHartaRaw;
+  const hartaSetelahHutang = Math.max(0, hartaSetelahJenazah - hutangRaw);
+  const hutangDibatasi = hutangRaw > hartaSetelahJenazah;
   const wasiatMax = hartaSetelahHutang / 3;
   const wasiatEfektif = Math.min(wasiatRaw, wasiatMax);
   const wasiatDibatasi = wasiatRaw > wasiatMax;
@@ -1368,7 +1408,7 @@ function hitungFaraidh(){
     special = special ? (special + "<br><br>" + istriNote) : istriNote;
   }
 
-  renderResults(results, special, totalHartaBersih, AM0, AM_final, amDetail, initialSnapshot, {totalHartaRaw, hutangRaw, wasiatRaw, wasiatEfektif, wasiatDibatasi, totalHartaBersih});
+  renderResults(results, special, totalHartaBersih, AM0, AM_final, amDetail, initialSnapshot, {totalHartaRaw, jenazahRaw, jenazahDibatasi, hutangRaw, hutangDibatasi, wasiatRaw, wasiatEfektif, wasiatDibatasi, totalHartaBersih});
 }
 
 function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, initialSnapshot, hartaInfo){
@@ -1392,19 +1432,27 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
     printDateEl.textContent = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
   }
 
-  if(hartaInfo && hartaInfo.totalHartaRaw>0 && (hartaInfo.hutangRaw>0 || hartaInfo.wasiatRaw>0)){
+  if(hartaInfo && hartaInfo.totalHartaRaw>0 && (hartaInfo.jenazahRaw>0 || hartaInfo.hutangRaw>0 || hartaInfo.wasiatRaw>0)){
     const rp = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
     let rows = `<div class="harta-row"><span>Harta kotor (peninggalan)</span><span>${rp(hartaInfo.totalHartaRaw)}</span></div>`;
+    if(hartaInfo.jenazahRaw>0){
+      rows += `<div class="harta-row"><span>&ndash; Biaya pengurusan jenazah</span><span>${rp(Math.min(hartaInfo.jenazahRaw, hartaInfo.totalHartaRaw))}</span></div>`;
+    }
     if(hartaInfo.hutangRaw>0){
-      rows += `<div class="harta-row"><span>&ndash; Hutang pewaris</span><span>${rp(hartaInfo.hutangRaw)}</span></div>`;
+      rows += `<div class="harta-row"><span>&ndash; Hutang pewaris</span><span>${rp(Math.min(hartaInfo.hutangRaw, Math.max(0, hartaInfo.totalHartaRaw - hartaInfo.jenazahRaw)))}</span></div>`;
     }
     if(hartaInfo.wasiatEfektif>0){
       rows += `<div class="harta-row"><span>&ndash; Wasiat (untuk non-ahli waris)</span><span>${rp(hartaInfo.wasiatEfektif)}</span></div>`;
     }
     rows += `<div class="harta-row harta-total"><span>Harta bersih dibagi waris</span><span>${rp(hartaInfo.totalHartaBersih)}</span></div>`;
     let warn = '';
+    if(hartaInfo.jenazahDibatasi){
+      warn += `<div class="wasiat-warn">Biaya pengurusan jenazah yang dimasukkan (${rp(hartaInfo.jenazahRaw)}) melebihi total harta peninggalan, sehingga harta habis untuk biaya jenazah dan tidak ada sisa untuk hutang, wasiat, maupun ahli waris.</div>`;
+    } else if(hartaInfo.hutangDibatasi){
+      warn += `<div class="wasiat-warn">Hutang pewaris yang dimasukkan (${rp(hartaInfo.hutangRaw)}) melebihi sisa harta setelah biaya jenazah, sehingga sisa harta habis untuk melunasi hutang dan tidak ada bagian untuk wasiat maupun ahli waris.</div>`;
+    }
     if(hartaInfo.wasiatDibatasi){
-      warn = `<div class="wasiat-warn">Wasiat yang dimasukkan (${rp(hartaInfo.wasiatRaw)}) melebihi batas maksimal 1/3 dari harta setelah hutang, sehingga otomatis dibatasi menjadi ${rp(hartaInfo.wasiatEfektif)}. Wasiat lebih dari 1/3 hanya sah bila seluruh ahli waris yang berhak menyetujuinya.</div>`;
+      warn += `<div class="wasiat-warn">Wasiat yang dimasukkan (${rp(hartaInfo.wasiatRaw)}) melebihi batas maksimal 1/3 dari harta setelah biaya jenazah &amp; hutang, sehingga otomatis dibatasi menjadi ${rp(hartaInfo.wasiatEfektif)}. Wasiat lebih dari 1/3 hanya sah bila seluruh ahli waris yang berhak menyetujuinya.</div>`;
     }
     breakdownEl.innerHTML = `<div class="harta-box">${rows}${warn}</div>`;
   }
