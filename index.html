@@ -578,7 +578,7 @@
   <div class="card">
     <h2 class="card-header" onclick="toggleCard(this)"><span>5. Saudara/i</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub">Otomatis terhalang (hajb) bila ada anak laki-laki, cucu laki-laki, ayah, atau kakek.</p>
+    <p class="sub">Otomatis terhalang &amp; dinonaktifkan bila ada anak laki-laki, cucu laki-laki (tanpa anak laki-laki), atau ayah. Bila hanya ada <b>kakek</b>, field ini sengaja tetap aktif &mdash; karena kakek+saudara/i adalah kasus khilafiyah (lihat catatan di hasil setelah dihitung); hasil akhir tetap mengikuti pendapat mayoritas (kakek menghalangi total saudara/i).</p>
     <div class="dzawil-note">Anak dari saudara <b>perempuan</b> (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.</div>
     <div class="section-label">Kandung (seayah-seibu)</div>
     <div class="row" id="rowSaudaraK"><label>Saudara laki-laki</label><input type="number" id="saudaraK" min="0" value="0"></div>
@@ -831,7 +831,7 @@ function syncDependentRows(){
   const anakPval = +document.getElementById('anakP').value || 0;
   const cucuPval = +document.getElementById('cucuP').value || 0;
   const hasFarWarisClient = anakL>0 || anakPval>0 || cucuL>0 || cucuPval>0;
-  const blockAllSiblings = hasFarWarisMudzakkarClient || ayah || kakek;
+  const blockAllSiblings = hasFarWarisMudzakkarClient || ayah;
   const blockSaudaraIbu = blockAllSiblings || hasFarWarisClient;
 
   const sdrK = document.getElementById('saudaraK');
