@@ -504,6 +504,10 @@
       <input class="rupiah-input" style="width:200px" id="totalHarta" type="text" inputmode="numeric" placeholder="cth. 500.000.000">
     </div>
     <div class="row">
+      <label>Biaya pengurusan jenazah (Rp) <span class="hint">didahulukan sebelum hutang &amp; wasiat, opsional</span></label>
+      <input class="rupiah-input" style="width:200px" id="biayaJenazah" type="text" inputmode="numeric" placeholder="0">
+    </div>
+    <div class="row">
       <label>Hutang pewaris (Rp) <span class="hint">dilunasi dulu sebelum dibagi waris, opsional</span></label>
       <input class="rupiah-input" style="width:200px" id="hutangPewaris" type="text" inputmode="numeric" placeholder="0">
     </div>
@@ -716,6 +720,7 @@ function resetForm(){
     if(el) el.value = '0';
   });
   document.getElementById('totalHarta').value = '';
+  document.getElementById('biayaJenazah').value = '';
   document.getElementById('hutangPewaris').value = '';
   document.getElementById('wasiatPewaris').value = '';
 
@@ -855,7 +860,7 @@ function formatRupiahInput(el){
   const digits = rupiahDigits(el.value);
   el.value = digits ? Number(digits).toLocaleString('id-ID') : '';
 }
-['totalHarta','hutangPewaris','wasiatPewaris'].forEach(id=>{
+['totalHarta','biayaJenazah','hutangPewaris','wasiatPewaris'].forEach(id=>{
   const el = document.getElementById(id);
   if(!el) return;
   el.addEventListener('input', ()=>formatRupiahInput(el));
@@ -896,10 +901,12 @@ function hitungFaraidh(){
   let sepupuSeayah = val('sepupuSeayah');
 
   const totalHartaRaw = rupiahVal('totalHarta');
+  const jenazahRaw = rupiahVal('biayaJenazah');
   const hutangRaw = rupiahVal('hutangPewaris');
   const wasiatRaw = rupiahVal('wasiatPewaris');
 
-  const hartaSetelahHutang = Math.max(0, totalHartaRaw - hutangRaw);
+  const hartaSetelahJenazah = Math.max(0, totalHartaRaw - jenazahRaw);
+  const hartaSetelahHutang = Math.max(0, hartaSetelahJenazah - hutangRaw);
   const wasiatMax = hartaSetelahHutang / 3;
   const wasiatEfektif = Math.min(wasiatRaw, wasiatMax);
   const wasiatDibatasi = wasiatRaw > wasiatMax;
@@ -1368,7 +1375,7 @@ function hitungFaraidh(){
     special = special ? (special + "<br><br>" + istriNote) : istriNote;
   }
 
-  renderResults(results, special, totalHartaBersih, AM0, AM_final, amDetail, initialSnapshot, {totalHartaRaw, hutangRaw, wasiatRaw, wasiatEfektif, wasiatDibatasi, totalHartaBersih});
+  renderResults(results, special, totalHartaBersih, AM0, AM_final, amDetail, initialSnapshot, {totalHartaRaw, jenazahRaw, hutangRaw, wasiatRaw, wasiatEfektif, wasiatDibatasi, totalHartaBersih});
 }
 
 function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, initialSnapshot, hartaInfo){
@@ -1392,9 +1399,12 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
     printDateEl.textContent = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
   }
 
-  if(hartaInfo && hartaInfo.totalHartaRaw>0 && (hartaInfo.hutangRaw>0 || hartaInfo.wasiatRaw>0)){
+  if(hartaInfo && hartaInfo.totalHartaRaw>0 && (hartaInfo.jenazahRaw>0 || hartaInfo.hutangRaw>0 || hartaInfo.wasiatRaw>0)){
     const rp = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
     let rows = `<div class="harta-row"><span>Harta kotor (peninggalan)</span><span>${rp(hartaInfo.totalHartaRaw)}</span></div>`;
+    if(hartaInfo.jenazahRaw>0){
+      rows += `<div class="harta-row"><span>&ndash; Biaya pengurusan jenazah</span><span>${rp(hartaInfo.jenazahRaw)}</span></div>`;
+    }
     if(hartaInfo.hutangRaw>0){
       rows += `<div class="harta-row"><span>&ndash; Hutang pewaris</span><span>${rp(hartaInfo.hutangRaw)}</span></div>`;
     }
