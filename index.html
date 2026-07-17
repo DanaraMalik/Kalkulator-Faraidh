@@ -410,6 +410,20 @@
   table.faraidh-table .heir-note{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4;}
   table.faraidh-table .saham-main{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--emerald-dark);font-size:14.5px;white-space:nowrap;}
   table.faraidh-table .saham-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;}
+  .saham-badge{
+    display:inline-block;
+    margin-top:4px;
+    padding:2px 7px;
+    border-radius:20px;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.02em;
+    white-space:nowrap;
+  }
+  .saham-badge.badge-furudh{background:var(--gold-soft);color:#7A5A1E;}
+  .saham-badge.badge-ashabah{background:#E1EAE5;color:var(--emerald-dark);}
+  .saham-badge.badge-mahjub{background:#F1EDE2;color:var(--muted);}
   table.faraidh-table tfoot td{border-top:2px solid var(--border);font-weight:700;font-family:'JetBrains Mono',monospace;}
   .am-box.am-box-sm{padding:9px 14px;margin-bottom:10px;font-size:13px;}
   .am-box.am-box-sm .am-value{font-size:16px;}
@@ -680,6 +694,16 @@ function fdiv(a,b){return frac(a.n*b.d,a.d*b.n);}
 function fcmpToOne(a){return a.n - a.d;} // >0 means a>1, <0 means a<1
 function fToNum(a){return a.n/a.d;}
 function fLabel(a){ if(a.n===0) return "0"; return a.n+"/"+a.d; }
+// Badge singkat untuk kolom saham di tabel hasil akhir: menandai apakah bagian
+// seseorang berasal dari furudh (bagian tetap Qur'an), ashabah (sisa), campuran
+// furudh+ashabah (khusus ayah/kakek saat hanya ada anak/cucu perempuan), atau
+// mahjub (terhalang total, saham 0).
+function shareBadge(r){
+  if(fToNum(r.share)===0) return {text:'Mahjub', cls:'badge-mahjub'};
+  if(r.note && /ashabah/i.test(r.note) && /1\/6/.test(r.note)) return {text:'Furudh + Ashabah', cls:'badge-ashabah'};
+  if(r.isGroup || (r.note && /ashabah/i.test(r.note))) return {text:'Ashabah', cls:'badge-ashabah'};
+  return {text:'Furudh', cls:'badge-furudh'};
+}
 
 // ---------- UI wiring ----------
 function toggleCard(headerEl){
@@ -1521,6 +1545,8 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
       rupiahCell = `<td class="num" style="display:none;"></td>`;
     }
 
+    const badge = shareBadge(r);
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>
@@ -1530,6 +1556,7 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
       <td class="num">${r.count}</td>
       <td class="num">
         <div class="saham-main">${fracDisplay}</div>
+        <div class="saham-badge ${badge.cls}">${badge.text}</div>
       </td>
       <td class="num">${r.count>1? `<span class="saham-main" style="font-size:13px;">${perPersonSaham}/${AM_final}</span>`:'&mdash;'}</td>
       <td class="num">${pct.toFixed(2)}%</td>
