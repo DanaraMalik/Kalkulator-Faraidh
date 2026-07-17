@@ -564,16 +564,16 @@
   <div class="card">
     <h2 class="card-header" onclick="toggleCard(this)"><span>5. Saudara/i</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub">Otomatis terhalang (hajb) bila ada anak laki-laki, cucu laki-laki, ayah, atau kakek.</p>
+    <p class="sub">Otomatis terhalang (hajb) bila ada anak laki-laki, cucu laki-laki, atau ayah. Bila hanya ada kakek, kartu ini tetap aktif karena kasus kakek bersama saudara/i kandung/seayah termasuk yang diperselisihkan ulama (lihat catatan di hasil).</p>
     <div class="dzawil-note">Anak dari saudara <b>perempuan</b> (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.</div>
     <div class="section-label">Kandung (seayah-seibu)</div>
-    <div class="row"><label>Saudara laki-laki</label><input type="number" id="saudaraK" min="0" value="0"></div>
-    <div class="row"><label>Saudari perempuan</label><input type="number" id="saudariK" min="0" value="0"></div>
+    <div class="row" id="rowSaudaraK"><label>Saudara laki-laki</label><input type="number" id="saudaraK" min="0" value="0"></div>
+    <div class="row" id="rowSaudariK"><label>Saudari perempuan</label><input type="number" id="saudariK" min="0" value="0"></div>
     <div class="section-label">Seayah saja</div>
-    <div class="row"><label>Saudara laki-laki</label><input type="number" id="saudaraA" min="0" value="0"></div>
-    <div class="row"><label>Saudari perempuan</label><input type="number" id="saudariA" min="0" value="0"></div>
+    <div class="row" id="rowSaudaraA"><label>Saudara laki-laki</label><input type="number" id="saudaraA" min="0" value="0"></div>
+    <div class="row" id="rowSaudariA"><label>Saudari perempuan</label><input type="number" id="saudariA" min="0" value="0"></div>
     <div class="section-label">Seibu saja</div>
-    <div class="row"><label>Saudara/i (laki-laki &amp; perempuan, bagian sama)</label><input type="number" id="saudaraIbu" min="0" value="0"></div>
+    <div class="row" id="rowSaudaraIbu"><label>Saudara/i (laki-laki &amp; perempuan, bagian sama)</label><input type="number" id="saudaraIbu" min="0" value="0"></div>
     </div>
   </div>
 
@@ -794,6 +794,30 @@ function syncDependentRows(){
   document.getElementById('cucuP').disabled = !noAnakLaki;
   if(!noAnakLaki){document.getElementById('cucuL').value=0; document.getElementById('cucuP').value=0;}
 
+  // Saudara/i kandung & seayah: terhalang total bila ada anak laki-laki, cucu laki-laki, atau
+  // ayah. TIDAK terhalang (kartu tetap aktif) hanya karena kakek, karena kakek bersama saudara/i
+  // kandung/seayah adalah kasus khilafiyah (lihat catatan di hasil) \u2014 kalkulator tetap
+  // menghitungnya sebagai mahjub mengikuti pendapat Abu Bakar, tapi input tidak dipaksa nol
+  // supaya pengguna tetap bisa melihat/mengubah datanya.
+  const cucuLforSaudara = +document.getElementById('cucuL').value || 0;
+  const cucuP = +document.getElementById('cucuP').value || 0;
+  const blockSaudaraKandungSeayah = ayah || anakL>0 || cucuLforSaudara>0;
+  ['rowSaudaraK','rowSaudariK','rowSaudaraA','rowSaudariA'].forEach(id=>document.getElementById(id).classList.toggle('disabled', blockSaudaraKandungSeayah));
+  ['saudaraK','saudariK','saudaraA','saudariA'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.disabled = blockSaudaraKandungSeayah;
+    if(blockSaudaraKandungSeayah) el.value = 0;
+  });
+
+  // Saudara/i seibu: terhalang total bila ada anak/cucu (laki-laki ATAU perempuan) atau ayah
+  // ATAU kakek \u2014 ini TIDAK diperselisihkan, jadi kakek tetap menghalangi (berbeda dari
+  // saudara/i kandung/seayah di atas).
+  const kakekForSaudara = document.getElementById('kakek').checked;
+  const blockSaudaraIbu = ayah || kakekForSaudara || anakL>0 || anakP>0 || cucuLforSaudara>0 || cucuP>0;
+  document.getElementById('rowSaudaraIbu').classList.toggle('disabled', blockSaudaraIbu);
+  document.getElementById('saudaraIbu').disabled = blockSaudaraIbu;
+  if(blockSaudaraIbu) document.getElementById('saudaraIbu').value = 0;
+
   // Keponakan & paman: terhalang total bila ada anak/cucu laki-laki, ayah, kakek, atau saudara
   // laki-laki (kandung/seayah). Kandung juga menghalangi seayah pada tingkat yang sama, dan
   // keponakan (bila ada) menghalangi paman.
@@ -842,7 +866,7 @@ function syncDependentRows(){
   document.getElementById('rowSepupuA').classList.toggle('disabled', blockSepupuSeayah);
   sA.disabled = blockSepupuSeayah; if(blockSepupuSeayah) sA.value=0;
 }
-['ayah','ibu','anakL','anakP','kakek','cucuL','saudaraK','saudaraA','keponakanKandung','keponakanSeayah','pamanKandung','pamanSeayah','sepupuKandung'].forEach(id=>document.getElementById(id).addEventListener('input', syncDependentRows));
+['ayah','ibu','anakL','anakP','kakek','cucuL','cucuP','saudaraK','saudaraA','keponakanKandung','keponakanSeayah','pamanKandung','pamanSeayah','sepupuKandung'].forEach(id=>document.getElementById(id).addEventListener('input', syncDependentRows));
 document.getElementById('ayah').addEventListener('change', syncDependentRows);
 document.getElementById('ibu').addEventListener('change', syncDependentRows);
 document.getElementById('kakek').addEventListener('change', syncDependentRows);
@@ -1252,9 +1276,15 @@ function hitungFaraidh(){
   // lazimnya ditulis di kitab-kitab faraidh.
   function groupCombinedLabel(gi){
     const parts=[];
-    if(gi.maleCount>0) parts.push(`${gi.maleCount} ${gi.maleLabel.split(' (')[0]}`);
-    if(gi.femaleCount>0) parts.push(`${gi.femaleCount} ${gi.femaleLabel.split(' (')[0]}`);
-    return parts.join(' dan ');
+    if(gi.maleCount>0) parts.push(`${gi.maleCount} ${gi.maleLabel.split(' (')[0].toLowerCase()}`);
+    if(gi.femaleCount>0) parts.push(`${gi.femaleCount} ${gi.femaleLabel.split(' (')[0].toLowerCase()}`);
+    let label = parts.join(' dan ');
+    label = label.charAt(0).toUpperCase() + label.slice(1);
+    if(gi.maleCount>0 && gi.femaleCount>0){
+      const totalWeight = gi.maleCount*gi.maleWeight + gi.femaleCount*gi.femaleWeight;
+      label += ` = ${totalWeight} kepala`;
+    }
+    return label;
   }
   function furudhLabel(r){
     if(fToNum(r.share)===0) return 'Mahjub';
@@ -1265,7 +1295,8 @@ function hitungFaraidh(){
     label: r.isGroup ? groupCombinedLabel(r.groupInfo) : r.label,
     furudh: furudhLabel(r),
     saham: r.saham,
-    count: r.count
+    count: r.count,
+    isGroup: !!r.isGroup
   }));
 
   let AM_final = AM0;
@@ -1432,7 +1463,7 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
     initialSnapshot.forEach(r=>{
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><div class="heir-name">${r.count>1? `${r.count} `:''}${r.label}</div></td>
+        <td><div class="heir-name">${(r.count>1 && !r.isGroup)? `${r.count} `:''}${r.label}</div></td>
         <td class="num">${r.furudh}</td>
         <td class="num"><span class="saham-main">${r.saham}</span></td>
       `;
