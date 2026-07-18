@@ -410,6 +410,11 @@
   table.faraidh-table .heir-note{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4;}
   table.faraidh-table .saham-main{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--emerald-dark);font-size:14.5px;white-space:nowrap;}
   table.faraidh-table .saham-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;}
+  .bagian-badge{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;}
+  .bagian-badge.furudh{background:#E7EFEA;color:#1F4B3F;}
+  .bagian-badge.ashabah{background:#F5EAD2;color:#8C5E2A;}
+  .bagian-badge.mixed{background:#EAE4F2;color:#5B4A8A;}
+  .bagian-badge.mahjub{background:#F3E3E1;color:#8A3B34;}
   table.faraidh-table tfoot td{border-top:2px solid var(--border);font-weight:700;font-family:'JetBrains Mono',monospace;}
   .am-box.am-box-sm{padding:9px 14px;margin-bottom:10px;font-size:13px;}
   .am-box.am-box-sm .am-value{font-size:16px;}
@@ -1409,6 +1414,15 @@ function hitungFaraidh(){
   renderResults(results, special, totalHartaBersih, AM0, AM_final, amDetail, initialSnapshot, {totalHartaRaw, jenazahRaw, hutangRaw, wasiatRaw, wasiatEfektif, wasiatDibatasi, totalHartaBersih});
 }
 
+function classifyBadge(r){
+  if(fToNum(r.share)===0) return {text:'Mahjub', cls:'mahjub'};
+  const note = r.note || '';
+  if(/ma'al ghair/i.test(note)) return {text:"Ashabah ma'al ghair", cls:'ashabah'};
+  if(/\+ sisa sebagai ashabah/i.test(note)) return {text:'Furudh + Ashabah', cls:'mixed'};
+  if(/ashabah/i.test(note) || /ta'shib/i.test(note)) return {text:'Ashabah', cls:'ashabah'};
+  return {text:'Furudh', cls:'furudh'};
+}
+
 function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, initialSnapshot, hartaInfo){
   const box = document.getElementById('results');
   const listEl = document.getElementById('heirList');
@@ -1514,6 +1528,8 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
       rupiahCell = `<td class="num" style="display:none;"></td>`;
     }
 
+    const badge = classifyBadge(r);
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>
@@ -1523,6 +1539,7 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
       <td class="num">${r.count}</td>
       <td class="num">
         <div class="saham-main">${fracDisplay}</div>
+        <div class="bagian-badge ${badge.cls}">${badge.text}</div>
       </td>
       <td class="num">${r.count>1? `<span class="saham-main" style="font-size:13px;">${perPersonSaham}/${AM_final}</span>`:'&mdash;'}</td>
       <td class="num">${pct.toFixed(2)}%</td>
