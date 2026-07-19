@@ -203,6 +203,16 @@
 
   .btn-row{display:flex;gap:10px;margin-top:6px;}
   .btn-row .btn-hitung{margin-top:0;flex:1;}
+  @media (max-width: 640px){
+    .btn-row{
+      position:sticky;
+      bottom:0;
+      background:var(--paper);
+      padding:10px 0 14px;
+      z-index:50;
+      box-shadow:0 -8px 14px -10px rgba(43,38,32,.25);
+    }
+  }
   .btn-reset{
     padding:15px 20px;
     border:1px solid var(--border);
@@ -304,6 +314,34 @@
     margin:2px 0 14px;
   }
   .dzawil-note b{color:var(--danger);}
+
+  .istri-warning{
+    font-size:12px;
+    color:var(--danger);
+    margin:-6px 0 12px;
+  }
+
+  .preset-row{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    margin:0 0 18px;
+  }
+  .preset-label{font-size:12.5px;color:var(--muted);margin-right:2px;}
+  .preset-chip{
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--emerald-dark);
+    background:var(--gold-soft);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:6px 12px;
+    cursor:pointer;
+  }
+  .preset-chip:hover{filter:brightness(0.97);}
+  .preset-chip:active{transform:scale(.98);}
 
   .advanced-toggle{
     display:inline-block;
@@ -456,6 +494,47 @@
   }
   .app-footer b{color:var(--emerald-dark);}
 
+  .dev-test-link{
+    display:inline-block;
+    margin-top:10px;
+    font-size:11px;
+    color:var(--muted);
+    text-decoration:underline;
+    text-underline-offset:2px;
+    cursor:pointer;
+    opacity:.7;
+  }
+  .dev-test-link:hover{opacity:1;}
+  #testReportPanel{
+    text-align:left;
+    margin-top:12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:12px;
+    background:#fff;
+  }
+  #testReportPanel .test-summary{font-weight:700;margin-bottom:8px;font-size:13px;}
+  #testReportPanel .test-row{
+    display:flex;
+    gap:8px;
+    padding:6px 0;
+    border-top:1px solid var(--border);
+    align-items:flex-start;
+  }
+  #testReportPanel .test-row:first-of-type{border-top:none;}
+  #testReportPanel .test-badge{
+    flex-shrink:0;
+    font-weight:700;
+    border-radius:6px;
+    padding:1px 6px;
+    font-size:11px;
+  }
+  #testReportPanel .test-badge.pass{background:#E7EFEA;color:#1F4B3F;}
+  #testReportPanel .test-badge.fail{background:#F3E3E1;color:#8A3B34;}
+  #testReportPanel .test-detail{color:var(--muted);}
+  #testReportPanel .test-name{font-weight:600;color:var(--text, #222);}
+
   legend-title{display:block;}
   .section-label{
     font-family:'JetBrains Mono',monospace;
@@ -478,6 +557,14 @@
   </header>
 
   <div id="error"></div>
+
+  <div class="preset-row">
+    <span class="preset-label">Coba contoh:</span>
+    <button type="button" class="preset-chip" onclick="applyPreset('istriAnak')">Istri + 2 anak</button>
+    <button type="button" class="preset-chip" onclick="applyPreset('ayahIbu')">Ayah + Ibu saja</button>
+    <button type="button" class="preset-chip" onclick="applyPreset('aulContoh')">Suami + Ibu + 2 saudari</button>
+    <button type="button" class="preset-chip" onclick="applyPreset('saudaraSaja')">Hanya saudara/i</button>
+  </div>
 
   <div class="card collapsed" data-default-collapsed="true">
     <h2 class="card-header" onclick="toggleCard(this)"><span>&#128214; Istilah dalam Kalkulator Ini</span><span class="chevron">&#9662;</span></h2>
@@ -708,7 +795,11 @@
     <p class="disclaimer">Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama yang berlaku umum di Indonesia. Untuk kasus yang sangat kompleks &mdash; misalnya kakek bersamaan dengan saudara/i (masalah musyarakah/akdariyyah), atau kombinasi ahli waris yang jarang terjadi &mdash; disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.</p>
   </div>
 
-  <footer class="app-footer">Dibuat oleh <b>Danara Osa Raharsa</b> with Claude</footer>
+  <footer class="app-footer">
+    Dibuat oleh <b>Danara Osa Raharsa</b> with Claude
+    <div class="dev-test-link" onclick="runTestSuite()">Jalankan kasus uji internal (verifikasi perhitungan)</div>
+    <div id="testReportPanel" style="display:none"></div>
+  </footer>
 
 </div>
 
@@ -756,6 +847,32 @@ document.querySelectorAll('.card-header').forEach((header, i)=>{
     }
   });
 });
+
+// ---------- Preset contoh cepat ----------
+const PRESETS = {
+  istriAnak: { gender:'L', fields:{ istriCount:1, anakL:1, anakP:1 } },
+  ayahIbu: { gender:'L', fields:{ ayah:true, ibu:true } },
+  aulContoh: { gender:'P', fields:{ suami:true, ibu:true, saudariK:2 } },
+  saudaraSaja: { gender:'L', fields:{ saudaraK:1, saudariK:1 } }
+};
+function applyPreset(name){
+  const preset = PRESETS[name];
+  if(!preset) return;
+  resetForm();
+  if(preset.gender !== pewarisGender){
+    pewarisGender = preset.gender;
+    [...document.getElementById('genderToggle').children].forEach(b=>b.classList.toggle('active', b.dataset.val===preset.gender));
+    renderSpouseSection();
+  }
+  for(const id in preset.fields){
+    const el = document.getElementById(id);
+    if(!el) continue;
+    if(el.type==='checkbox') el.checked = !!preset.fields[id]; else el.value = preset.fields[id];
+  }
+  syncDependentRows();
+  hitungFaraidh();
+  document.getElementById('results').scrollIntoView({behavior:'smooth', block:'start'});
+}
 
 function resetForm(){
   // Checkbox tetap (bukan bagian dari spouseSection dinamis)
@@ -809,9 +926,11 @@ document.getElementById('genderToggle').addEventListener('click', e=>{
 function renderSpouseSection(){
   const el = document.getElementById('spouseSection');
   if(pewarisGender==='L'){
-    el.innerHTML = `<div class="row"><label>Istri<span class="hint">jumlah istri yang masih hidup (0 jika tidak ada, maksimal 4)</span></label><input type="number" id="istriCount" min="0" max="4" value="0"></div>`;
+    el.innerHTML = `<div class="row"><label>Istri<span class="hint">jumlah istri yang masih hidup (0 jika tidak ada, maksimal 4)</span></label><input type="number" id="istriCount" min="0" max="4" value="0"></div><div class="istri-warning" id="istriWarning" style="display:none">Maksimal 4 istri menurut syariat &mdash; jumlah otomatis dibatasi ke 4.</div>`;
     document.getElementById('istriCount').addEventListener('input', function(){
-      if(this.value!=='' && +this.value>4) this.value = 4;
+      const warn = document.getElementById('istriWarning');
+      if(this.value!=='' && +this.value>4){ this.value = 4; warn.style.display='block'; }
+      else { warn.style.display='none'; }
       if(this.value!=='' && +this.value<0) this.value = 0;
     });
   } else {
@@ -1832,6 +1951,224 @@ function cetakFitPage(){
   window.addEventListener('afterprint', resetZoom);
 
   setTimeout(()=>{ window.print(); }, 50);
+}
+
+// =========================================================================
+// ---------- Kasus uji internal (verifikasi perhitungan faraidh) ----------
+// =========================================================================
+// Kumpulan kasus klasik dari kitab faraidh dipakai untuk memverifikasi bahwa
+// perubahan kode ke depan tidak diam-diam merusak kasus yang sudah benar.
+// Setiap kasus mengisi field tertentu, menjalankan hitungFaraidh(), lalu
+// membandingkan saham & asal masalah akhir dengan nilai yang sudah diketahui.
+const FARAIDH_TEST_CASES = [
+  {
+    name: "Gharrawain (umariyatain) \u2014 Suami + Ayah + Ibu",
+    gender: 'P',
+    setup: { suami:true, ayah:true, ibu:true },
+    expectAM: 6,
+    expect: [
+      { label:'Suami', saham:3 },
+      { label:'Ayah', saham:2 },
+      { label:'Ibu', saham:1 }
+    ]
+  },
+  {
+    name: "Gharrawain (umariyatain) \u2014 Istri + Ayah + Ibu",
+    gender: 'L',
+    setup: { istriCount:1, ayah:true, ibu:true },
+    expectAM: 4,
+    expect: [
+      { label:'Istri', saham:1 },
+      { label:'Ayah', saham:2 },
+      { label:'Ibu', saham:1 }
+    ]
+  },
+  {
+    name: "Radd sederhana (tanpa pasangan) \u2014 Ibu + 1 anak perempuan",
+    setup: { ibu:true, anakP:1 },
+    expectAM: 4,
+    expect: [
+      { label:'Ibu', saham:1 },
+      { label:'Anak perempuan', saham:3 }
+    ]
+  },
+  {
+    name: "Radd dengan pasangan \u2014 Suami + 2 anak perempuan",
+    gender:'P',
+    setup: { suami:true, anakP:2 },
+    expectAM: 8,
+    expect: [
+      { label:'Suami', saham:2 },
+      { label:'Anak perempuan', saham:6 }
+    ]
+  },
+  {
+    name: "'Aul \u2014 Suami + Ibu + 2 saudari kandung",
+    gender:'P',
+    setup: { suami:true, ibu:true, saudariK:2 },
+    expectAM: 8,
+    expect: [
+      { label:'Suami', saham:3 },
+      { label:'Ibu', saham:1 },
+      { label:'Saudari kandung perempuan', saham:4 }
+    ]
+  },
+  {
+    name: "Inkisar + radd \u2014 Istri + 5 anak perempuan",
+    setup: { istriCount:1, anakP:5 },
+    expectAM: 40,
+    expect: [
+      { label:'Istri', saham:5 },
+      { label:'Anak perempuan', saham:35 }
+    ]
+  },
+  {
+    name: "Ta'shib penyelamat lintas-generasi \u2014 2 anak perempuan + 1 cucu perempuan + 1 cicit laki-laki",
+    setup: { anakP:2, cucuP:1, cicitL:1 },
+    expectAM: 9,
+    expect: [
+      { label:'Anak perempuan', saham:6 },
+      { label:'Cicit laki-laki', saham:2 },
+      { label:'Cucu perempuan', saham:1 }
+    ]
+  },
+  {
+    name: "Cucu TIDAK diselamatkan (sudah punya bagian tetap) \u2014 1 anak perempuan + 1 cucu perempuan + 1 cicit laki-laki",
+    setup: { anakP:1, cucuP:1, cicitL:1 },
+    expectAM: 6,
+    expect: [
+      { label:'Anak perempuan', saham:3 },
+      { label:'Cucu perempuan', saham:1 },
+      { label:'Cicit laki-laki', saham:2 }
+    ]
+  },
+  {
+    name: "Tanpa ahli waris \u2014 harus muncul pesan error",
+    setup: {},
+    expectNoHeir: true
+  }
+];
+
+// Menyimpan & mengembalikan seluruh isi form (checkbox/number) supaya kasus
+// uji tidak mengubah data yang sedang diisi pengguna.
+function snapshotFormState(){
+  const inputs = [];
+  document.querySelectorAll('.card input').forEach(el=>{
+    inputs.push({ id:el.id, type:el.type, value:el.value, checked:el.checked });
+  });
+  return {
+    inputs,
+    gender: pewarisGender,
+    resultsVisible: document.getElementById('results').style.display !== 'none',
+    buyutOpen: document.getElementById('buyutSection').style.display !== 'none',
+    cicitOpen: document.getElementById('cicitSection').style.display !== 'none'
+  };
+}
+function restoreFormState(snap){
+  if(snap.gender !== pewarisGender){
+    pewarisGender = snap.gender;
+    [...document.getElementById('genderToggle').children].forEach(b=>b.classList.toggle('active', b.dataset.val===snap.gender));
+    renderSpouseSection();
+  }
+  snap.inputs.forEach(s=>{
+    const el = document.getElementById(s.id);
+    if(!el) return;
+    if(s.type==='checkbox') el.checked = s.checked; else el.value = s.value;
+  });
+  document.getElementById('buyutSection').style.display = snap.buyutOpen? 'block':'none';
+  document.getElementById('cicitSection').style.display = snap.cicitOpen? 'block':'none';
+  syncDependentRows();
+  if(snap.resultsVisible){
+    hitungFaraidh();
+  } else {
+    document.getElementById('results').style.display = 'none';
+    lastResultData = null;
+  }
+}
+
+function runOneFaraidhTest(tc){
+  resetForm();
+  const targetGender = tc.gender || 'L';
+  if(targetGender !== pewarisGender){
+    pewarisGender = targetGender;
+    [...document.getElementById('genderToggle').children].forEach(b=>b.classList.toggle('active', b.dataset.val===targetGender));
+    renderSpouseSection();
+  }
+  const setup = tc.setup || {};
+  for(const id in setup){
+    const el = document.getElementById(id);
+    if(!el) return { pass:false, detail:`Field #${id} tidak ditemukan di halaman (kemungkinan id berubah)` };
+    if(el.type==='checkbox') el.checked = !!setup[id]; else el.value = setup[id];
+  }
+  syncDependentRows();
+  lastResultData = null;
+  document.getElementById('error').style.display = 'none';
+
+  try{
+    hitungFaraidh();
+  } catch(e){
+    return { pass:false, detail:'Terjadi error saat menghitung: '+e.message };
+  }
+
+  if(tc.expectNoHeir){
+    const errShown = document.getElementById('error').style.display !== 'none';
+    if(errShown && !lastResultData) return { pass:true, detail:'Pesan error tampil seperti diharapkan' };
+    return { pass:false, detail:'Seharusnya menampilkan pesan error tanpa ahli waris, tapi tidak' };
+  }
+
+  if(!lastResultData){
+    return { pass:false, detail:'Tidak ada hasil (kemungkinan salah dianggap tanpa ahli waris)' };
+  }
+  const { results, AM_final } = lastResultData;
+  const problems = [];
+  if(tc.expectAM!==undefined && AM_final!==tc.expectAM){
+    problems.push(`asal masalah akhir = ${AM_final}, diharapkan ${tc.expectAM}`);
+  }
+  (tc.expect||[]).forEach(exp=>{
+    const row = results.find(r=>r.label.indexOf(exp.label)===0);
+    if(!row){
+      problems.push(`baris "${exp.label}" tidak ditemukan`);
+      return;
+    }
+    const got = Math.round(row.saham*1000)/1000;
+    if(got !== exp.saham){
+      problems.push(`${exp.label}: saham = ${got}, diharapkan ${exp.saham}`);
+    }
+  });
+  return { pass: problems.length===0, detail: problems.length? problems.join('; ') : 'Sesuai harapan' };
+}
+
+function runTestSuite(){
+  const snap = snapshotFormState();
+  const report = FARAIDH_TEST_CASES.map(tc=>{
+    let result;
+    try{
+      result = runOneFaraidhTest(tc);
+    } catch(e){
+      result = { pass:false, detail:'Error tak terduga: '+e.message };
+    }
+    return { name: tc.name, pass: result.pass, detail: result.detail };
+  });
+  restoreFormState(snap);
+  renderTestReport(report);
+}
+
+function renderTestReport(report){
+  const panel = document.getElementById('testReportPanel');
+  const passCount = report.filter(r=>r.pass).length;
+  const allPass = passCount===report.length;
+  const rows = report.map(r=>`
+    <div class="test-row">
+      <span class="test-badge ${r.pass?'pass':'fail'}">${r.pass? 'OK':'GAGAL'}</span>
+      <span>
+        <div class="test-name">${r.name}</div>
+        <div class="test-detail">${r.detail}</div>
+      </span>
+    </div>
+  `).join('');
+  panel.innerHTML = `<div class="test-summary" style="color:${allPass? '#1F4B3F':'#8A3B34'}">${passCount}/${report.length} kasus uji lolos</div>${rows}`;
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 </script>
 </body>
