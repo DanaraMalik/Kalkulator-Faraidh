@@ -594,11 +594,11 @@
   </div>
 
   <div class="card">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>1. Data Pewaris</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span>1. Data Mayit</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub">Jenis kelamin orang yang meninggal menentukan jenis pasangan yang mewarisi.</p>
+    <p class="sub">Jenis kelamin orang yang meninggal (mayit) menentukan jenis pasangan yang mewarisi.</p>
     <div class="row">
-      <label>Jenis kelamin pewaris</label>
+      <label>Jenis kelamin mayit</label>
       <div class="toggle" id="genderToggle">
         <button type="button" data-val="L" class="active">Laki-laki</button>
         <button type="button" data-val="P">Perempuan</button>
@@ -613,7 +613,7 @@
       <input class="rupiah-input" style="width:200px" id="biayaJenazah" type="text" inputmode="numeric" placeholder="0">
     </div>
     <div class="row">
-      <label>Hutang pewaris (Rp) <span class="hint">dilunasi dulu sebelum dibagi waris, opsional</span></label>
+      <label>Hutang mayit (Rp) <span class="hint">dilunasi dulu sebelum dibagi waris, opsional</span></label>
       <input class="rupiah-input" style="width:200px" id="hutangPewaris" type="text" inputmode="numeric" placeholder="0">
     </div>
     <div class="row">
@@ -704,6 +704,8 @@
     <div class="row" id="rowSaudariA"><label>Saudari perempuan</label><input type="number" id="saudariA" min="0" value="0"></div>
     <div class="section-label">Seibu saja</div>
     <div class="row" id="rowSaudaraIbu"><label>Saudara/i (laki-laki &amp; perempuan, bagian sama)</label><input type="number" id="saudaraIbu" min="0" value="0"></div>
+
+    <input type="checkbox" id="musytarakahOpt" style="display:none">
     </div>
   </div>
 
@@ -718,22 +720,22 @@
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>7. Paman (saudara laki-laki ayah)</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span>7. Paman &mdash; khusus saudara ayah</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
     <p class="sub">Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, saudara laki-laki, atau keponakan (di atas). Paman kandung menghalangi paman seayah.</p>
-    <div class="dzawil-note">Bibi (dari pihak manapun) serta paman dari pihak <b>ibu</b> berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
-    <div class="row" id="rowPamanK"><label>Paman kandung</label><input type="number" id="pamanKandung" min="0" value="0"></div>
-    <div class="row" id="rowPamanA"><label>Paman seayah</label><input type="number" id="pamanSeayah" min="0" value="0"></div>
+    <div class="dzawil-note"><b>Perhatian:</b> dalam bahasa sehari-hari "paman" bisa berarti saudara laki-laki ayah <i>maupun</i> ibu. Di kalkulator ini, "paman" HANYA berarti <b>saudara laki-laki ayah</b> mayit &mdash; karena hanya jalur itu yang berstatus ahli waris. Paman dari pihak <b>ibu</b> (saudara laki-laki ibu), serta bibi dari pihak manapun, berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
+    <div class="row" id="rowPamanK"><label>Paman kandung <span class="hint">saudara kandung ayah</span></label><input type="number" id="pamanKandung" min="0" value="0"></div>
+    <div class="row" id="rowPamanA"><label>Paman seayah <span class="hint">saudara seayah dari ayah</span></label><input type="number" id="pamanSeayah" min="0" value="0"></div>
     </div>
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>8. Sepupu (anak paman)</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span>8. Sepupu &mdash; khusus anak paman dari ayah</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
     <p class="sub">Terhalang total bila ada ahli waris di atas (sampai dengan paman). Anak dari paman kandung menghalangi anak dari paman seayah.</p>
-    <div class="dzawil-note">Sepupu <b>perempuan</b>, serta sepupu dari jalur <b>ibu</b> (anak bibi/paman dari ibu) berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
-    <div class="row" id="rowSepupuK"><label>Anak paman kandung</label><input type="number" id="sepupuKandung" min="0" value="0"></div>
-    <div class="row" id="rowSepupuA"><label>Anak paman seayah</label><input type="number" id="sepupuSeayah" min="0" value="0"></div>
+    <div class="dzawil-note"><b>Perhatian:</b> "sepupu" di sini HANYA berarti anak laki-laki dari <b>paman pihak ayah</b> (saudara laki-laki ayah mayit) di atas, bukan sepupu secara umum. Sepupu <b>perempuan</b>, serta sepupu dari jalur <b>ibu</b> (anak dari saudara ibu, baik laki-laki maupun perempuan bibi/paman ibu), berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
+    <div class="row" id="rowSepupuK"><label>Anak paman kandung <span class="hint">dari ayah</span></label><input type="number" id="sepupuKandung" min="0" value="0"></div>
+    <div class="row" id="rowSepupuA"><label>Anak paman seayah <span class="hint">dari ayah</span></label><input type="number" id="sepupuSeayah" min="0" value="0"></div>
     </div>
   </div>
 
@@ -830,6 +832,13 @@ function toggleAdvanced(sectionId, btnId){
   btn.textContent = hidden ? btn.dataset.hideLabel : btn.dataset.showLabel;
 }
 
+// Toggle pendapat musytarakah dari checkbox interaktif yang muncul di dalam catatan hasil
+// (hanya tampil saat kasusnya terdeteksi cocok), lalu hitung ulang.
+function toggleMusytarakah(checked){
+  document.getElementById('musytarakahOpt').checked = checked;
+  hitungFaraidh();
+}
+
 // Aksesibilitas: header card bisa dioperasikan lewat keyboard (Enter/Spasi), punya
 // role="button", dan aria-expanded/aria-controls yang mengikuti status buka/tutup.
 document.querySelectorAll('.card-header').forEach((header, i)=>{
@@ -876,7 +885,7 @@ function applyPreset(name){
 
 function resetForm(){
   // Checkbox tetap (bukan bagian dari spouseSection dinamis)
-  ['ayah','kakek','buyutL','ibu','nenekIbu','nenekAyah','buyutDariKakek','buyutDariNenekAyah','buyutDariNenekIbu'].forEach(id=>{
+  ['ayah','kakek','buyutL','ibu','nenekIbu','nenekAyah','buyutDariKakek','buyutDariNenekAyah','buyutDariNenekIbu','musytarakahOpt'].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.checked = false;
   });
@@ -1135,6 +1144,7 @@ function hitungFaraidh(){
   let saudaraK = val('saudaraK'), saudariK = val('saudariK');
   let saudaraA = val('saudaraA'), saudariA = val('saudariA');
   let saudaraIbu = val('saudaraIbu');
+  const musytarakahOpt = val('musytarakahOpt');
   let keponakanKandung = val('keponakanKandung');
   let keponakanSeayah = val('keponakanSeayah');
   let pamanKandung = val('pamanKandung');
@@ -1433,34 +1443,55 @@ function hitungFaraidh(){
     remainder = fsub(remainder, f);
   }
 
-  // Siblings: seibu first (independent furud)
-  if(saudaraIbu>0){
-    const f = saudaraIbu===1? frac(1,6): frac(1,3);
-    results.push({label:'Saudara/i seibu', share:f, count:saudaraIbu, note:'Bagian sama rata, tanpa membedakan laki-laki/perempuan'});
-    remainder = fsub(remainder, f);
-  }
+  // ---------- Musytarakah (al-Himariyyah) ----------
+  // Kasus: suami + ibu ATAU nenek (memberi 1/6) + 2 atau lebih saudara/i seibu + saudara
+  // kandung (ada saudara laki-laki, sendiri atau bersama saudari kandung yang ikut ashabah),
+  // di mana bagian mereka menghabiskan seluruh harta sehingga saudara kandung seharusnya
+  // mahjub (tidak dapat sisa sebagai ashabah). Dikhususkan untuk suami (bukan istri) karena
+  // hanya bagian suami (1/2) yang menghabiskan sisa secara pas dalam kasus klasik ini \u2014
+  // dengan istri (1/4) biasanya masih menyisakan bagian untuk saudara kandung. Default
+  // kalkulator ini: saudara kandung tetap mahjub (pendapat jumhur). Bila musytarakahOpt
+  // aktif: saudara kandung ikut berbagi rata (per kepala, bukan 2:1) bersama saudara/i seibu.
+  const seibuFrac = saudaraIbu>0 ? (saudaraIbu===1? frac(1,6): frac(1,3)) : frac(0,1);
+  const musytarakahCase = suami && (ibu||nenek) && saudaraIbu>=2 && saudaraK>0 && fToNum(fsub(remainder, seibuFrac))<=0;
 
-  // Kandung
-  if(saudaraK>0){
-    if(remainder.n<=0){
-      results.push({label:'Saudara kandung laki-laki', share:frac(0,1), count:saudaraK, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta'});
-      if(saudariK>0) results.push({label:'Saudari kandung perempuan', share:frac(0,1), count:saudariK, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta'});
-    } else {
-      const totalWeight = saudaraK*2+saudariK;
-      results.push({
-        isGroup:true,
-        share: remainder,
-        count: totalWeight,
-        groupInfo:{
-          maleLabel:'Saudara kandung laki-laki', femaleLabel:'Saudari kandung perempuan',
-          maleCount:saudaraK, femaleCount:saudariK, maleWeight:2, femaleWeight:1,
-          maleNote:'Ashabah, bagian 2:1 dgn saudari',
-          femaleNote:'Ashabah bersama saudara laki-laki'
-        }
-      });
+  if(musytarakahCase && musytarakahOpt){
+    // Gabung seibu + kandung (laki-laki & perempuan), berbagi RATA per kepala.
+    const totalHeads = saudaraIbu + saudaraK + saudariK;
+    const perHead = fdiv(seibuFrac, frac(totalHeads,1));
+    results.push({label:'Saudara/i seibu', share: fmul(perHead, frac(saudaraIbu,1)), count:saudaraIbu, note:`Musytarakah \u2014 berbagi rata per kepala (${totalHeads} orang total) bersama saudara kandung, karena saudara kandung seharusnya mahjub (tidak ada sisa harta)`});
+    results.push({label:'Saudara kandung laki-laki', share: fmul(perHead, frac(saudaraK,1)), count:saudaraK, note:`Musytarakah \u2014 ikut berbagi rata per kepala (bukan 2:1) bersama saudara/i seibu, karena seharusnya mahjub (tidak ada sisa harta)`});
+    if(saudariK>0) results.push({label:'Saudari kandung perempuan', share: fmul(perHead, frac(saudariK,1)), count:saudariK, note:`Musytarakah \u2014 ikut berbagi rata per kepala (bukan 2:1) bersama saudara/i seibu, karena seharusnya mahjub (tidak ada sisa harta)`});
+    remainder = fsub(remainder, seibuFrac);
+  } else {
+    // Siblings: seibu first (independent furud)
+    if(saudaraIbu>0){
+      results.push({label:'Saudara/i seibu', share:seibuFrac, count:saudaraIbu, note:'Bagian sama rata, tanpa membedakan laki-laki/perempuan'});
+      remainder = fsub(remainder, seibuFrac);
     }
-    remainder = frac(0,1);
-  } else if(saudariK>0){
+
+    // Kandung
+    if(saudaraK>0){
+      if(remainder.n<=0){
+        const musytarakahHint = musytarakahCase? ' Kasus ini termasuk musytarakah/himariyyah \u2014 lihat catatan di atas hasil untuk memilih pendapat yang tetap memberinya bagian.' : '';
+        results.push({label:'Saudara kandung laki-laki', share:frac(0,1), count:saudaraK, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta.'+musytarakahHint});
+        if(saudariK>0) results.push({label:'Saudari kandung perempuan', share:frac(0,1), count:saudariK, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta.'+musytarakahHint});
+      } else {
+        const totalWeight = saudaraK*2+saudariK;
+        results.push({
+          isGroup:true,
+          share: remainder,
+          count: totalWeight,
+          groupInfo:{
+            maleLabel:'Saudara kandung laki-laki', femaleLabel:'Saudari kandung perempuan',
+            maleCount:saudaraK, femaleCount:saudariK, maleWeight:2, femaleWeight:1,
+            maleNote:'Ashabah, bagian 2:1 dgn saudari',
+            femaleNote:'Ashabah bersama saudara laki-laki'
+          }
+        });
+      }
+      remainder = frac(0,1);
+    } else if(saudariK>0){
     const ghairCase = hasFarWaris && !ayah && !kakek && !hasFarWarisMudzakkar;
     if(ghairCase){
       // Bila ada anak/cucu perempuan (tanpa anak/cucu laki-laki, tanpa ayah/kakek), saudari kandung
@@ -1478,6 +1509,7 @@ function hitungFaraidh(){
       remainder = fsub(remainder, f);
     }
   }
+  } // tutup blok else (bukan musytarakah)
 
   // Seayah
   if(saudaraA>0){
@@ -1580,8 +1612,8 @@ function hitungFaraidh(){
   } else if(sepupuKandung2>0){
     sepupuSeayah2=0;
   }
-  if(sepupuKandung2>0) pushAshabahTunggal('Sepupu laki-laki (anak paman kandung)', sepupuKandung2);
-  else if(sepupuSeayah2>0) pushAshabahTunggal('Sepupu laki-laki (anak paman seayah)', sepupuSeayah2);
+  if(sepupuKandung2>0) pushAshabahTunggal('Sepupu laki-laki (anak paman kandung dari ayah)', sepupuKandung2);
+  else if(sepupuSeayah2>0) pushAshabahTunggal('Sepupu laki-laki (anak paman seayah dari ayah)', sepupuSeayah2);
 
   // ---------- Ashlul Mas'alah (asal masalah) ----------
   // AM0 = ashlul mas'alah AWAL, secara alami akan menjadi salah satu dari 7 asal masalah baku
@@ -1735,6 +1767,15 @@ function hitungFaraidh(){
     const khilafiyahNote = `Kasus Anda mengandung <b>${kakekLabelUsed} bersama saudara/i kandung/seayah</b> \u2014 ini termasuk kasus yang diperselisihkan ulama. Kalkulator ini mengikuti pendapat Abu Bakar ash-Shiddiq (mazhab yang paling umum dipakai dalam praktik faraidh di Indonesia, meski tidak diatur secara eksplisit dalam pasal KHI): ${kakekLabelUsed} menghalangi total saudara/i, sehingga saudara/i di bawah tidak mendapat bagian. Sebagian ulama mengikuti pendapat Umar bin Khattab, yang berpandangan ${kakekLabelUsed} dan saudara/i kandung/seayah <b>berbagi bersama</b> (dikenal sebagai muqasamah/musyarakah) dengan cara perhitungan berbeda. Bila mazhab/lembaga faraidh yang Anda ikuti memakai pendapat kedua, hasil di bawah tidak berlaku dan sebaiknya dikonsultasikan ke ahli faraidh.`;
     special = special ? (special + "<br><br>" + khilafiyahNote) : khilafiyahNote;
   }
+  if(musytarakahCase){
+    const ashlLabel = ibu? 'ibu' : 'nenek';
+    const musytarakahNote = `Kasus Anda termasuk <b>musytarakah (al-Himariyyah)</b>: suami + ${ashlLabel} + 2 atau lebih saudara/i seibu + saudara kandung yang seharusnya mahjub (tidak ada sisa harta untuknya). Ini adalah kasus yang diperselisihkan ulama.<br><br>`
+      + (musytarakahOpt
+        ? `Anda memilih pendapat <b>musytarakah</b> (diriwayatkan dari Umar bin Khattab, dst.): saudara kandung ikut berbagi rata per kepala (bukan 2:1) bersama saudara/i seibu, sebagaimana terlihat di hasil di bawah.`
+        : `Kalkulator ini secara <b>default mengikuti pendapat jumhur</b>: saudara kandung tetap mahjub (tidak dapat bagian), seperti terlihat di hasil di bawah.`)
+      + `<br><label class="checkbox-pill" style="margin-top:8px;display:inline-flex;"><input type="checkbox" ${musytarakahOpt?'checked':''} onchange="toggleMusytarakah(this.checked)"> Terapkan pendapat musytarakah (saudara kandung berbagi rata dgn saudara/i seibu)</label>`;
+    special = special ? (special + "<br><br>" + musytarakahNote) : musytarakahNote;
+  }
   if(istriDibatasi){
     const istriNote = "Jumlah istri yang dimasukkan melebihi 4, sehingga dihitung sebagai <b>4 istri</b> (batas maksimal menurut syariat).";
     special = special ? (special + "<br><br>" + istriNote) : istriNote;
@@ -1780,7 +1821,7 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
       rows += `<div class="harta-row"><span>&ndash; Biaya pengurusan jenazah</span><span>${rp(hartaInfo.jenazahRaw)}</span></div>`;
     }
     if(hartaInfo.hutangRaw>0){
-      rows += `<div class="harta-row"><span>&ndash; Hutang pewaris</span><span>${rp(hartaInfo.hutangRaw)}</span></div>`;
+      rows += `<div class="harta-row"><span>&ndash; Hutang mayit</span><span>${rp(hartaInfo.hutangRaw)}</span></div>`;
     }
     if(hartaInfo.wasiatEfektif>0){
       rows += `<div class="harta-row"><span>&ndash; Wasiat (untuk non-ahli waris)</span><span>${rp(hartaInfo.wasiatEfektif)}</span></div>`;
@@ -2040,6 +2081,30 @@ const FARAIDH_TEST_CASES = [
       { label:'Anak perempuan', saham:3 },
       { label:'Cucu perempuan', saham:1 },
       { label:'Cicit laki-laki', saham:2 }
+    ]
+  },
+  {
+    name: "Musytarakah \u2014 default (saudara kandung mahjub) \u2014 Suami+Ibu+2 saudara seibu+1 saudara kandung",
+    gender:'P',
+    setup: { suami:true, ibu:true, saudaraIbu:2, saudaraK:1 },
+    expectAM: 6,
+    expect: [
+      { label:'Suami', saham:3 },
+      { label:'Ibu', saham:1 },
+      { label:'Saudara/i seibu', saham:2 },
+      { label:'Saudara kandung laki-laki', saham:0 }
+    ]
+  },
+  {
+    name: "Musytarakah \u2014 toggle aktif (saudara kandung ikut berbagi rata) \u2014 Suami+Ibu+2 saudara seibu+1 saudara kandung",
+    gender:'P',
+    setup: { suami:true, ibu:true, saudaraIbu:2, saudaraK:1, musytarakahOpt:true },
+    expectAM: 18,
+    expect: [
+      { label:'Suami', saham:9 },
+      { label:'Ibu', saham:3 },
+      { label:'Saudara/i seibu', saham:4 },
+      { label:'Saudara kandung laki-laki', saham:2 }
     ]
   },
   {
