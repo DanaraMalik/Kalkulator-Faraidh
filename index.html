@@ -83,6 +83,25 @@
     margin-bottom:20px;
   }
   .card.collapsed{padding-bottom:22px;}
+
+  #results.result-highlight{
+    animation: resultHighlightPulse 1.15s ease-out;
+  }
+  @keyframes resultHighlightPulse{
+    0%{
+      box-shadow: 0 0 0 0 rgba(184,134,47,.45);
+      border-color: var(--gold);
+      background: var(--gold-soft);
+    }
+    100%{
+      box-shadow: 0 0 0 22px rgba(184,134,47,0);
+      border-color: var(--border);
+      background: var(--card);
+    }
+  }
+  @media (prefers-reduced-motion: reduce){
+    #results.result-highlight{ animation: none; }
+  }
   .card h2{
     font-family:'Amiri',serif;
     font-size:20px;
@@ -2016,6 +2035,11 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
   });
 
   box.style.display='block';
+  // Retrigger animasi highlight setiap kali dipanggil (termasuk saat toggle musytarakah/
+  // muqasamah diklik dan hasil dihitung ulang), dengan hapus lalu paksa reflow dulu.
+  box.classList.remove('result-highlight');
+  void box.offsetWidth;
+  box.classList.add('result-highlight');
   box.scrollIntoView({behavior:'smooth', block:'start'});
 
   lastResultData = { results, AM_final, totalHarta, hartaInfo };
