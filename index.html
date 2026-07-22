@@ -584,6 +584,11 @@
     <button type="button" class="preset-chip" onclick="applyPreset('ayahIbu')">Ayah + Ibu saja</button>
     <button type="button" class="preset-chip" onclick="applyPreset('aulContoh')">Suami + Ibu + 2 saudari</button>
     <button type="button" class="preset-chip" onclick="applyPreset('saudaraSaja')">Hanya saudara/i</button>
+    <button type="button" class="preset-chip" onclick="applyPreset('umariyyatain')">Umariyyatain (suami+ayah+ibu)</button>
+    <button type="button" class="preset-chip" onclick="applyPreset('musytarakahContoh')">Musytarakah</button>
+    <button type="button" class="preset-chip" onclick="applyPreset('muqasamahContoh')">Kakek + saudara (muqasamah)</button>
+    <button type="button" class="preset-chip" onclick="applyPreset('muaddahContoh')">Al-Mu'addah</button>
+    <button type="button" class="preset-chip" onclick="applyPreset('akdariyyahContoh')">Al-Akdariyyah</button>
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
@@ -815,7 +820,7 @@
       <summary>Detail teknis: penyesuaian ashlul mas'alah ('aul / radd / inkisar)</summary>
       <div id="amDetailContent"></div>
     </details>
-    <p class="disclaimer">Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama yang berlaku umum di Indonesia. Untuk kasus yang sangat kompleks &mdash; misalnya kakek bersamaan dengan saudara/i (masalah musyarakah/akdariyyah), atau kombinasi ahli waris yang jarang terjadi &mdash; disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.</p>
+    <p class="disclaimer">Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama yang berlaku umum di Indonesia. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.</p>
   </div>
 
   <footer class="app-footer">
@@ -890,7 +895,12 @@ const PRESETS = {
   istriAnak: { gender:'L', fields:{ istriCount:1, anakL:1, anakP:1 } },
   ayahIbu: { gender:'L', fields:{ ayah:true, ibu:true } },
   aulContoh: { gender:'P', fields:{ suami:true, ibu:true, saudariK:2 } },
-  saudaraSaja: { gender:'L', fields:{ saudaraK:1, saudariK:1 } }
+  saudaraSaja: { gender:'L', fields:{ saudaraK:1, saudariK:1 } },
+  umariyyatain: { gender:'P', fields:{ suami:true, ayah:true, ibu:true } },
+  musytarakahContoh: { gender:'P', fields:{ suami:true, ibu:true, saudaraIbu:2, saudaraK:1, musytarakahOpt:true } },
+  muqasamahContoh: { gender:'L', fields:{ kakek:true, saudaraK:1, kakekMuqasamahOpt:true } },
+  muaddahContoh: { gender:'L', fields:{ kakek:true, saudaraK:1, saudaraA:1, kakekMuqasamahOpt:true } },
+  akdariyyahContoh: { gender:'P', fields:{ suami:true, ibu:true, kakek:true, saudariK:1, kakekMuqasamahOpt:true } }
 };
 function applyPreset(name){
   const preset = PRESETS[name];
@@ -1203,6 +1213,10 @@ function hitungFaraidh(){
   const hasFarWaris = anakL>0||anakP>0||cucuL>0||cucuP>0||cicitL>0||cicitP>0;
   const hasFarWarisMudzakkar = anakL>0 || cucuL>0 || cicitL>0;
 
+  // Simpan salinan MENTAH saudara/i seayah SEBELUM di-hajb oleh kandung, khusus untuk
+  // keperluan al-mu'addah dalam muqasamah kakek (lihat di bawah).
+  const saudaraARawMuaddah = saudaraA, saudariARawMuaddah = saudariA;
+
   // Hajb kandung->seayah (tidak diperselisihkan, berlaku selalu, terapkan lebih dulu supaya
   // nilai "aktif" saudara/i kandung/seayah sudah benar sebelum dipakai di bawah).
   if(saudaraK>0){ saudaraA=0; saudariA=0; }
@@ -1219,6 +1233,14 @@ function hitungFaraidh(){
   const kakekSaudaraKhilafiyah = (kakek||buyutL) && (saudaraK>0||saudariK>0||saudaraA>0||saudariA>0);
   const kakekMuqasamahOpt = val('kakekMuqasamahOpt');
   const kakekMuqasamahActive = kakekSaudaraKhilafiyah && kakekMuqasamahOpt && !ayah && !hasFarWarisMudzakkar;
+
+  // Al-Akdariyyah: kasus khusus Suami + Ibu + Kakek + HANYA 1 saudari (kandung/seayah,
+  // sendirian tanpa saudara laki-laki maupun saudari lain), tanpa far' waris sama sekali.
+  // Hanya relevan saat opsi muqasamah dipakai (bila pendapat Abu Bakar/default, saudari
+  // sudah otomatis mahjub oleh kakek seperti biasa, tidak ada dilema Akdariyyah).
+  let akdariyyahEntries = null; // diisi {kakek, saudari} saat kondisinya terpenuhi, dipakai untuk redivisi setelah 'aul
+  const akdariyyahCase = kakekMuqasamahActive && suami && ibu && !hasFarWaris &&
+    (saudaraK+saudariK+saudaraA+saudariA===1) && (saudariK===1||saudariA===1);
 
   // Blocking siblings (pendapat default Abu Bakar). Saudara/i seibu SELALU terhalang total oleh
   // kakek/buyut laki-laki (tidak diperselisihkan) sekalipun muqasamah dipakai untuk kandung/seayah.
@@ -1490,7 +1512,25 @@ function hitungFaraidh(){
   // Kemudian, bagian kakek (dari opsi 1 atau 2 di atas) tidak boleh kurang dari 1/6 dari TOTAL
   // harta (batas bawah, sama seperti ayah) \u2014 bila sisa harta setelah furudh lain hanya pas
   // 1/6 (atau kurang), semua sisa itu untuk kakek dan saudara/i kandung/seayah mahjub total.
-  if(kakekMuqasamahActive){
+  if(kakekMuqasamahActive && akdariyyahCase){
+    // ---------- Al-Akdariyyah ----------
+    // Suami+Ibu+Kakek+1 saudari sendirian: SEMUA diberi furudh independen dulu (bukan
+    // muqasamah) \u2014 Suami 1/2 (sudah dipush di bagian pasangan), Ibu 1/3 penuh (sudah
+    // dipush di bagian ibu, karena hanya 1 saudari belum memenuhi syarat "2+ saudara" utk
+    // menurunkan ibu ke 1/6), Kakek 1/6, dan Saudari 1/2 (sendirian). Totalnya melebihi 1
+    // (over-subscribed) sehingga 'aul terjadi otomatis lewat mekanisme umum. SETELAH 'aul,
+    // bagian kakek & saudari (yang sudah disesuaikan 'aul) digabung lalu dibagi ULANG 2:1
+    // \u2014 ini dilakukan di tahap akhir perhitungan (lihat dekat overallGCD).
+    const kakekLabel = kakek? 'Kakek' : 'Buyut laki-laki';
+    const saudariLabel = saudariK===1 ? 'Saudari kandung perempuan' : 'Saudari seayah perempuan';
+    const kakekEntry = {label:kakekLabel, share:frac(1,6), count:1, note:"Akdariyyah \u2014 furudh independen 1/6 (bukan muqasamah); akan digabung &amp; dibagi ulang 2:1 dgn saudari setelah 'aul"};
+    const saudariEntry = {label:saudariLabel, share:frac(1,2), count:1, note:"Akdariyyah \u2014 furudh independen 1/2 (sendirian); akan digabung &amp; dibagi ulang 2:1 dgn kakek setelah 'aul"};
+    results.push(kakekEntry);
+    results.push(saudariEntry);
+    akdariyyahEntries = {kakek:kakekEntry, saudari:saudariEntry};
+    remainder = fsub(fsub(remainder, frac(1,6)), frac(1,2));
+    saudaraK=0; saudariK=0; saudaraA=0; saudariA=0;
+  } else if(kakekMuqasamahActive){
     const useKandung = (saudaraK>0 || saudariK>0);
     const sL = useKandung? saudaraK : saudaraA;
     const sP = useKandung? saudariK : saudariA;
@@ -1500,15 +1540,34 @@ function hitungFaraidh(){
       : { m:'Saudara seayah laki-laki', f:'Saudari seayah perempuan' };
 
     const remainderBeforeSplit = remainder;
-    const totalWeightMuq = 2 + sL*2 + sP; // kakek dihitung bobot 2, seperti 1 saudara laki-laki
-    const muqasamahShare = totalWeightMuq>0 ? fmul(remainderBeforeSplit, frac(2, totalWeightMuq)) : frac(0,1);
-    const thirdShare = fmul(remainderBeforeSplit, frac(1,3));
 
-    let kakekShare, method;
-    const cmp = fToNum(muqasamahShare) - fToNum(thirdShare);
-    if(cmp>0){ kakekShare = muqasamahShare; method='muqasamah'; }
-    else if(cmp<0){ kakekShare = thirdShare; method='sepertiga'; }
-    else { kakekShare = muqasamahShare; method='sama'; }
+    // Keputusan METODE (muqasamah vs 1/3) hanya berdasarkan kelompok aktif (kandung, atau
+    // seayah bila tidak ada kandung sama sekali) \u2014 mu'addah TIDAK mempengaruhi keputusan
+    // ini, hanya besaran angka muqasamah bila muqasamah yang menang (lihat di bawah).
+    const totalWeightMuqBase = 2 + sL*2 + sP; // kakek dihitung bobot 2, seperti 1 saudara laki-laki
+    const muqasamahShareBase = totalWeightMuqBase>0 ? fmul(remainderBeforeSplit, frac(2, totalWeightMuqBase)) : frac(0,1);
+    const thirdShare = fmul(remainderBeforeSplit, frac(1,3));
+    const cmp = fToNum(muqasamahShareBase) - fToNum(thirdShare);
+    const method = cmp>0 ? 'muqasamah' : (cmp<0 ? 'sepertiga' : 'sama');
+
+    // Al-Mu'addah: bila kelompok aktif adalah KANDUNG, dan ada saudara/i SEAYAH yang
+    // seharusnya mahjub, dan metode di atas (berdasar kandung saja) adalah muqasamah \u2014
+    // maka seayah tetap dihitung sbg "kepala" tambahan dalam muqasamah (memperbesar total
+    // kepala, memperkecil jatah kakek), lalu jatah notional seayah dikembalikan ke kandung.
+    // Bila kandung sudah >= 2x lipat kakek (metode = 1/3 atau sama), seayah tidak berpengaruh
+    // sama sekali.
+    const seayahRawExists = useKandung && (saudaraARawMuaddah>0 || saudariARawMuaddah>0);
+    const muaddahActive = seayahRawExists && method==='muqasamah';
+
+    let kakekShare;
+    if(muaddahActive){
+      const totalWeightWithSeayah = totalWeightMuqBase + saudaraARawMuaddah*2 + saudariARawMuaddah;
+      kakekShare = fmul(remainderBeforeSplit, frac(2, totalWeightWithSeayah));
+    } else if(method==='sepertiga'){
+      kakekShare = thirdShare;
+    } else {
+      kakekShare = muqasamahShareBase;
+    }
 
     const floor = frac(1,6);
     const floorApplied = fToNum(kakekShare) < fToNum(floor);
@@ -1523,13 +1582,20 @@ function hitungFaraidh(){
 
     const methodNote = floorApplied
       ? `mendapat batas bawah 1/6 dari total harta (hasil muqasamah/sepertiga sisa lebih kecil dari 1/6)`
-      : (method==='muqasamah'
-          ? `muqasamah \u2014 ikut berbagi seperti seorang saudara bersama ${sL+sP} saudara/i, lebih besar drpd 1/3 sisa`
-          : (method==='sepertiga'
-              ? `1/3 dari sisa harta, lebih besar drpd muqasamah (jumlah saudara/i melebihi 2x lipat ${kakekLabel.toLowerCase()})`
-              : `1/3 dari sisa harta, sama besar dgn muqasamah (jumlah saudara/i tepat 2x lipat ${kakekLabel.toLowerCase()})`));
+      : muaddahActive
+        ? `muqasamah dgn al-mu'addah \u2014 saudara/i seayah (yang seharusnya mahjub) tetap dihitung sbg kepala tambahan agar jatah ${kakekLabel.toLowerCase()} mengecil, lalu jatah notionalnya dikembalikan ke saudara/i kandung`
+        : (method==='muqasamah'
+            ? `muqasamah \u2014 ikut berbagi seperti seorang saudara bersama ${sL+sP} saudara/i, lebih besar drpd 1/3 sisa`
+            : (method==='sepertiga'
+                ? `1/3 dari sisa harta, lebih besar drpd muqasamah (jumlah saudara/i melebihi 2x lipat ${kakekLabel.toLowerCase()})`
+                : `1/3 dari sisa harta, sama besar dgn muqasamah (jumlah saudara/i tepat 2x lipat ${kakekLabel.toLowerCase()})`));
 
     results.push({label:kakekLabel, share:kakekShare, count:1, note:`Pendapat Zaid bin Tsabit (muqasamah dgn saudara/i) \u2014 ${methodNote}`});
+
+    if(muaddahActive){
+      if(saudaraARawMuaddah>0) results.push({label:'Saudara seayah laki-laki', share:frac(0,1), count:saudaraARawMuaddah, note:`Mahjub (dihalangi saudara kandung) \u2014 tetap dihitung sbg "kepala" dalam muqasamah (al-mu'addah) agar jatah ${kakekLabel.toLowerCase()} mengecil; jatah notionalnya dikembalikan ke saudara kandung`});
+      if(saudariARawMuaddah>0) results.push({label:'Saudari seayah perempuan', share:frac(0,1), count:saudariARawMuaddah, note:`Mahjub (dihalangi saudara/i kandung) \u2014 tetap dihitung sbg "kepala" dalam muqasamah (al-mu'addah) agar jatah ${kakekLabel.toLowerCase()} mengecil; jatah notionalnya dikembalikan ke saudara kandung`});
+    }
 
     if(fToNum(siblingsShare)<=0){
       results.push({label:siblingLabel.m, share:frac(0,1), count:sL, note:`Mahjub \u2014 ${kakekLabel.toLowerCase()} sudah mengambil seluruh sisa (minimal 1/6), tidak ada sisa lagi`});
@@ -1543,8 +1609,8 @@ function hitungFaraidh(){
         groupInfo:{
           maleLabel:siblingLabel.m, femaleLabel:siblingLabel.f,
           maleCount:sL, femaleCount:sP, maleWeight:2, femaleWeight:1,
-          maleNote:`Muqasamah bersama ${kakekLabel.toLowerCase()}, bagian 2:1 dgn saudari`,
-          femaleNote:`Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki`
+          maleNote: muaddahActive? `Muqasamah bersama ${kakekLabel.toLowerCase()}, termasuk jatah notional dari al-mu'addah (2:1 dgn saudari)` : `Muqasamah bersama ${kakekLabel.toLowerCase()}, bagian 2:1 dgn saudari`,
+          femaleNote: muaddahActive? `Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki, termasuk jatah notional dari al-mu'addah` : `Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki`
         }
       });
     }
@@ -1870,17 +1936,40 @@ function hitungFaraidh(){
     amDetail = (amDetail? amDetail+"<br><br>":"") + `Disederhanakan: seluruh saham dan asal masalah memiliki faktor sekutu ${overallGCD}, sehingga asal masalah akhir disederhanakan dari ${AM_before_simplify} menjadi <b>${AM_final}</b>.`;
   }
 
+  // Al-Akdariyyah: setelah 'aul selesai (dan sebelum simplifikasi akhir), gabungkan bagian
+  // kakek & saudari yang sudah disesuaikan 'aul, lalu bagi ULANG dengan rasio 2:1 (skala x3
+  // supaya pembagian per-tiga selalu menghasilkan bilangan bulat).
+  if(akdariyyahEntries){
+    const kakekSahamBefore = akdariyyahEntries.kakek.saham;
+    const saudariSahamBefore = akdariyyahEntries.saudari.saham;
+    const combinedTotal = kakekSahamBefore + saudariSahamBefore;
+    const AM_beforeAkdariyyah = AM_final;
+
+    results.forEach(r=>{ r.saham = r.saham * 3; });
+    AM_final = AM_final * 3;
+    const combinedScaled = combinedTotal * 3;
+    akdariyyahEntries.kakek.saham = combinedScaled * 2 / 3;
+    akdariyyahEntries.saudari.saham = combinedScaled / 3;
+
+    amDetail = (amDetail? amDetail+"<br><br>":"") + `Kasus <b>Akdariyyah</b>: setelah 'aul, bagian ${akdariyyahEntries.kakek.label.toLowerCase()} (${kakekSahamBefore}/${AM_beforeAkdariyyah}) dan ${akdariyyahEntries.saudari.label.toLowerCase()} (${saudariSahamBefore}/${AM_beforeAkdariyyah}) digabung, lalu dibagi ulang dengan rasio 2:1 antara keduanya \u2014 menghasilkan asal masalah akhir <b>${AM_final}</b>.`;
+  }
+
   // Nilai pecahan tetap dihitung (direduksi) untuk akurasi persentase & rupiah,
   // namun TAMPILAN memakai saham/Ashlul Mas'alah akhir (setelah disederhanakan).
   results.forEach(r=>{ r.share = frac(r.saham, AM_final); });
 
   if(kakekSaudaraKhilafiyah && !hasFarWarisMudzakkar){
     const kakekLabelUsed = kakek? 'Kakek' : 'Buyut laki-laki';
-    const toggleBox = `<label class="checkbox-pill" style="margin-top:8px;display:inline-flex;"><input type="checkbox" ${kakekMuqasamahOpt?'checked':''} onchange="toggleKakekMuqasamah(this.checked)"> Terapkan pendapat muqasamah (Zaid bin Tsabit)</label>`;
+    const toggleBox = `<label class="checkbox-pill" style="margin-top:8px;display:inline-flex;"><input type="checkbox" ${kakekMuqasamahOpt?'checked':''} onchange="toggleKakekMuqasamah(this.checked)"> Terapkan muqasamah/mu'addah/akdariyyah (Zaid bin Tsabit)</label>`;
     const khilafiyahNote = kakekMuqasamahOpt
       ? `Kasus Anda mengandung <b>${kakekLabelUsed.toLowerCase()} bersama saudara/i kandung/seayah</b> \u2014 ini termasuk kasus yang diperselisihkan ulama. Anda memilih pendapat <b>Zaid bin Tsabit</b> (dipakai mayoritas mazhab termasuk Syafi'i): ${kakekLabelUsed.toLowerCase()} berbagi (muqasamah) dengan saudara/i, bukan menghalangi total, sebagaimana terlihat di hasil di bawah.<br><br>${toggleBox}`
       : `Kasus Anda mengandung <b>${kakekLabelUsed.toLowerCase()} bersama saudara/i kandung/seayah</b> \u2014 ini termasuk kasus yang diperselisihkan ulama. Kalkulator ini secara <b>default mengikuti pendapat Abu Bakar ash-Shiddiq</b> (mazhab yang paling umum dipakai dalam praktik faraidh di Indonesia, meski tidak diatur secara eksplisit dalam pasal KHI): ${kakekLabelUsed.toLowerCase()} menghalangi total saudara/i, sehingga saudara/i di bawah tidak mendapat bagian. Sebagian ulama/mayoritas mazhab (termasuk Syafi'i) mengikuti pendapat <b>Zaid bin Tsabit</b>: ${kakekLabelUsed.toLowerCase()} dan saudara/i kandung/seayah <b>berbagi bersama</b> (muqasamah) dengan cara perhitungan berbeda. Centang di bawah bila ingin memakai pendapat tersebut.<br><br>${toggleBox}`;
     special = special ? (special + "<br><br>" + khilafiyahNote) : khilafiyahNote;
+  }
+  if(akdariyyahEntries){
+    const kakekLabelUsed = kakek? 'kakek' : 'buyut laki-laki';
+    const akdariyyahExplain = `Kasus Anda adalah <b>al-Akdariyyah</b>: suami + ibu + ${kakekLabelUsed} + hanya 1 saudari (kandung/seayah) sendirian. Ini kasus khusus dalam pendapat Zaid bin Tsabit: semua diberi bagian tetap dulu (suami 1/2, ibu 1/3, ${kakekLabelUsed} 1/6, saudari 1/2) sehingga terjadi 'aul, lalu bagian ${kakekLabelUsed} &amp; saudari yang sudah disesuaikan 'aul digabung dan dibagi ulang 2:1 di antara keduanya &mdash; bukan mengikuti pola muqasamah biasa.`;
+    special = special ? (special + "<br><br>" + akdariyyahExplain) : akdariyyahExplain;
   }
   if(musytarakahCase){
     const ashlLabel = ibu? 'ibu' : 'nenek';
@@ -2273,6 +2362,37 @@ const FARAIDH_TEST_CASES = [
     expectAM: 1,
     expect: [
       { label:'Kakek', saham:1 }
+    ]
+  },
+  {
+    name: "Akdariyyah \u2014 Suami+Ibu+Kakek+1 saudari kandung (harus 9:6:8:4 @ AM=27)",
+    gender:'P',
+    setup: { suami:true, ibu:true, kakek:true, saudariK:1, kakekMuqasamahOpt:true },
+    expectAM: 27,
+    expect: [
+      { label:'Suami', saham:9 },
+      { label:'Ibu', saham:6 },
+      { label:'Kakek', saham:8 },
+      { label:'Saudari kandung perempuan', saham:4 }
+    ]
+  },
+  {
+    name: "Al-Mu'addah aktif \u2014 Kakek + 1 saudara kandung + 1 saudara seayah",
+    setup: { kakek:true, saudaraK:1, saudaraA:1, kakekMuqasamahOpt:true },
+    expectAM: 3,
+    expect: [
+      { label:'Kakek', saham:1 },
+      { label:'Saudara kandung laki-laki', saham:2 },
+      { label:'Saudara seayah laki-laki', saham:0 }
+    ]
+  },
+  {
+    name: "Al-Mu'addah TIDAK berpengaruh \u2014 Kakek + 3 saudara kandung + 2 saudara seayah",
+    setup: { kakek:true, saudaraK:3, saudaraA:2, kakekMuqasamahOpt:true },
+    expectAM: 9,
+    expect: [
+      { label:'Kakek', saham:3 },
+      { label:'Saudara kandung laki-laki', saham:6 }
     ]
   },
   {
