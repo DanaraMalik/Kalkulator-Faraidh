@@ -187,6 +187,112 @@
   }
   .toggle button.active{background:var(--emerald);color:#fff;}
 
+  /* ---------- Menu utama (hamburger: bahasa + glosarium) ---------- */
+  .menu-btn{
+    position:fixed;
+    top:16px;
+    right:16px;
+    z-index:80;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--card);
+    box-shadow:0 2px 10px rgba(43,38,32,.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:18px;
+    color:var(--emerald-dark);
+  }
+  html[dir="rtl"] .menu-btn{right:auto;left:16px;}
+
+  .main-menu-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(43,38,32,.35);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease;
+    z-index:90;
+  }
+  .main-menu-overlay.open{opacity:1;pointer-events:auto;}
+
+  .main-menu-panel{
+    position:fixed;
+    top:0;
+    right:0;
+    height:100%;
+    width:min(340px, 86vw);
+    background:var(--paper);
+    box-shadow:-8px 0 24px rgba(43,38,32,.18);
+    z-index:95;
+    padding:20px 20px 32px;
+    overflow-y:auto;
+    transform:translateX(100%);
+    transition:transform .25s ease;
+  }
+  .main-menu-panel.open{transform:translateX(0);}
+  html[dir="rtl"] .main-menu-panel{right:auto;left:0;box-shadow:8px 0 24px rgba(43,38,32,.18);transform:translateX(-100%);}
+  html[dir="rtl"] .main-menu-panel.open{transform:translateX(0);}
+
+  .main-menu-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-family:'Amiri',serif;
+    font-size:19px;
+    font-weight:700;
+    color:var(--emerald-dark);
+    margin-bottom:16px;
+    padding-bottom:12px;
+    border-bottom:1px solid var(--border);
+  }
+  .menu-close-btn{
+    border:none;
+    background:none;
+    font-size:24px;
+    line-height:1;
+    color:var(--muted);
+    cursor:pointer;
+    padding:2px 6px;
+  }
+  .menu-section{margin-bottom:26px;}
+  .menu-section-title{
+    font-family:'Amiri',serif;
+    font-size:15.5px;
+    font-weight:700;
+    color:var(--emerald-dark);
+    margin-bottom:10px;
+  }
+
+  .lang-switch{
+    display:flex;
+    gap:8px;
+  }
+  .lang-btn{
+    border:1px solid var(--border);
+    background:#FDFBF6;
+    color:var(--muted);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:12.5px;
+    padding:6px 14px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .lang-btn.active{background:var(--emerald);color:#fff;border-color:var(--emerald);}
+  .lang-btn[data-lang="ar"]{font-family:'Amiri',serif;font-size:14px;}
+
+  /* ---------- Penyesuaian RTL (mode Arab) ---------- */
+  html[dir="rtl"] body{font-family:'Amiri','Inter',sans-serif;}
+  html[dir="rtl"] label .hint{margin-right:6px;margin-left:0;}
+  html[dir="rtl"] .dzawil-note b{unicode-bidi:isolate;}
+  html[dir="rtl"] table.faraidh-table th, html[dir="rtl"] table.faraidh-table td{text-align:right;}
+  html[dir="rtl"] table.faraidh-table th.num, html[dir="rtl"] table.faraidh-table td.num{text-align:left;}
+  html[dir="rtl"] .bagian-badge{direction:ltr;}
+
   .checkbox-pill{
     display:flex;align-items:center;gap:8px;cursor:pointer;
   }
@@ -486,6 +592,7 @@
   .bagian-badge.mixed{background:#EAE4F2;color:#5B4A8A;}
   .bagian-badge.mahjub{background:#F3E3E1;color:#8A3B34;}
   .bagian-badge.muqasamah{background:#DCE6EF;color:#2B4C63;}
+  .bagian-badge.mauquf{background:#EDE9DD;color:#5C5340;}
   table.faraidh-table tfoot td{border-top:2px solid var(--border);font-weight:700;font-family:'JetBrains Mono',monospace;}
   .am-box.am-box-sm{padding:9px 14px;margin-bottom:10px;font-size:13px;}
   .am-box.am-box-sm .am-value{font-size:16px;}
@@ -570,246 +677,263 @@
 <body>
 <div class="wrap">
 
+  <button type="button" class="menu-btn" id="menuBtn" onclick="toggleMainMenu()" aria-label="Menu" aria-expanded="false" aria-controls="mainMenuPanel">
+    <span class="menu-btn-icon">&#9776;</span>
+  </button>
+  <div class="main-menu-overlay" id="mainMenuOverlay" onclick="closeMainMenu()"></div>
+  <div class="main-menu-panel" id="mainMenuPanel" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="main-menu-header">
+      <span data-i18n="menuTitle">Menu</span>
+      <button type="button" class="menu-close-btn" onclick="closeMainMenu()" aria-label="Tutup">&times;</button>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-section-title" data-i18n="menuLanguageLabel">Bahasa</div>
+      <div class="lang-switch" id="langSwitch">
+        <button type="button" class="lang-btn active" data-lang="id" onclick="setLanguage('id')">Indonesia</button>
+        <button type="button" class="lang-btn" data-lang="ar" onclick="setLanguage('ar')">&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</button>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-section-title" data-i18n="glossaryTitle">&#128214; Istilah dalam Kalkulator Ini</div>
+      <p class="sub" data-i18n="glossaryIntro">Ringkasan istilah faraidh yang dipakai di kalkulator ini, untuk yang belum familiar.</p>
+      <dl class="glossary">
+        <dt data-i18n="gAshabulFurudhT">Ashabul Furudh</dt>
+        <dd data-i18n="gAshabulFurudhD">Ahli waris dengan bagian pasti sesuai Al-Qur'an, misalnya 1/2, 1/4, 1/8, 1/3, 2/3, atau 1/6.</dd>
+        <dt data-i18n="gAshabahT">Ashabah</dt>
+        <dd data-i18n-html="gAshabahD">Ahli waris yang mendapat <i>sisa</i> harta setelah ashabul furudh dibagi &mdash; atau seluruh harta bila tidak ada ashabul furudh lain.</dd>
+        <dt data-i18n="gHajbT">Hajb / Mahjub</dt>
+        <dd data-i18n="gHajbD">Terhalangnya seseorang dari mendapat warisan (total) atau berkurangnya bagian (sebagian), karena ada ahli waris lain yang berkedudukan lebih dekat/lebih kuat.</dd>
+        <dt data-i18n="gAulT">'Aul</dt>
+        <dd data-i18n="gAulD">Kondisi total bagian ashabul furudh melebihi seluruh harta (&gt;100%), sehingga ashlul mas'alah dinaikkan dan semua bagian berkurang secara proporsional.</dd>
+        <dt data-i18n="gRaddT">Radd</dt>
+        <dd data-i18n="gRaddD">Kondisi total bagian ashabul furudh kurang dari seluruh harta dan tidak ada ashabah, sehingga sisanya dikembalikan secara proporsional (di luar suami/istri, menurut pendapat yang dipakai kalkulator ini).</dd>
+        <dt data-i18n="gDzawilArhamT">Dzawil Arham</dt>
+        <dd data-i18n-html="gDzawilArhamD">Kerabat yang bukan ashabul furudh maupun ashabah (umumnya dari jalur perempuan, mis. cucu dari anak perempuan, kakek/paman dari pihak ibu). Statusnya diperselisihkan ulama dan <b>tidak dihitung</b> oleh kalkulator ini.</dd>
+        <dt data-i18n="gAshlulT">Ashlul Mas'alah / Ashlul Jami'ah</dt>
+        <dd data-i18n="gAshlulD">Angka penyebut bersama (KPK) yang dipakai supaya bagian semua ahli waris bisa dinyatakan dalam saham bulat. "Ashlul Jami'ah" adalah sebutan untuk asal masalah setelah disesuaikan ('aul/radd/inkisar).</dd>
+        <dt data-i18n="gTakmilahT">Takmilah</dt>
+        <dd data-i18n="gTakmilahD">Bagian "penyempurna", misalnya cucu perempuan mendapat 1/6 agar total bagian anak dan cucu perempuan mencapai 2/3.</dd>
+        <dt data-i18n="gMuqasamahT">Muqasamah / Musyarakah</dt>
+        <dd data-i18n-html="gMuqasamahD">Pembagian bersama antara dua kelompok ahli waris yang berbeda jenis (mis. kakek &amp; saudara/i, menurut pendapat Umar bin Khattab), dihitung seolah satu kelompok yang sama derajat.</dd>
+      </dl>
+    </div>
+  </div>
+
   <header class="hero">
-    <p class="eyebrow">Ilmu Faraidh &mdash; Ilmu Waris Islam</p>
-    <h1>Kalkulator Faraidh</h1>
-    <p>Hitung pembagian warisan sesuai hukum faraidh berdasarkan ahli waris yang ada. Isi data di bawah, sistem akan menentukan siapa yang terhalang (hajb), berapa bagian masing-masing, dan menyesuaikan bila terjadi 'aul atau radd.</p>
+    <p class="eyebrow" data-i18n="eyebrow">Ilmu Faraidh &mdash; Ilmu Waris Islam</p>
+    <h1 data-i18n="appTitle">Kalkulator Faraidh</h1>
+    <p data-i18n="appIntro">Hitung pembagian warisan sesuai hukum faraidh berdasarkan ahli waris yang ada. Isi data di bawah, sistem akan menentukan siapa yang terhalang (hajb), berapa bagian masing-masing, dan menyesuaikan bila terjadi 'aul atau radd.</p>
   </header>
 
   <div id="error"></div>
 
   <div class="preset-row">
-    <span class="preset-label">Coba contoh:</span>
-    <button type="button" class="preset-chip" onclick="applyPreset('istriAnak')">Istri + 2 anak</button>
-    <button type="button" class="preset-chip" onclick="applyPreset('ayahIbu')">Ayah + Ibu saja</button>
-    <button type="button" class="preset-chip" onclick="applyPreset('aulContoh')">Suami + Ibu + 2 saudari</button>
-    <button type="button" class="preset-chip" onclick="applyPreset('saudaraSaja')">Hanya saudara/i</button>
-    <button type="button" class="preset-chip" onclick="applyPreset('umariyyatain')">Umariyyatain (suami+ayah+ibu)</button>
-    <button type="button" class="preset-chip" onclick="applyPreset('musytarakahContoh')">Musytarakah</button>
-    <button type="button" class="preset-chip" onclick="applyPreset('muqasamahContoh')">Kakek + saudara (muqasamah)</button>
-    <button type="button" class="preset-chip" onclick="applyPreset('muaddahContoh')">Al-Mu'addah</button>
-    <button type="button" class="preset-chip" onclick="applyPreset('akdariyyahContoh')">Al-Akdariyyah</button>
-  </div>
-
-  <div class="card collapsed" data-default-collapsed="true">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>&#128214; Istilah dalam Kalkulator Ini</span><span class="chevron">&#9662;</span></h2>
-    <div class="card-body">
-    <p class="sub">Ringkasan istilah faraidh yang dipakai di kalkulator ini, untuk yang belum familiar.</p>
-    <dl class="glossary">
-      <dt>Ashabul Furudh</dt>
-      <dd>Ahli waris dengan bagian pasti sesuai Al-Qur'an, misalnya 1/2, 1/4, 1/8, 1/3, 2/3, atau 1/6.</dd>
-      <dt>Ashabah</dt>
-      <dd>Ahli waris yang mendapat <i>sisa</i> harta setelah ashabul furudh dibagi &mdash; atau seluruh harta bila tidak ada ashabul furudh lain.</dd>
-      <dt>Hajb / Mahjub</dt>
-      <dd>Terhalangnya seseorang dari mendapat warisan (total) atau berkurangnya bagian (sebagian), karena ada ahli waris lain yang berkedudukan lebih dekat/lebih kuat.</dd>
-      <dt>'Aul</dt>
-      <dd>Kondisi total bagian ashabul furudh melebihi seluruh harta (&gt;100%), sehingga ashlul mas'alah dinaikkan dan semua bagian berkurang secara proporsional.</dd>
-      <dt>Radd</dt>
-      <dd>Kondisi total bagian ashabul furudh kurang dari seluruh harta dan tidak ada ashabah, sehingga sisanya dikembalikan secara proporsional (di luar suami/istri, menurut pendapat yang dipakai kalkulator ini).</dd>
-      <dt>Dzawil Arham</dt>
-      <dd>Kerabat yang bukan ashabul furudh maupun ashabah (umumnya dari jalur perempuan, mis. cucu dari anak perempuan, kakek/paman dari pihak ibu). Statusnya diperselisihkan ulama dan <b>tidak dihitung</b> oleh kalkulator ini.</dd>
-      <dt>Ashlul Mas'alah / Ashlul Jami'ah</dt>
-      <dd>Angka penyebut bersama (KPK) yang dipakai supaya bagian semua ahli waris bisa dinyatakan dalam saham bulat. "Ashlul Jami'ah" adalah sebutan untuk asal masalah setelah disesuaikan ('aul/radd/inkisar).</dd>
-      <dt>Takmilah</dt>
-      <dd>Bagian "penyempurna", misalnya cucu perempuan mendapat 1/6 agar total bagian anak dan cucu perempuan mencapai 2/3.</dd>
-      <dt>Muqasamah / Musyarakah</dt>
-      <dd>Pembagian bersama antara dua kelompok ahli waris yang berbeda jenis (mis. kakek &amp; saudara/i, menurut pendapat Umar bin Khattab), dihitung seolah satu kelompok yang sama derajat.</dd>
-    </dl>
-    </div>
+    <span class="preset-label" data-i18n="presetLabel">Coba contoh:</span>
+    <button type="button" class="preset-chip" data-i18n="presetIstriAnak" onclick="applyPreset('istriAnak')">Istri + 2 anak</button>
+    <button type="button" class="preset-chip" data-i18n="presetAyahIbu" onclick="applyPreset('ayahIbu')">Ayah + Ibu saja</button>
+    <button type="button" class="preset-chip" data-i18n="presetAul" onclick="applyPreset('aulContoh')">Suami + Ibu + 2 saudari</button>
+    <button type="button" class="preset-chip" data-i18n="presetSaudaraSaja" onclick="applyPreset('saudaraSaja')">Hanya saudara/i</button>
+    <button type="button" class="preset-chip" data-i18n="presetUmariyyatain" onclick="applyPreset('umariyyatain')">Umariyyatain (suami+ayah+ibu)</button>
+    <button type="button" class="preset-chip" data-i18n="presetMusytarakah" onclick="applyPreset('musytarakahContoh')">Musytarakah</button>
+    <button type="button" class="preset-chip" data-i18n="presetMuqasamah" onclick="applyPreset('muqasamahContoh')">Kakek + saudara (muqasamah)</button>
+    <button type="button" class="preset-chip" data-i18n="presetMuaddah" onclick="applyPreset('muaddahContoh')">Al-Mu'addah</button>
+    <button type="button" class="preset-chip" data-i18n="presetAkdariyyah" onclick="applyPreset('akdariyyahContoh')">Al-Akdariyyah</button>
   </div>
 
   <div class="card">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>1. Data Mayit</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card1Title">1. Data Mayit</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub">Jenis kelamin orang yang meninggal (mayit) menentukan jenis pasangan yang mewarisi.</p>
+    <p class="sub" data-i18n="card1Sub">Jenis kelamin orang yang meninggal (mayit) menentukan jenis pasangan yang mewarisi.</p>
     <div class="row">
-      <label>Jenis kelamin mayit</label>
+      <label data-i18n="genderLabel">Jenis kelamin mayit</label>
       <div class="toggle" id="genderToggle">
-        <button type="button" data-val="L" class="active">Laki-laki</button>
-        <button type="button" data-val="P">Perempuan</button>
+        <button type="button" data-val="L" class="active" data-i18n="genderL">Laki-laki</button>
+        <button type="button" data-val="P" data-i18n="genderP">Perempuan</button>
       </div>
     </div>
     <div class="row">
-      <label>Total harta warisan (Rp) <span class="hint">opsional, untuk menghitung nominal</span></label>
+      <label data-i18n="totalHartaLabel">Total harta warisan (Rp) <span class="hint" data-i18n="totalHartaHint">opsional, untuk menghitung nominal</span></label>
       <input class="rupiah-input" style="width:200px" id="totalHarta" type="text" inputmode="numeric" placeholder="cth. 500.000.000">
     </div>
     <div class="row">
-      <label>Biaya pengurusan jenazah (Rp) <span class="hint">didahulukan sebelum hutang &amp; wasiat, opsional</span></label>
+      <label data-i18n="biayaJenazahLabel">Biaya pengurusan jenazah (Rp) <span class="hint" data-i18n="biayaJenazahHint">didahulukan sebelum hutang &amp; wasiat, opsional</span></label>
       <input class="rupiah-input" style="width:200px" id="biayaJenazah" type="text" inputmode="numeric" placeholder="0">
     </div>
     <div class="row">
-      <label>Hutang mayit (Rp) <span class="hint">dilunasi dulu sebelum dibagi waris, opsional</span></label>
+      <label data-i18n="hutangLabel">Hutang mayit (Rp) <span class="hint" data-i18n="hutangHint">dilunasi dulu sebelum dibagi waris, opsional</span></label>
       <input class="rupiah-input" style="width:200px" id="hutangPewaris" type="text" inputmode="numeric" placeholder="0">
     </div>
     <div class="row">
-      <label>Wasiat untuk non-ahli waris (Rp) <span class="hint">maks 1/3 dari harta setelah hutang, opsional</span></label>
+      <label data-i18n="wasiatLabel">Wasiat untuk non-ahli waris (Rp) <span class="hint" data-i18n="wasiatHint">maks 1/3 dari harta setelah hutang, opsional</span></label>
       <input class="rupiah-input" style="width:200px" id="wasiatPewaris" type="text" inputmode="numeric" placeholder="0">
     </div>
     </div>
   </div>
 
   <div class="card">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>2. Pasangan</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card2Title">2. Pasangan</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
     <div id="spouseSection"></div>
     </div>
   </div>
 
   <div class="card">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>3. Orang Tua &amp; Kakek/Nenek</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card3Title">3. Orang Tua &amp; Kakek/Nenek</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub">Kakek &amp; nenek hanya dihitung bila ayah/ibu sudah tiada.</p>
+    <p class="sub" data-i18n="card3Sub">Kakek &amp; nenek hanya dihitung bila ayah/ibu sudah tiada.</p>
     <div class="row">
-      <label class="checkbox-pill"><input type="checkbox" id="ayah"> Ayah</label>
+      <label class="checkbox-pill"><input type="checkbox" id="ayah"> <span data-i18n="ayahLabel">Ayah</span></label>
     </div>
     <div class="row" id="rowKakek">
-      <label class="checkbox-pill"><input type="checkbox" id="kakek"> Kakek (ayahnya ayah)</label>
+      <label class="checkbox-pill"><input type="checkbox" id="kakek"> <span data-i18n="kakekLabel">Kakek (ayahnya ayah)</span></label>
     </div>
     <div class="row">
-      <label class="checkbox-pill"><input type="checkbox" id="ibu"> Ibu</label>
+      <label class="checkbox-pill"><input type="checkbox" id="ibu"> <span data-i18n="ibuLabel">Ibu</span></label>
     </div>
     <div class="row" id="rowNenekIbu">
-      <label class="checkbox-pill"><input type="checkbox" id="nenekIbu"> Nenek dari pihak ibu (ibunya ibu)</label>
+      <label class="checkbox-pill"><input type="checkbox" id="nenekIbu"> <span data-i18n="nenekIbuLabel">Nenek dari pihak ibu (ibunya ibu)</span></label>
     </div>
     <div class="row" id="rowNenekAyah">
-      <label class="checkbox-pill"><input type="checkbox" id="nenekAyah"> Nenek dari pihak ayah (ibunya ayah)</label>
+      <label class="checkbox-pill"><input type="checkbox" id="nenekAyah"> <span data-i18n="nenekAyahLabel">Nenek dari pihak ayah (ibunya ayah)</span></label>
     </div>
-    <div class="dzawil-note">Kalkulator ini mengikuti pendapat bahwa <b>nenek (baik dari pihak ibu maupun ayah) hanya mahjub karena ibu</b>, sehingga nenek dari pihak ayah tetap mendapat bagian meskipun ayah masih hidup. Sebagian ulama/rujukan mawaris berpendapat nenek dari pihak ayah juga terhalang oleh ayah (selain ibu) &mdash; bila mazhab/lembaga faraidh yang Anda ikuti memakai pendapat itu, hasil terkait nenek dari pihak ayah sebaiknya diverifikasi ulang.</div>
+    <div class="dzawil-note" data-i18n-html="nenekNote">Kalkulator ini mengikuti pendapat bahwa <b>nenek (baik dari pihak ibu maupun ayah) hanya mahjub karena ibu</b>, sehingga nenek dari pihak ayah tetap mendapat bagian meskipun ayah masih hidup. Sebagian ulama/rujukan mawaris berpendapat nenek dari pihak ayah juga terhalang oleh ayah (selain ibu) &mdash; bila mazhab/lembaga faraidh yang Anda ikuti memakai pendapat itu, hasil terkait nenek dari pihak ayah sebaiknya diverifikasi ulang.</div>
 
     <div class="advanced-toggle" id="toggleBuyutBtn" data-show-label="+ Tampilkan buyut (kakek/nenek dari kakek/nenek)" data-hide-label="&minus; Sembunyikan buyut" onclick="toggleAdvanced('buyutSection','toggleBuyutBtn')">+ Tampilkan buyut (kakek/nenek dari kakek/nenek)</div>
     <div id="buyutSection" style="display:none">
       <div class="row" id="rowBuyutL">
-        <label class="checkbox-pill"><input type="checkbox" id="buyutL"> Buyut laki-laki (ayahnya ayahnya ayah)</label>
+        <label class="checkbox-pill"><input type="checkbox" id="buyutL"> <span data-i18n="buyutLLabel">Buyut laki-laki (ayahnya ayahnya ayah)</span></label>
       <input type="checkbox" id="kakekMuqasamahOpt" style="display:none">
       </div>
-      <div class="dzawil-note">Kakek &amp; buyut laki-laki di atas khusus jalur ayah-ke-ayah yang tidak putus (ashabah). Kakek/buyut dari pihak ibu, atau garis mana pun yang melalui <b>ayah dari ibu</b>, berstatus <b>dzawil arham</b> &mdash; tidak disediakan. Buyut laki-laki hanya dihitung bila ayah &amp; kakek sudah tiada.</div>
+      <div class="dzawil-note" data-i18n-html="buyutLNote">Kakek &amp; buyut laki-laki di atas khusus jalur ayah-ke-ayah yang tidak putus (ashabah). Kakek/buyut dari pihak ibu, atau garis mana pun yang melalui <b>ayah dari ibu</b>, berstatus <b>dzawil arham</b> &mdash; tidak disediakan. Buyut laki-laki hanya dihitung bila ayah &amp; kakek sudah tiada.</div>
       <div class="row" id="rowBuyutDariKakek">
-        <label class="checkbox-pill"><input type="checkbox" id="buyutDariKakek"> Ibunya ayahnya ayah <span class="hint">(ibu dari kakek)</span></label>
+        <label class="checkbox-pill"><input type="checkbox" id="buyutDariKakek"> <span data-i18n="buyutDariKakekLabel">Ibunya ayahnya ayah <span class="hint">(ibu dari kakek)</span></span></label>
       </div>
       <div class="row" id="rowBuyutDariNenekAyah">
-        <label class="checkbox-pill"><input type="checkbox" id="buyutDariNenekAyah"> Ibunya ibunya ayah <span class="hint">(ibu dari nenek pihak ayah)</span></label>
+        <label class="checkbox-pill"><input type="checkbox" id="buyutDariNenekAyah"> <span data-i18n="buyutDariNenekAyahLabel">Ibunya ibunya ayah <span class="hint">(ibu dari nenek pihak ayah)</span></span></label>
       </div>
       <div class="row" id="rowBuyutDariNenekIbu">
-        <label class="checkbox-pill"><input type="checkbox" id="buyutDariNenekIbu"> Ibunya ibunya ibu <span class="hint">(ibu dari nenek pihak ibu)</span></label>
+        <label class="checkbox-pill"><input type="checkbox" id="buyutDariNenekIbu"> <span data-i18n="buyutDariNenekIbuLabel">Ibunya ibunya ibu <span class="hint">(ibu dari nenek pihak ibu)</span></span></label>
       </div>
-      <div class="dzawil-note">Hanya 3 jalur buyut perempuan di atas yang berstatus <b>shahihah</b> (ahli waris). Jalur lain yang melewati <b>ayah dari ibu / kakek dari ibu</b> di mana pun posisinya (misalnya "ibunya ayahnya ibu") berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga sengaja tidak disediakan agar tidak salah pilih. Buyut perempuan (jalur mana pun) hanya dihitung bila <b>ibu dan nenek (dari sisi manapun) semuanya tidak ada</b> &mdash; nenek yang lebih dekat menghalangi buyut yang lebih jauh, dari sisi manapun.</div>
+      <div class="dzawil-note" data-i18n-html="buyutPNote">Hanya 3 jalur buyut perempuan di atas yang berstatus <b>shahihah</b> (ahli waris). Jalur lain yang melewati <b>ayah dari ibu / kakek dari ibu</b> di mana pun posisinya (misalnya "ibunya ayahnya ibu") berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga sengaja tidak disediakan agar tidak salah pilih. Buyut perempuan (jalur mana pun) hanya dihitung bila <b>ibu dan nenek (dari sisi manapun) semuanya tidak ada</b> &mdash; nenek yang lebih dekat menghalangi buyut yang lebih jauh, dari sisi manapun.</div>
     </div>
     </div>
   </div>
 
 
   <div class="card">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>4. Anak &amp; Cucu</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card4Title">4. Anak &amp; Cucu</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <div class="dzawil-note">Cucu &amp; cicit di sini khusus jalur <b>anak laki-laki</b> (cucu) dan <b>cucu laki-laki dari anak laki-laki</b> (cicit). Keturunan lewat anak perempuan (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
-    <div class="row"><label>Anak laki-laki<span class="hint">jumlah</span></label><input type="number" id="anakL" min="0" value="0"></div>
-    <div class="row"><label>Anak perempuan<span class="hint">jumlah</span></label><input type="number" id="anakP" min="0" value="0"></div>
-    <div class="row" id="rowCucuL"><label>Cucu laki-laki (dari anak laki-laki)<span class="hint">jumlah</span></label><input type="number" id="cucuL" min="0" value="0"></div>
-    <div class="row" id="rowCucuP"><label>Cucu perempuan (dari anak laki-laki)<span class="hint">jumlah</span></label><input type="number" id="cucuP" min="0" value="0"></div>
+    <div class="dzawil-note" data-i18n-html="anakCucuNote">Cucu &amp; cicit di sini khusus jalur <b>anak laki-laki</b> (cucu) dan <b>cucu laki-laki dari anak laki-laki</b> (cicit). Keturunan lewat anak perempuan (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
+    <div class="row"><label data-i18n="anakLLabel">Anak laki-laki<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="anakL" min="0" value="0"></div>
+    <div class="row"><label data-i18n="anakPLabel">Anak perempuan<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="anakP" min="0" value="0"></div>
+    <div class="row" id="rowCucuL"><label data-i18n="cucuLLabel">Cucu laki-laki (dari anak laki-laki)<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="cucuL" min="0" value="0"></div>
+    <div class="row" id="rowCucuP"><label data-i18n="cucuPLabel">Cucu perempuan (dari anak laki-laki)<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="cucuP" min="0" value="0"></div>
 
     <div class="advanced-toggle" id="toggleCicitBtn" data-show-label="+ Tampilkan cicit (dari cucu laki-laki)" data-hide-label="&minus; Sembunyikan cicit" onclick="toggleAdvanced('cicitSection','toggleCicitBtn')">+ Tampilkan cicit (dari cucu laki-laki)</div>
     <div id="cicitSection" style="display:none">
-      <div class="row" id="rowCicitL"><label>Cicit laki-laki (dari cucu laki-laki)<span class="hint">jumlah</span></label><input type="number" id="cicitL" min="0" value="0"></div>
-      <div class="row" id="rowCicitP"><label>Cicit perempuan (dari cucu laki-laki)<span class="hint">jumlah</span></label><input type="number" id="cicitP" min="0" value="0"></div>
-      <p class="sub">Cicit terhalang total hanya bila ada anak laki-laki atau cucu laki-laki. Bila hanya ada cucu perempuan (tanpa cucu laki-laki) yang sudah punya bagian tetap (takmilah/pengganti anak), cicit laki-laki hanya mengambil sisanya sendiri. Khusus bila cucu perempuan itu <b>mahjub</b> (misal karena 2+ anak perempuan sudah mengambil 2/3), cicit laki-laki bisa menyelamatkannya dengan meng-ashabah-kan (ta'shib) bersama.</p>
+      <div class="row" id="rowCicitL"><label data-i18n="cicitLLabel">Cicit laki-laki (dari cucu laki-laki)<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="cicitL" min="0" value="0"></div>
+      <div class="row" id="rowCicitP"><label data-i18n="cicitPLabel">Cicit perempuan (dari cucu laki-laki)<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="cicitP" min="0" value="0"></div>
+      <p class="sub" data-i18n-html="cicitSub">Cicit terhalang total hanya bila ada anak laki-laki atau cucu laki-laki. Bila hanya ada cucu perempuan (tanpa cucu laki-laki) yang sudah punya bagian tetap (takmilah/pengganti anak), cicit laki-laki hanya mengambil sisanya sendiri. Khusus bila cucu perempuan itu <b>mahjub</b> (misal karena 2+ anak perempuan sudah mengambil 2/3), cicit laki-laki bisa menyelamatkannya dengan meng-ashabah-kan (ta'shib) bersama.</p>
     </div>
     </div>
   </div>
 
 
   <div class="card">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>5. Saudara/i</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card5Title">5. Saudara/i</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub">Otomatis terhalang (hajb) bila ada anak laki-laki, cucu laki-laki, atau ayah. Bila hanya ada kakek, kartu ini tetap aktif karena kasus kakek bersama saudara/i kandung/seayah termasuk yang diperselisihkan ulama (lihat catatan di hasil).</p>
-    <div class="dzawil-note">Anak dari saudara <b>perempuan</b> (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.</div>
-    <div class="section-label">Kandung (seayah-seibu)</div>
-    <div class="row" id="rowSaudaraK"><label>Saudara laki-laki</label><input type="number" id="saudaraK" min="0" value="0"></div>
-    <div class="row" id="rowSaudariK"><label>Saudari perempuan</label><input type="number" id="saudariK" min="0" value="0"></div>
-    <div class="section-label">Seayah saja</div>
-    <div class="row" id="rowSaudaraA"><label>Saudara laki-laki</label><input type="number" id="saudaraA" min="0" value="0"></div>
-    <div class="row" id="rowSaudariA"><label>Saudari perempuan</label><input type="number" id="saudariA" min="0" value="0"></div>
-    <div class="section-label">Seibu saja</div>
-    <div class="row" id="rowSaudaraIbu"><label>Saudara/i (laki-laki &amp; perempuan, bagian sama)</label><input type="number" id="saudaraIbu" min="0" value="0"></div>
+    <p class="sub" data-i18n="card5Sub">Otomatis terhalang (hajb) bila ada anak laki-laki, cucu laki-laki, atau ayah. Bila hanya ada kakek, kartu ini tetap aktif karena kasus kakek bersama saudara/i kandung/seayah termasuk yang diperselisihkan ulama (lihat catatan di hasil).</p>
+    <div class="dzawil-note" data-i18n-html="saudaraNote">Anak dari saudara <b>perempuan</b> (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.</div>
+    <div class="section-label" data-i18n="sectionKandung">Kandung (seayah-seibu)</div>
+    <div class="row" id="rowSaudaraK"><label data-i18n="saudaraLLabel">Saudara laki-laki</label><input type="number" id="saudaraK" min="0" value="0"></div>
+    <div class="row" id="rowSaudariK"><label data-i18n="saudariPLabel">Saudari perempuan</label><input type="number" id="saudariK" min="0" value="0"></div>
+    <div class="section-label" data-i18n="sectionSeayah">Seayah saja</div>
+    <div class="row" id="rowSaudaraA"><label data-i18n="saudaraLLabel">Saudara laki-laki</label><input type="number" id="saudaraA" min="0" value="0"></div>
+    <div class="row" id="rowSaudariA"><label data-i18n="saudariPLabel">Saudari perempuan</label><input type="number" id="saudariA" min="0" value="0"></div>
+    <div class="section-label" data-i18n="sectionSeibu">Seibu saja</div>
+    <div class="row" id="rowSaudaraIbu"><label data-i18n="saudaraIbuLabel">Saudara/i (laki-laki &amp; perempuan, bagian sama)</label><input type="number" id="saudaraIbu" min="0" value="0"></div>
 
     <input type="checkbox" id="musytarakahOpt" style="display:none">
     </div>
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>6. Keponakan (anak saudara laki-laki)</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card6Title">6. Keponakan (anak saudara laki-laki)</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub">Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, atau saudara laki-laki (kandung/seayah). Keponakan kandung menghalangi keponakan seayah.</p>
-    <div class="dzawil-note">Keponakan <b>perempuan</b> berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini. Hanya anak laki-laki dari saudara laki-laki yang berstatus ahli waris.</div>
-    <div class="row" id="rowKeponakanK"><label>Dari saudara kandung</label><input type="number" id="keponakanKandung" min="0" value="0"></div>
-    <div class="row" id="rowKeponakanA"><label>Dari saudara seayah</label><input type="number" id="keponakanSeayah" min="0" value="0"></div>
+    <p class="sub" data-i18n="card6Sub">Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, atau saudara laki-laki (kandung/seayah). Keponakan kandung menghalangi keponakan seayah.</p>
+    <div class="dzawil-note" data-i18n-html="keponakanNote">Keponakan <b>perempuan</b> berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini. Hanya anak laki-laki dari saudara laki-laki yang berstatus ahli waris.</div>
+    <div class="row" id="rowKeponakanK"><label data-i18n="dariSaudaraKandung">Dari saudara kandung</label><input type="number" id="keponakanKandung" min="0" value="0"></div>
+    <div class="row" id="rowKeponakanA"><label data-i18n="dariSaudaraSeayah">Dari saudara seayah</label><input type="number" id="keponakanSeayah" min="0" value="0"></div>
     </div>
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>7. Paman &mdash; khusus saudara ayah</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card7Title">7. Paman &mdash; khusus saudara ayah</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub">Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, saudara laki-laki, atau keponakan (di atas). Paman kandung menghalangi paman seayah.</p>
-    <div class="dzawil-note"><b>Perhatian:</b> dalam bahasa sehari-hari "paman" bisa berarti saudara laki-laki ayah <i>maupun</i> ibu. Di kalkulator ini, "paman" HANYA berarti <b>saudara laki-laki ayah</b> mayit &mdash; karena hanya jalur itu yang berstatus ahli waris. Paman dari pihak <b>ibu</b> (saudara laki-laki ibu), serta bibi dari pihak manapun, berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
-    <div class="row" id="rowPamanK"><label>Paman kandung <span class="hint">saudara kandung ayah</span></label><input type="number" id="pamanKandung" min="0" value="0"></div>
-    <div class="row" id="rowPamanA"><label>Paman seayah <span class="hint">saudara seayah dari ayah</span></label><input type="number" id="pamanSeayah" min="0" value="0"></div>
+    <p class="sub" data-i18n="card7Sub">Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, saudara laki-laki, atau keponakan (di atas). Paman kandung menghalangi paman seayah.</p>
+    <div class="dzawil-note" data-i18n-html="pamanNote"><b>Perhatian:</b> dalam bahasa sehari-hari "paman" bisa berarti saudara laki-laki ayah <i>maupun</i> ibu. Di kalkulator ini, "paman" HANYA berarti <b>saudara laki-laki ayah</b> mayit &mdash; karena hanya jalur itu yang berstatus ahli waris. Paman dari pihak <b>ibu</b> (saudara laki-laki ibu), serta bibi dari pihak manapun, berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
+    <div class="row" id="rowPamanK"><label data-i18n="pamanKLabel">Paman kandung <span class="hint" data-i18n="pamanKHint">saudara kandung ayah</span></label><input type="number" id="pamanKandung" min="0" value="0"></div>
+    <div class="row" id="rowPamanA"><label data-i18n="pamanALabel">Paman seayah <span class="hint" data-i18n="pamanAHint">saudara seayah dari ayah</span></label><input type="number" id="pamanSeayah" min="0" value="0"></div>
     </div>
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
-    <h2 class="card-header" onclick="toggleCard(this)"><span>8. Sepupu &mdash; khusus anak paman dari ayah</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card8Title">8. Sepupu &mdash; khusus anak paman dari ayah</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub">Terhalang total bila ada ahli waris di atas (sampai dengan paman). Anak dari paman kandung menghalangi anak dari paman seayah.</p>
-    <div class="dzawil-note"><b>Perhatian:</b> "sepupu" di sini HANYA berarti anak laki-laki dari <b>paman pihak ayah</b> (saudara laki-laki ayah mayit) di atas, bukan sepupu secara umum. Sepupu <b>perempuan</b>, serta sepupu dari jalur <b>ibu</b> (anak dari saudara ibu, baik laki-laki maupun perempuan bibi/paman ibu), berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
-    <div class="row" id="rowSepupuK"><label>Anak paman kandung <span class="hint">dari ayah</span></label><input type="number" id="sepupuKandung" min="0" value="0"></div>
-    <div class="row" id="rowSepupuA"><label>Anak paman seayah <span class="hint">dari ayah</span></label><input type="number" id="sepupuSeayah" min="0" value="0"></div>
+    <p class="sub" data-i18n="card8Sub">Terhalang total bila ada ahli waris di atas (sampai dengan paman). Anak dari paman kandung menghalangi anak dari paman seayah.</p>
+    <div class="dzawil-note" data-i18n-html="sepupuNote"><b>Perhatian:</b> "sepupu" di sini HANYA berarti anak laki-laki dari <b>paman pihak ayah</b> (saudara laki-laki ayah mayit) di atas, bukan sepupu secara umum. Sepupu <b>perempuan</b>, serta sepupu dari jalur <b>ibu</b> (anak dari saudara ibu, baik laki-laki maupun perempuan bibi/paman ibu), berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
+    <div class="row" id="rowSepupuK"><label data-i18n="sepupuKLabel">Anak paman kandung <span class="hint" data-i18n="dariAyahHint">dari ayah</span></label><input type="number" id="sepupuKandung" min="0" value="0"></div>
+    <div class="row" id="rowSepupuA"><label data-i18n="sepupuALabel">Anak paman seayah <span class="hint" data-i18n="dariAyahHint">dari ayah</span></label><input type="number" id="sepupuSeayah" min="0" value="0"></div>
     </div>
   </div>
 
   <div class="btn-row">
-    <button class="btn-hitung" onclick="hitungFaraidh()">Hitung Pembagian Warisan</button>
-    <button class="btn-reset" onclick="resetForm()" type="button">Reset</button>
+    <button class="btn-hitung" onclick="hitungFaraidh()" data-i18n="btnHitung">Hitung Pembagian Warisan</button>
+    <button class="btn-reset" onclick="resetForm()" type="button" data-i18n="btnReset">Reset</button>
   </div>
 
   <div id="results" class="card" style="margin-top:22px;">
     <div class="print-only">
-      <h1>Kalkulator Faraidh &mdash; Hasil Pembagian Warisan</h1>
-      <p>Dicetak pada <span id="printDate"></span></p>
+      <h1 data-i18n="printTitle">Kalkulator Faraidh &mdash; Hasil Pembagian Warisan</h1>
+      <p data-i18n="printDateLabel">Dicetak pada <span id="printDate"></span></p>
     </div>
     <div class="results-header">
-      <h2>Hasil Pembagian</h2>
+      <h2 data-i18n="resultsTitle">Hasil Pembagian</h2>
       <div class="btn-group">
-        <button class="btn-print btn-share" onclick="bagikanHasil()" type="button">&#128257; Bagikan Hasil</button>
-        <button class="btn-print" onclick="cetakFitPage()" type="button">&#128424; Cetak / Simpan PDF</button>
+        <button class="btn-print btn-share" onclick="bagikanHasil()" type="button" data-i18n="btnShare">&#128257; Bagikan Hasil</button>
+        <button class="btn-print" onclick="cetakFitPage()" type="button" data-i18n="btnPrint">&#128424; Cetak / Simpan PDF</button>
       </div>
     </div>
-    <div class="dzawil-note">Ahli waris yang Anda isi jumlahnya tetapi <b>tidak muncul</b> di tabel hasil di bawah berarti <b>mahjub (terhalang)</b> oleh ahli waris lain yang lebih berhak, sehingga tidak mendapat bagian warisan sama sekali.</div>
+    <div class="dzawil-note" data-i18n-html="mahjubGeneralNote">Ahli waris yang Anda isi jumlahnya tetapi <b>tidak muncul</b> di tabel hasil di bawah berarti <b>mahjub (terhalang)</b> oleh ahli waris lain yang lebih berhak, sehingga tidak mendapat bagian warisan sama sekali.</div>
     <div id="hartaBreakdown"></div>
     <div id="specialNote"></div>
 
     <div id="initialCaseWrap" style="display:none;">
-      <div class="case-title">Kasus Awal <span class="case-badge">sebelum 'aul/radd/inkisar</span></div>
+      <div class="case-title"><span data-i18n="kasusAwalTitle">Kasus Awal</span> <span class="case-badge" data-i18n="sebelumAulBadge">sebelum 'aul/radd/inkisar</span></div>
       <div id="asalMasalah" class="am-box"></div>
       <div class="table-wrap">
         <table class="faraidh-table">
-          <thead><tr><th>Ahli Waris</th><th class="num">Furudh</th><th class="num">Saham</th></tr></thead>
+          <thead><tr><th data-i18n="thAhliWaris">Ahli Waris</th><th class="num" data-i18n="thFurudh">Furudh</th><th class="num" data-i18n="thSaham">Saham</th></tr></thead>
           <tbody id="initialTableBody"></tbody>
         </table>
       </div>
     </div>
 
-    <div class="case-title" id="finalCaseTitle">Rincian Saham</div>
+    <div class="case-title" id="finalCaseTitle" data-i18n="rincianSahamTitle">Rincian Saham</div>
     <div id="asalMasalahFinal" class="am-box"></div>
     <div class="ledger" id="ledger"></div>
     <div class="table-wrap">
       <table class="faraidh-table">
         <thead>
           <tr>
-            <th>Ahli Waris</th>
-            <th class="num">Jml</th>
-            <th class="num">Saham</th>
-            <th class="num">Saham/Orang</th>
-            <th class="num">%</th>
-            <th class="num" id="rupiahHeader" style="display:none;">Nominal</th>
+            <th data-i18n="thAhliWaris">Ahli Waris</th>
+            <th class="num" data-i18n="thJml">Jml</th>
+            <th class="num" data-i18n="thSaham">Saham</th>
+            <th class="num" data-i18n="thSahamOrang">Saham/Orang</th>
+            <th class="num" data-i18n="thPersen">%</th>
+            <th class="num" id="rupiahHeader" style="display:none;" data-i18n="thNominal">Nominal</th>
           </tr>
         </thead>
         <tbody id="heirList"></tbody>
@@ -817,21 +941,460 @@
     </div>
 
     <details id="amDetailBox" class="am-detail-box" style="display:none;">
-      <summary>Detail teknis: penyesuaian ashlul mas'alah ('aul / radd / inkisar)</summary>
+      <summary data-i18n="amDetailSummary">Detail teknis: penyesuaian ashlul mas'alah ('aul / radd / inkisar)</summary>
       <div id="amDetailContent"></div>
     </details>
-    <p class="disclaimer">Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama yang berlaku umum di Indonesia. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.</p>
+    <p class="disclaimer" data-i18n="finalDisclaimer">Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama yang berlaku umum di Indonesia. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.</p>
   </div>
 
   <footer class="app-footer">
-    Dibuat oleh <b>Danara Osa Raharsa</b> with Claude
-    <div class="dev-test-link" onclick="runTestSuite()">Jalankan kasus uji internal (verifikasi perhitungan)</div>
+    <span data-i18n-html="footerCredit">Dibuat oleh <b>Danara Osa Raharsa</b> with Claude</span>
+    <div class="dev-test-link" onclick="runTestSuite()" data-i18n="devTestLink">Jalankan kasus uji internal (verifikasi perhitungan)</div>
     <div id="testReportPanel" style="display:none"></div>
   </footer>
 
 </div>
 
 <script>
+// =========================================================================
+// ---------- Kerangka i18n (Indonesia / Arab) ----------
+// =========================================================================
+// CATATAN CAKUPAN: seluruh teks antarmuka statis (judul, label field, hint,
+// catatan dzawil-arham, tombol, header tabel, glosarium, disclaimer) SUDAH
+// diterjemahkan penuh. Nama-nama ahli waris (label di tabel hasil) dan badge
+// kategori bagian JUGA diterjemahkan. NAMUN, catatan penjelasan per-baris di
+// tabel hasil (kolom "note" \u2014 misal alasan takmilah, ashabah, mahjub,
+// musytarakah, muqasamah, dst \u2014 ada puluhan variasi tersebar di seluruh
+// mesin perhitungan) BELUM diterjemahkan pada tahap ini dan akan tetap
+// tampil berbahasa Indonesia meski mode Arab aktif. Ini keputusan cakupan
+// yang disengaja mengingat jumlahnya sangat banyak dan presisi istilah fiqih
+// berbahasa Arab sebaiknya diverifikasi ahli sebelum dipasang massal.
+let currentLang = 'id';
+
+const I18N = {
+  id: {
+    pageTitle: "Kalkulator Faraidh",
+    eyebrow: "Ilmu Faraidh \u2014 Ilmu Waris Islam",
+    appTitle: "Kalkulator Faraidh",
+    appIntro: "Hitung pembagian warisan sesuai hukum faraidh berdasarkan ahli waris yang ada. Isi data di bawah, sistem akan menentukan siapa yang terhalang (hajb), berapa bagian masing-masing, dan menyesuaikan bila terjadi 'aul atau radd.",
+    menuTitle: "Menu",
+    menuLanguageLabel: "Bahasa",
+    presetLabel: "Coba contoh:",
+    presetIstriAnak: "Istri + 2 anak",
+    presetAyahIbu: "Ayah + Ibu saja",
+    presetAul: "Suami + Ibu + 2 saudari",
+    presetSaudaraSaja: "Hanya saudara/i",
+    presetUmariyyatain: "Umariyyatain (suami+ayah+ibu)",
+    presetMusytarakah: "Musytarakah",
+    presetMuqasamah: "Kakek + saudara (muqasamah)",
+    presetMuaddah: "Al-Mu'addah",
+    presetAkdariyyah: "Al-Akdariyyah",
+
+    glossaryTitle: "\u{1F4D6} Istilah dalam Kalkulator Ini",
+    glossaryIntro: "Ringkasan istilah faraidh yang dipakai di kalkulator ini, untuk yang belum familiar.",
+    gAshabulFurudhT: "Ashabul Furudh",
+    gAshabulFurudhD: "Ahli waris dengan bagian pasti sesuai Al-Qur'an, misalnya 1/2, 1/4, 1/8, 1/3, 2/3, atau 1/6.",
+    gAshabahT: "Ashabah",
+    gAshabahD: "Ahli waris yang mendapat <i>sisa</i> harta setelah ashabul furudh dibagi \u2014 atau seluruh harta bila tidak ada ashabul furudh lain.",
+    gHajbT: "Hajb / Mahjub",
+    gHajbD: "Terhalangnya seseorang dari mendapat warisan (total) atau berkurangnya bagian (sebagian), karena ada ahli waris lain yang berkedudukan lebih dekat/lebih kuat.",
+    gAulT: "'Aul",
+    gAulD: "Kondisi total bagian ashabul furudh melebihi seluruh harta (>100%), sehingga ashlul mas'alah dinaikkan dan semua bagian berkurang secara proporsional.",
+    gRaddT: "Radd",
+    gRaddD: "Kondisi total bagian ashabul furudh kurang dari seluruh harta dan tidak ada ashabah, sehingga sisanya dikembalikan secara proporsional (di luar suami/istri, menurut pendapat yang dipakai kalkulator ini).",
+    gDzawilArhamT: "Dzawil Arham",
+    gDzawilArhamD: "Kerabat yang bukan ashabul furudh maupun ashabah (umumnya dari jalur perempuan, mis. cucu dari anak perempuan, kakek/paman dari pihak ibu). Statusnya diperselisihkan ulama dan <b>tidak dihitung</b> oleh kalkulator ini.",
+    gAshlulT: "Ashlul Mas'alah / Ashlul Jami'ah",
+    gAshlulD: "Angka penyebut bersama (KPK) yang dipakai supaya bagian semua ahli waris bisa dinyatakan dalam saham bulat. \"Ashlul Jami'ah\" adalah sebutan untuk asal masalah setelah disesuaikan ('aul/radd/inkisar).",
+    gTakmilahT: "Takmilah",
+    gTakmilahD: "Bagian \"penyempurna\", misalnya cucu perempuan mendapat 1/6 agar total bagian anak dan cucu perempuan mencapai 2/3.",
+    gMuqasamahT: "Muqasamah / Musyarakah",
+    gMuqasamahD: "Pembagian bersama antara dua kelompok ahli waris yang berbeda jenis (mis. kakek &amp; saudara/i, menurut pendapat Umar bin Khattab), dihitung seolah satu kelompok yang sama derajat.",
+
+    card1Title: "1. Data Mayit",
+    card1Sub: "Jenis kelamin orang yang meninggal (mayit) menentukan jenis pasangan yang mewarisi.",
+    genderLabel: "Jenis kelamin mayit",
+    genderL: "Laki-laki",
+    genderP: "Perempuan",
+    totalHartaLabel: "Total harta warisan (Rp) ",
+    totalHartaHint: "opsional, untuk menghitung nominal",
+    biayaJenazahLabel: "Biaya pengurusan jenazah (Rp) ",
+    biayaJenazahHint: "didahulukan sebelum hutang & wasiat, opsional",
+    hutangLabel: "Hutang mayit (Rp) ",
+    hutangHint: "dilunasi dulu sebelum dibagi waris, opsional",
+    wasiatLabel: "Wasiat untuk non-ahli waris (Rp) ",
+    wasiatHint: "maks 1/3 dari harta setelah hutang, opsional",
+
+    card2Title: "2. Pasangan",
+    istriFieldLabel: "Istri",
+    istriFieldHint: "jumlah istri yang masih hidup (0 jika tidak ada, maksimal 4)",
+    istriWarningText: "Maksimal 4 istri menurut syariat \u2014 jumlah otomatis dibatasi ke 4.",
+    suamiFieldLabel: "Suami",
+    janinIstriLabel: "Istri sedang hamil / ada janin (calon anak mayit)?",
+    janinIstriNote: "Bila dicentang, janin dianggap sebagai calon ahli waris yang belum diketahui jenis kelamin &amp; jumlahnya (bisa laki-laki, perempuan, atau kembar). Kalkulator akan memberi ahli waris lain bagian <b>paling kecil</b> yang pasti mereka dapatkan di semua kemungkinan tersebut (termasuk memperhitungkan bila terjadi 'aul), dan menahan (mauquf) sisanya sampai janin lahir.",
+    janinLabel: "Janin (ditangguhkan / mauquf)",
+    janinMauqufNote: "Bagian ini ditahan (mauquf) hingga janin lahir, karena jenis kelamin &amp; jumlahnya belum diketahui.",
+    janinSpecialNote: "Terdapat <b>janin</b> yang belum lahir. Mengikuti metode Syafi'iyyah: ahli waris lain diberikan bagian paling kecil yang pasti mereka dapatkan di antara kemungkinan janin (1 anak laki-laki, 1 anak perempuan, atau 2+ anak perempuan/kembar) &mdash; termasuk memperhitungkan kemungkinan 'aul. Sisanya ditahan (mauquf) sampai janin lahir, baru dibagi ulang sesuai jenis kelamin &amp; jumlah anak yang sebenarnya.",
+
+    card3Title: "3. Orang Tua & Kakek/Nenek",
+    card3Sub: "Kakek & nenek hanya dihitung bila ayah/ibu sudah tiada.",
+    ayahLabel: "Ayah",
+    kakekLabel: "Kakek (ayahnya ayah)",
+    ibuLabel: "Ibu",
+    nenekIbuLabel: "Nenek dari pihak ibu (ibunya ibu)",
+    nenekAyahLabel: "Nenek dari pihak ayah (ibunya ayah)",
+    nenekNote: "Kalkulator ini mengikuti pendapat bahwa <b>nenek (baik dari pihak ibu maupun ayah) hanya mahjub karena ibu</b>, sehingga nenek dari pihak ayah tetap mendapat bagian meskipun ayah masih hidup. Sebagian ulama/rujukan mawaris berpendapat nenek dari pihak ayah juga terhalang oleh ayah (selain ibu) \u2014 bila mazhab/lembaga faraidh yang Anda ikuti memakai pendapat itu, hasil terkait nenek dari pihak ayah sebaiknya diverifikasi ulang.",
+    toggleBuyutShow: "+ Tampilkan buyut (kakek/nenek dari kakek/nenek)",
+    toggleBuyutHide: "\u2212 Sembunyikan buyut",
+    buyutLLabel: "Buyut laki-laki (ayahnya ayahnya ayah)",
+    buyutLNote: "Kakek & buyut laki-laki di atas khusus jalur ayah-ke-ayah yang tidak putus (ashabah). Kakek/buyut dari pihak ibu, atau garis mana pun yang melalui <b>ayah dari ibu</b>, berstatus <b>dzawil arham</b> \u2014 tidak disediakan. Buyut laki-laki hanya dihitung bila ayah & kakek sudah tiada.",
+    buyutDariKakekLabel: "Ibunya ayahnya ayah <span class=\"hint\">(ibu dari kakek)</span>",
+    buyutDariNenekAyahLabel: "Ibunya ibunya ayah <span class=\"hint\">(ibu dari nenek pihak ayah)</span>",
+    buyutDariNenekIbuLabel: "Ibunya ibunya ibu <span class=\"hint\">(ibu dari nenek pihak ibu)</span>",
+    buyutPNote: "Hanya 3 jalur buyut perempuan di atas yang berstatus <b>shahihah</b> (ahli waris). Jalur lain yang melewati <b>ayah dari ibu / kakek dari ibu</b> di mana pun posisinya (misalnya \"ibunya ayahnya ibu\") berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga sengaja tidak disediakan agar tidak salah pilih. Buyut perempuan (jalur mana pun) hanya dihitung bila <b>ibu dan nenek (dari sisi manapun) semuanya tidak ada</b> \u2014 nenek yang lebih dekat menghalangi buyut yang lebih jauh, dari sisi manapun.",
+
+    card4Title: "4. Anak & Cucu",
+    anakCucuNote: "Cucu & cicit di sini khusus jalur <b>anak laki-laki</b> (cucu) dan <b>cucu laki-laki dari anak laki-laki</b> (cicit). Keturunan lewat anak perempuan (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.",
+    anakLLabel: "Anak laki-laki",
+    anakPLabel: "Anak perempuan",
+    jumlahHint: "jumlah",
+    cucuLLabel: "Cucu laki-laki (dari anak laki-laki)",
+    cucuPLabel: "Cucu perempuan (dari anak laki-laki)",
+    toggleCicitShow: "+ Tampilkan cicit (dari cucu laki-laki)",
+    toggleCicitHide: "\u2212 Sembunyikan cicit",
+    cicitLLabel: "Cicit laki-laki (dari cucu laki-laki)",
+    cicitPLabel: "Cicit perempuan (dari cucu laki-laki)",
+    cicitSub: "Cicit terhalang total hanya bila ada anak laki-laki atau cucu laki-laki. Bila hanya ada cucu perempuan (tanpa cucu laki-laki) yang sudah punya bagian tetap (takmilah/pengganti anak), cicit laki-laki hanya mengambil sisanya sendiri. Khusus bila cucu perempuan itu <b>mahjub</b> (misal karena 2+ anak perempuan sudah mengambil 2/3), cicit laki-laki bisa menyelamatkannya dengan meng-ashabah-kan (ta'shib) bersama.",
+
+    card5Title: "5. Saudara/i",
+    card5Sub: "Otomatis terhalang (hajb) bila ada anak laki-laki, cucu laki-laki, atau ayah. Bila hanya ada kakek, kartu ini tetap aktif karena kasus kakek bersama saudara/i kandung/seayah termasuk yang diperselisihkan ulama (lihat catatan di hasil).",
+    saudaraNote: "Anak dari saudara <b>perempuan</b> (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.",
+    sectionKandung: "Kandung (seayah-seibu)",
+    saudaraLLabel: "Saudara laki-laki",
+    saudariPLabel: "Saudari perempuan",
+    sectionSeayah: "Seayah saja",
+    sectionSeibu: "Seibu saja",
+    saudaraIbuLabel: "Saudara/i (laki-laki & perempuan, bagian sama)",
+
+    card6Title: "6. Keponakan (anak saudara laki-laki)",
+    card6Sub: "Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, atau saudara laki-laki (kandung/seayah). Keponakan kandung menghalangi keponakan seayah.",
+    keponakanNote: "Keponakan <b>perempuan</b> berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini. Hanya anak laki-laki dari saudara laki-laki yang berstatus ahli waris.",
+    dariSaudaraKandung: "Dari saudara kandung",
+    dariSaudaraSeayah: "Dari saudara seayah",
+
+    card7Title: "7. Paman \u2014 khusus saudara ayah",
+    card7Sub: "Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, saudara laki-laki, atau keponakan (di atas). Paman kandung menghalangi paman seayah.",
+    pamanNote: "<b>Perhatian:</b> dalam bahasa sehari-hari \"paman\" bisa berarti saudara laki-laki ayah <i>maupun</i> ibu. Di kalkulator ini, \"paman\" HANYA berarti <b>saudara laki-laki ayah</b> mayit \u2014 karena hanya jalur itu yang berstatus ahli waris. Paman dari pihak <b>ibu</b> (saudara laki-laki ibu), serta bibi dari pihak manapun, berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.",
+    pamanKLabel: "Paman kandung ",
+    pamanKHint: "saudara kandung ayah",
+    pamanALabel: "Paman seayah ",
+    pamanAHint: "saudara seayah dari ayah",
+
+    card8Title: "8. Sepupu \u2014 khusus anak paman dari ayah",
+    card8Sub: "Terhalang total bila ada ahli waris di atas (sampai dengan paman). Anak dari paman kandung menghalangi anak dari paman seayah.",
+    sepupuNote: "<b>Perhatian:</b> \"sepupu\" di sini HANYA berarti anak laki-laki dari <b>paman pihak ayah</b> (saudara laki-laki ayah mayit) di atas, bukan sepupu secara umum. Sepupu <b>perempuan</b>, serta sepupu dari jalur <b>ibu</b> (anak dari saudara ibu, baik laki-laki maupun perempuan bibi/paman ibu), berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.",
+    sepupuKLabel: "Anak paman kandung ",
+    dariAyahHint: "dari ayah",
+    sepupuALabel: "Anak paman seayah ",
+
+    btnHitung: "Hitung Pembagian Warisan",
+    btnReset: "Reset",
+
+    printTitle: "Kalkulator Faraidh \u2014 Hasil Pembagian Warisan",
+    printDateLabel: "Dicetak pada ",
+    resultsTitle: "Hasil Pembagian",
+    btnShare: "\u{1F501} Bagikan Hasil",
+    btnPrint: "\u{1F5A8} Cetak / Simpan PDF",
+    mahjubGeneralNote: "Ahli waris yang Anda isi jumlahnya tetapi <b>tidak muncul</b> di tabel hasil di bawah berarti <b>mahjub (terhalang)</b> oleh ahli waris lain yang lebih berhak, sehingga tidak mendapat bagian warisan sama sekali.",
+    kasusAwalTitle: "Kasus Awal",
+    sebelumAulBadge: "sebelum 'aul/radd/inkisar",
+    thAhliWaris: "Ahli Waris",
+    thFurudh: "Furudh",
+    thSaham: "Saham",
+    rincianSahamTitle: "Rincian Saham",
+    rincianAkhirTitle: "Rincian Akhir",
+    setelahAulBadge: "setelah 'aul/radd/inkisar",
+    ashlulMasalahLabel: "Ashlul Mas'alah",
+    ashlulJamiahAkhirLabel: "Ashlul Jami'ah Akhir",
+    thJml: "Jml",
+    thSahamOrang: "Saham/Orang",
+    thPersen: "%",
+    thNominal: "Nominal",
+    amDetailSummary: "Detail teknis: penyesuaian ashlul mas'alah ('aul / radd / inkisar)",
+    finalDisclaimer: "Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama yang berlaku umum di Indonesia. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.",
+    footerCredit: "Dibuat oleh <b>Danara Osa Raharsa</b> with Claude",
+    devTestLink: "Jalankan kasus uji internal (verifikasi perhitungan)",
+    errorNoHeir: "Masukkan minimal satu ahli waris terlebih dahulu.",
+
+    hartaKotorLabel: "Harta kotor (peninggalan)",
+    biayaJenazahRowLabel: "Biaya pengurusan jenazah",
+    hutangRowLabel: "Hutang mayit",
+    wasiatRowLabel: "Wasiat (untuk non-ahli waris)",
+    hartaBersihLabel: "Harta bersih dibagi waris",
+    wasiatWarnPart1: "Wasiat yang dimasukkan",
+    wasiatWarnPart2: "melebihi batas maksimal 1/3 dari harta setelah hutang, sehingga otomatis dibatasi menjadi",
+    wasiatWarnPart3: "Wasiat lebih dari 1/3 hanya sah bila seluruh ahli waris yang berhak menyetujuinya.",
+
+    badge_furudh: "Furudh",
+    badge_ashabah: "Ashabah",
+    badge_mahjub: "Mahjub",
+    badge_mixed: "Furudh + Ashabah",
+    badge_muqasamah: "Muqasamah",
+    badge_mauquf: "Mauquf"
+  },
+  ar: {
+    pageTitle: "\u062D\u0627\u0633\u0628\u0629 \u0627\u0644\u0641\u0631\u0627\u0626\u0636",
+    eyebrow: "\u0639\u0644\u0645 \u0627\u0644\u0641\u0631\u0627\u0626\u0636 \u2014 \u0639\u0644\u0645 \u0627\u0644\u0645\u0648\u0627\u0631\u064A\u062B \u0641\u064A \u0627\u0644\u0625\u0633\u0644\u0627\u0645",
+    appTitle: "\u062D\u0627\u0633\u0628\u0629 \u0627\u0644\u0641\u0631\u0627\u0626\u0636",
+    appIntro: "\u0627\u062D\u0633\u0628 \u062A\u0648\u0632\u064A\u0639 \u0627\u0644\u0645\u064A\u0631\u0627\u062B \u0648\u0641\u0642 \u0623\u062D\u0643\u0627\u0645 \u0627\u0644\u0641\u0631\u0627\u0626\u0636 \u0628\u0646\u0627\u0621ً \u0639\u0644\u0649 \u0627\u0644\u0648\u0631\u062B\u0629 \u0627\u0644\u0645\u0648\u062C\u0648\u062F\u064A\u0646. \u0627\u0645\u0644\u0623 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A \u0623\u062F\u0646\u0627\u0647\u060C \u0648\u0633\u064A\u062D\u062F\u062F \u0627\u0644\u0646\u0638\u0627\u0645 \u0645\u0646 \u0627\u0644\u0645\u062D\u062C\u0648\u0628 \u0648\u0645\u0642\u062F\u0627\u0631 \u0646\u0635\u064A\u0628 \u0643\u0644 \u0648\u0627\u0631\u062B\u060C \u0648\u064A\u0636\u0628\u0637 \u0627\u0644\u0646\u062A\u064A\u062C\u0629 \u0639\u0646\u062F \u062D\u062F\u0648\u062B \u0627\u0644\u0639\u0648\u0644 \u0623\u0648 \u0627\u0644\u0631\u062F.",
+    menuTitle: "\u0627\u0644\u0642\u0627\u0626\u0645\u0629",
+    menuLanguageLabel: "\u0627\u0644\u0644\u063A\u0629",
+    presetLabel: "\u062C\u0631\u0651\u0628 \u0645\u062B\u0627\u0644\u0627ً:",
+    presetIstriAnak: "\u0632\u0648\u062C\u0629 + \u0627\u0628\u0646\u0627\u0646",
+    presetAyahIbu: "\u0623\u0628 + \u0623\u0645 \u0641\u0642\u0637",
+    presetAul: "\u0632\u0648\u062C + \u0623\u0645 + \u0623\u062E\u062A\u0627\u0646",
+    presetSaudaraSaja: "\u0625\u062E\u0648\u0629 \u0641\u0642\u0637",
+    presetUmariyyatain: "\u0627\u0644\u0639\u0645\u0631\u064A\u062A\u0627\u0646 (\u0632\u0648\u062C+\u0623\u0628+\u0623\u0645)",
+    presetMusytarakah: "\u0627\u0644\u0645\u0634\u062A\u0631\u0643\u0629",
+    presetMuqasamah: "\u062C\u062F \u0645\u0639 \u0625\u062E\u0648\u0629 (\u0645\u0642\u0627\u0633\u0645\u0629)",
+    presetMuaddah: "\u0627\u0644\u0645\u0639\u0627\u062F\u0629",
+    presetAkdariyyah: "\u0627\u0644\u0623\u0643\u062F\u0631\u064A\u0629",
+
+    glossaryTitle: "\u{1F4D6} \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0641\u064A \u0647\u0630\u0647 \u0627\u0644\u062D\u0627\u0633\u0628\u0629",
+    glossaryIntro: "\u0645\u0644\u062E\u0635 \u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0627\u0644\u0641\u0631\u0627\u0626\u0636 \u0627\u0644\u0645\u0633\u062A\u062E\u062F\u0645\u0629 \u0641\u064A \u0647\u0630\u0647 \u0627\u0644\u062D\u0627\u0633\u0628\u0629.",
+    gAshabulFurudhT: "\u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0641\u0631\u0648\u0636",
+    gAshabulFurudhD: "\u0627\u0644\u0648\u0631\u062B\u0629 \u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0623\u0646\u0635\u0628\u0629 \u0627\u0644\u0645\u0642\u062F\u0631\u0629 \u0634\u0631\u0639\u0627ً: 1/2\u060C 1/4\u060C 1/8\u060C 1/3\u060C 2/3\u060C \u0623\u0648 1/6.",
+    gAshabahT: "\u0627\u0644\u0639\u0635\u0628\u0629",
+    gAshabahD: "\u0627\u0644\u0648\u0631\u062B\u0629 \u0627\u0644\u0630\u064A\u0646 \u064A\u0623\u062E\u0630\u0648\u0646 <i>\u0627\u0644\u0628\u0627\u0642\u064A</i> \u0628\u0639\u062F \u0642\u0633\u0645\u0629 \u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0641\u0631\u0648\u0636 \u2014 \u0623\u0648 \u0643\u0644 \u0627\u0644\u062A\u0631\u0643\u0629 \u0625\u0646 \u0644\u0645 \u064A\u0648\u062C\u062F \u0635\u0627\u062D\u0628 \u0641\u0631\u0636 \u0622\u062E\u0631.",
+    gHajbT: "\u0627\u0644\u062D\u062C\u0628",
+    gHajbD: "\u0645\u0646\u0639 \u0627\u0644\u0648\u0627\u0631\u062B \u0645\u0646 \u0627\u0644\u0645\u064A\u0631\u0627\u062B \u0643\u0644\u064A\u0627ً \u0623\u0648 \u062C\u0632\u0626\u064A\u0627ً \u0628\u0633\u0628\u0628 \u0648\u062C\u0648\u062F \u0648\u0627\u0631\u062B \u0622\u062E\u0631 \u0623\u0642\u0631\u0628 \u0623\u0648 \u0623\u0642\u0648\u0649.",
+    gAulT: "\u0627\u0644\u0639\u0648\u0644",
+    gAulD: "\u0632\u064A\u0627\u062F\u0629 \u0645\u062C\u0645\u0648\u0639 \u0641\u0631\u0648\u0636 \u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0641\u0631\u0648\u0636 \u0639\u0644\u0649 \u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629\u060C \u0641\u064A\u0631\u0641\u0639 \u0627\u0644\u0623\u0635\u0644 \u0648\u062A\u0646\u0642\u0635 \u0627\u0644\u0623\u0646\u0635\u0628\u0629 \u062C\u0645\u064A\u0639\u0627ً \u0628\u0627\u0644\u062A\u0646\u0627\u0633\u0628.",
+    gRaddT: "\u0627\u0644\u0631\u062F",
+    gRaddD: "\u0646\u0642\u0635 \u0645\u062C\u0645\u0648\u0639 \u0641\u0631\u0648\u0636 \u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0641\u0631\u0648\u0636 \u0639\u0646 \u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629 \u0645\u0639 \u0639\u062F\u0645 \u0648\u062C\u0648\u062F \u0639\u0635\u0628\u0629\u060C \u0641\u064A\u0631\u062F \u0627\u0644\u0628\u0627\u0642\u064A \u0639\u0644\u064A\u0647\u0645 \u0628\u0627\u0644\u0646\u0633\u0628\u0629 (\u0628\u062E\u0644\u0627\u0641 \u0627\u0644\u0632\u0648\u062C/\u0627\u0644\u0632\u0648\u062C\u0629\u060C \u062D\u0633\u0628 \u0627\u0644\u0631\u0623\u064A \u0627\u0644\u0645\u0639\u062A\u0645\u062F \u0641\u064A \u0647\u0630\u0647 \u0627\u0644\u062D\u0627\u0633\u0628\u0629).",
+    gDzawilArhamT: "\u0630\u0648\u0648 \u0627\u0644\u0623\u0631\u062D\u0627\u0645",
+    gDzawilArhamD: "\u0623\u0642\u0627\u0631\u0628 \u0644\u064A\u0633\u0648\u0627 \u0645\u0646 \u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0641\u0631\u0648\u0636 \u0648\u0644\u0627 \u0627\u0644\u0639\u0635\u0628\u0629 (\u063A\u0627\u0644\u0628\u0627ً \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0625\u0646\u0627\u062B\u060C \u0645\u062B\u0644 \u0623\u0648\u0644\u0627\u062F \u0627\u0644\u0628\u0646\u062A\u060C \u0623\u0648 \u062C\u062F/\u0639\u0645 \u0627\u0644\u0623\u0645). \u0645\u062E\u062A\u0644\u0641 \u0641\u064A\u0647 \u0628\u064A\u0646 \u0627\u0644\u0641\u0642\u0647\u0627\u0621 \u0648<b>\u0644\u0627 \u062A\u062D\u0633\u0628\u0647</b> \u0647\u0630\u0647 \u0627\u0644\u0623\u062F\u0627\u0629.",
+    gAshlulT: "\u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629 / \u0627\u0644\u062C\u0627\u0645\u0639\u0629",
+    gAshlulD: "\u0627\u0644\u0645\u0642\u0627\u0645 \u0627\u0644\u0645\u0634\u062A\u0631\u0643 \u0627\u0644\u0630\u064A \u064A\u062C\u0639\u0644 \u0633\u0647\u0627\u0645 \u0643\u0644 \u0648\u0627\u0631\u062B \u0631\u0642\u0645\u0627ً \u0635\u062D\u064A\u062D\u0627ً. \u201C\u0627\u0644\u062C\u0627\u0645\u0639\u0629\u201D \u0647\u064A \u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629 \u0628\u0639\u062F \u0627\u0644\u062A\u0635\u062D\u064A\u062D (\u0639\u0648\u0644/\u0631\u062F/\u062A\u0635\u062D\u064A\u062D).",
+    gTakmilahT: "\u0627\u0644\u062A\u0643\u0645\u0644\u0629",
+    gTakmilahD: "\u0646\u0635\u064A\u0628 \u064A\u0643\u0645\u0651\u0644 \u0628\u0647 \u0628\u0627\u0642\u064A \u0627\u0644\u0641\u0631\u0636\u060C \u0645\u062B\u0644 \u0628\u0646\u062A \u0627\u0644\u0627\u0628\u0646 \u062A\u0623\u062E\u0630 1/6 \u0644\u064A\u0643\u062A\u0645\u0644 \u0627\u0644\u062B\u0644\u062B\u0627\u0646 \u0645\u0639 \u0627\u0644\u0628\u0646\u062A.",
+    gMuqasamahT: "\u0627\u0644\u0645\u0642\u0627\u0633\u0645\u0629 / \u0627\u0644\u0645\u0634\u0627\u0631\u0643\u0629",
+    gMuqasamahD: "\u0627\u0634\u062A\u0631\u0627\u0643 \u0641\u0626\u062A\u064A\u0646 \u0645\u062E\u062A\u0644\u0641\u062A\u064A\u0646 \u0641\u064A \u0627\u0644\u0645\u064A\u0631\u0627\u062B (\u0645\u062B\u0644 \u0627\u0644\u062C\u062F \u0648\u0627\u0644\u0625\u062E\u0648\u0629\u060C \u0639\u0646\u062F \u0632\u064A\u062F \u0628\u0646 \u062B\u0627\u0628\u062A) \u0643\u0623\u0646\u0647\u0645\u0627 \u0641\u0626\u0629 \u0648\u0627\u062D\u062F\u0629.",
+
+    card1Title: "1. \u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u0645\u064A\u062A",
+    card1Sub: "\u062C\u0646\u0633 \u0627\u0644\u0645\u062A\u0648\u0641\u0649 \u064A\u062D\u062F\u062F \u0646\u0648\u0639 \u0627\u0644\u0632\u0648\u062C \u0627\u0644\u0648\u0627\u0631\u062B.",
+    genderLabel: "\u062C\u0646\u0633 \u0627\u0644\u0645\u064A\u062A",
+    genderL: "\u0630\u0643\u0631",
+    genderP: "\u0623\u0646\u062B\u0649",
+    totalHartaLabel: "\u0625\u062C\u0645\u0627\u0644\u064A \u0627\u0644\u062A\u0631\u0643\u0629 (\u0631\u0648\u0628\u064A\u0629) ",
+    totalHartaHint: "\u0627\u062E\u062A\u064A\u0627\u0631\u064A\u060C \u0644\u062D\u0633\u0627\u0628 \u0627\u0644\u0645\u0628\u0644\u063A",
+    biayaJenazahLabel: "\u062A\u0643\u0627\u0644\u064A\u0641 \u0627\u0644\u062C\u0646\u0627\u0632\u0629 (\u0631\u0648\u0628\u064A\u0629) ",
+    biayaJenazahHint: "\u062A\u064F\u0642\u062F\u0651\u0645 \u0642\u0628\u0644 \u0627\u0644\u062F\u064A\u0646 \u0648\u0627\u0644\u0648\u0635\u064A\u0629\u060C \u0627\u062E\u062A\u064A\u0627\u0631\u064A",
+    hutangLabel: "\u062F\u064A\u0646 \u0627\u0644\u0645\u064A\u062A (\u0631\u0648\u0628\u064A\u0629) ",
+    hutangHint: "\u064A\u064F\u0633\u062F\u0651\u062F \u0642\u0628\u0644 \u0642\u0633\u0645\u0629 \u0627\u0644\u0645\u064A\u0631\u0627\u062B\u060C \u0627\u062E\u062A\u064A\u0627\u0631\u064A",
+    wasiatLabel: "\u0648\u0635\u064A\u0629 \u0644\u063A\u064A\u0631 \u0627\u0644\u0648\u0631\u062B\u0629 (\u0631\u0648\u0628\u064A\u0629) ",
+    wasiatHint: "\u062D\u062F \u0623\u0642\u0635\u0649 1/3 \u0645\u0646 \u0627\u0644\u062A\u0631\u0643\u0629 \u0628\u0639\u062F \u0627\u0644\u062F\u064A\u0646\u060C \u0627\u062E\u062A\u064A\u0627\u0631\u064A",
+
+    card2Title: "2. \u0627\u0644\u0632\u0648\u062C",
+    istriFieldLabel: "\u0627\u0644\u0632\u0648\u062C\u0629",
+    istriFieldHint: "\u0639\u062F\u062F \u0627\u0644\u0632\u0648\u062C\u0627\u062A \u0627\u0644\u0623\u062D\u064A\u0627\u0621 (0 \u0625\u0646 \u0644\u0645 \u062A\u0648\u062C\u062F\u060C \u0628\u062D\u062F \u0623\u0642\u0635\u0649 4)",
+    istriWarningText: "\u0627\u0644\u062D\u062F \u0627\u0644\u0623\u0642\u0635\u0649 4 \u0632\u0648\u062C\u0627\u062A \u0634\u0631\u0639\u0627ً \u2014 \u062A\u0645 \u0636\u0628\u0637 \u0627\u0644\u0639\u062F\u062F \u062A\u0644\u0642\u0627\u0626\u064A\u0627ً \u0625\u0644\u0649 4.",
+    suamiFieldLabel: "\u0627\u0644\u0632\u0648\u062C",
+    janinIstriLabel: "\u0647\u0644 \u0627\u0644\u0632\u0648\u062C\u0629 \u062D\u0627\u0645\u0644\u061F (\u0627\u0644\u062D\u0645\u0644)",
+    janinIstriNote: "\u0625\u0630\u0627 \u062A\u0645 \u0627\u0644\u062A\u062D\u062F\u064A\u062F\u060C \u064A\u064F\u0639\u0627\u0645\u0644 \u0627\u0644\u062D\u0645\u0644 \u0643\u0648\u0627\u0631\u062B \u0645\u062D\u062A\u0645\u0644 \u0645\u062C\u0647\u0648\u0644 \u0627\u0644\u062C\u0646\u0633 \u0648\u0627\u0644\u0639\u062F\u062F. \u064A\u064F\u0639\u0637\u0649 \u0628\u0627\u0642\u064A \u0627\u0644\u0648\u0631\u062B\u0629 \u0623\u0642\u0644 \u0646\u0635\u064A\u0628 \u0645\u0624\u0643\u062F \u0641\u064A \u062C\u0645\u064A\u0639 \u0627\u0644\u0627\u062D\u062A\u0645\u0627\u0644\u0627\u062A\u060C \u0648\u064A\u064F\u0648\u0642\u0641 \u0627\u0644\u0628\u0627\u0642\u064A \u062D\u062A\u0649 \u0627\u0644\u0648\u0636\u0639.",
+    janinLabel: "\u0627\u0644\u062D\u0645\u0644 (\u0645\u0648\u0642\u0648\u0641)",
+    janinMauqufNote: "\u064A\u064F\u0648\u0642\u0641 \u0647\u0630\u0627 \u0627\u0644\u0646\u0635\u064A\u0628 \u062D\u062A\u0649 \u0648\u0636\u0639 \u0627\u0644\u062D\u0645\u0644\u060C \u0644\u0623\u0646 \u062C\u0646\u0633\u0647 \u0648\u0639\u062F\u062F\u0647 \u063A\u064A\u0631 \u0645\u0639\u0631\u0648\u0641\u064A\u0646 \u0628\u0639\u062F.",
+    janinSpecialNote: "\u064A\u0648\u062C\u062F <b>\u062D\u0645\u0644</b> \u0644\u0645 \u064A\u0648\u0644\u062F \u0628\u0639\u062F. \u0648\u0641\u0642 \u0645\u0630\u0647\u0628 \u0627\u0644\u0634\u0627\u0641\u0639\u064A\u0629: \u064A\u064F\u0639\u0637\u0649 \u0628\u0627\u0642\u064A \u0627\u0644\u0648\u0631\u062B\u0629 \u0623\u0642\u0644 \u0646\u0635\u064A\u0628 \u0645\u0624\u0643\u062F\u060C \u0648\u064A\u064F\u0648\u0642\u0641 \u0627\u0644\u0628\u0627\u0642\u064A \u062D\u062A\u0649 \u0627\u0644\u0648\u0636\u0639 \u062B\u0645 \u064A\u064F\u0639\u0627\u062F \u062A\u0648\u0632\u064A\u0639\u0647 \u062D\u0633\u0628 \u0627\u0644\u062C\u0646\u0633 \u0648\u0627\u0644\u0639\u062F\u062F \u0627\u0644\u0641\u0639\u0644\u064A.",
+
+    card3Title: "3. \u0627\u0644\u0648\u0627\u0644\u062F\u0627\u0646 \u0648\u0627\u0644\u062C\u062F/\u0627\u0644\u062C\u062F\u0629",
+    card3Sub: "\u064A\u064F\u062D\u0633\u0628 \u0627\u0644\u062C\u062F \u0648\u0627\u0644\u062C\u062F\u0629 \u0641\u0642\u0637 \u0625\u0646 \u0644\u0645 \u064A\u0648\u062C\u062F \u0627\u0644\u0623\u0628/\u0627\u0644\u0623\u0645.",
+    ayahLabel: "\u0627\u0644\u0623\u0628",
+    kakekLabel: "\u0627\u0644\u062C\u062F (\u0623\u0628\u0648 \u0627\u0644\u0623\u0628)",
+    ibuLabel: "\u0627\u0644\u0623\u0645",
+    nenekIbuLabel: "\u0627\u0644\u062C\u062F\u0629 \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0645 (\u0623\u0645 \u0627\u0644\u0623\u0645)",
+    nenekAyahLabel: "\u0627\u0644\u062C\u062F\u0629 \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628 (\u0623\u0645 \u0627\u0644\u0623\u0628)",
+    nenekNote: "\u062A\u0639\u062A\u0645\u062F \u0647\u0630\u0647 \u0627\u0644\u062D\u0627\u0633\u0628\u0629 \u0627\u0644\u0631\u0623\u064A \u0627\u0644\u0642\u0627\u0626\u0644 \u0628\u0623\u0646 <b>\u0627\u0644\u062C\u062F\u0629 (\u0645\u0646 \u0623\u064A \u0627\u0644\u062C\u0647\u062A\u064A\u0646) \u062A\u064F\u062D\u062C\u0628 \u0641\u0642\u0637 \u0628\u0648\u062C\u0648\u062F \u0627\u0644\u0623\u0645</b>\u060C \u0641\u062A\u0628\u0642\u0649 \u062C\u062F\u0629 \u0627\u0644\u0623\u0628 \u0648\u0627\u0631\u062B\u0629 \u0648\u0625\u0646 \u0643\u0627\u0646 \u0627\u0644\u0623\u0628 \u062D\u064A\u0627ً. \u0628\u0639\u0636 \u0627\u0644\u0641\u0642\u0647\u0627\u0621 \u064A\u0631\u0648\u0646 \u0623\u0646 \u0627\u0644\u0623\u0628 \u064A\u062D\u062C\u0628 \u062C\u062F\u062A\u0647 \u0623\u064A\u0636\u0627ً.",
+    toggleBuyutShow: "+ \u0625\u0638\u0647\u0627\u0631 \u0627\u0644\u062C\u062F \u0627\u0644\u0623\u0639\u0644\u0649",
+    toggleBuyutHide: "\u2212 \u0625\u062E\u0641\u0627\u0621 \u0627\u0644\u062C\u062F \u0627\u0644\u0623\u0639\u0644\u0649",
+    buyutLLabel: "\u062C\u062F \u0627\u0644\u062C\u062F (\u0623\u0628\u0648 \u0623\u0628\u064A \u0627\u0644\u0623\u0628)",
+    buyutLNote: "\u0627\u0644\u062C\u062F \u0648\u062C\u062F \u0627\u0644\u062C\u062F \u0623\u0639\u0644\u0627\u0647 \u062E\u0627\u0635\u0627\u0646 \u0628\u0627\u0644\u062C\u062F \u0627\u0644\u0635\u062D\u064A\u062D (\u0639\u0635\u0628\u0629). \u0627\u0644\u062C\u062F \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0645 \u0630\u0648 \u0623\u0631\u062D\u0627\u0645\u060C \u063A\u064A\u0631 \u0645\u062A\u0648\u0641\u0631.",
+    buyutDariKakekLabel: "\u0623\u0645 \u0627\u0644\u062C\u062F <span class=\"hint\">(\u0623\u0645 \u0623\u0628\u064A \u0627\u0644\u0623\u0628)</span>",
+    buyutDariNenekAyahLabel: "\u0623\u0645 \u062C\u062F\u0629 \u0627\u0644\u0623\u0628 <span class=\"hint\">(\u0623\u0645 \u0623\u0645 \u0627\u0644\u0623\u0628)</span>",
+    buyutDariNenekIbuLabel: "\u0623\u0645 \u062C\u062F\u0629 \u0627\u0644\u0623\u0645 <span class=\"hint\">(\u0623\u0645 \u0623\u0645 \u0627\u0644\u0623\u0645)</span>",
+    buyutPNote: "\u0641\u0642\u0637 \u0627\u0644\u062C\u062F\u0627\u062A \u0627\u0644\u062B\u0644\u0627\u062B \u0623\u0639\u0644\u0627\u0647 \u0635\u062D\u064A\u062D\u0627\u062A. \u0627\u0644\u062C\u062F\u0629 \u0627\u0644\u0623\u0639\u0644\u0649 \u062A\u064F\u062D\u0633\u0628 \u0641\u0642\u0637 \u0625\u0646 \u0644\u0645 \u062A\u0648\u062C\u062F \u0627\u0644\u0623\u0645 \u0648\u0644\u0627 \u0627\u0644\u062C\u062F\u0629.",
+
+    card4Title: "4. \u0627\u0644\u0623\u0648\u0644\u0627\u062F \u0648\u0627\u0644\u0623\u062D\u0641\u0627\u062F",
+    anakCucuNote: "\u0627\u0644\u0623\u062D\u0641\u0627\u062F \u0647\u0646\u0627 \u062E\u0627\u0635\u0629 \u0628\u0630\u0631\u064A\u0629 <b>\u0627\u0644\u0627\u0628\u0646</b>. \u0623\u0648\u0644\u0627\u062F \u0627\u0644\u0628\u0646\u062A \u0630\u0648\u0648 \u0623\u0631\u062D\u0627\u0645\u060C \u063A\u064A\u0631 \u0645\u062A\u0648\u0641\u0631\u064A\u0646 \u0647\u0646\u0627.",
+    anakLLabel: "\u0627\u0628\u0646",
+    anakPLabel: "\u0628\u0646\u062A",
+    jumlahHint: "\u0627\u0644\u0639\u062F\u062F",
+    cucuLLabel: "\u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646",
+    cucuPLabel: "\u0628\u0646\u062A \u0627\u0644\u0627\u0628\u0646",
+    toggleCicitShow: "+ \u0625\u0638\u0647\u0627\u0631 \u0623\u0648\u0644\u0627\u062F \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646",
+    toggleCicitHide: "\u2212 \u0625\u062E\u0641\u0627\u0621",
+    cicitLLabel: "\u0627\u0628\u0646 \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646",
+    cicitPLabel: "\u0628\u0646\u062A \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646",
+    cicitSub: "\u064A\u064F\u062D\u062C\u0628 \u0623\u0648\u0644\u0627\u062F \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646 \u0641\u0642\u0637 \u0628\u0648\u062C\u0648\u062F \u0627\u0628\u0646 \u0623\u0648 \u0627\u0628\u0646 \u0627\u0628\u0646.",
+
+    card5Title: "5. \u0627\u0644\u0625\u062E\u0648\u0629",
+    card5Sub: "\u064A\u064F\u062D\u062C\u0628\u0648\u0646 \u0628\u0648\u062C\u0648\u062F \u0627\u0628\u0646\u060C \u0627\u0628\u0646 \u0627\u0628\u0646\u060C \u0623\u0648 \u0627\u0644\u0623\u0628. \u0648\u062C\u0648\u062F \u0627\u0644\u062C\u062F \u0641\u0642\u0637 \u0644\u0627 \u064A\u062D\u062C\u0628\u0647\u0645 (\u062E\u0644\u0627\u0641 \u0641\u064A \u0630\u0644\u0643\u060C \u0627\u0646\u0638\u0631 \u0627\u0644\u0645\u0644\u0627\u062D\u0638\u0629).",
+    saudaraNote: "\u0623\u0648\u0644\u0627\u062F \u0627\u0644\u0623\u062E\u062A \u0630\u0648\u0648 \u0623\u0631\u062D\u0627\u0645. \u0641\u0642\u0637 \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0623\u062E \u0648\u0627\u0631\u062B\u0648\u0646.",
+    sectionKandung: "\u0623\u0634\u0642\u0627\u0621",
+    saudaraLLabel: "\u0623\u062E",
+    saudariPLabel: "\u0623\u062E\u062A",
+    sectionSeayah: "\u0644\u0623\u0628 \u0641\u0642\u0637",
+    sectionSeibu: "\u0644\u0623\u0645 \u0641\u0642\u0637",
+    saudaraIbuLabel: "\u0625\u062E\u0648\u0629/\u0623\u062E\u0648\u0627\u062A \u0644\u0623\u0645 (\u0630\u0643\u0648\u0631 \u0648\u0625\u0646\u0627\u062B\u060C \u0646\u0641\u0633 \u0627\u0644\u0646\u0635\u064A\u0628)",
+
+    card6Title: "6. \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0623\u062E",
+    card6Sub: "\u064A\u064F\u062D\u062C\u0628\u0648\u0646 \u0628\u0648\u062C\u0648\u062F \u0627\u0628\u0646/\u0627\u0628\u0646 \u0627\u0628\u0646\u060C \u0627\u0644\u0623\u0628\u060C \u0627\u0644\u062C\u062F\u060C \u0623\u0648 \u0627\u0644\u0623\u062E.",
+    keponakanNote: "\u0641\u0642\u0637 \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0623\u062E \u0627\u0644\u0630\u0643\u0648\u0631 \u0648\u0627\u0631\u062B\u0648\u0646.",
+    dariSaudaraKandung: "\u0645\u0646 \u0627\u0644\u0623\u062E \u0627\u0644\u0634\u0642\u064A\u0642",
+    dariSaudaraSeayah: "\u0645\u0646 \u0627\u0644\u0623\u062E \u0644\u0623\u0628",
+
+    card7Title: "7. \u0627\u0644\u0639\u0645 \u2014 \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628 \u0641\u0642\u0637",
+    card7Sub: "\u064A\u064F\u062D\u062C\u0628 \u0628\u0648\u062C\u0648\u062F \u0627\u0628\u0646/\u0627\u0628\u0646 \u0627\u0628\u0646\u060C \u0627\u0644\u0623\u0628\u060C \u0627\u0644\u062C\u062F\u060C \u0627\u0644\u0623\u062E\u060C \u0623\u0648 \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0623\u062E.",
+    pamanNote: "<b>\u062A\u0646\u0628\u064A\u0647:</b> \u0647\u0646\u0627 \u0627\u0644\u0645\u0642\u0635\u0648\u062F \u0641\u0642\u0637 <b>\u0639\u0645 \u0627\u0644\u0645\u064A\u062A \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628</b>\u060C \u0644\u0623\u0646 \u0639\u0645 \u0627\u0644\u0623\u0645 \u0630\u0648 \u0623\u0631\u062D\u0627\u0645 \u0648\u0644\u064A\u0633 \u0648\u0627\u0631\u062B\u0627ً.",
+    pamanKLabel: "\u0627\u0644\u0639\u0645 \u0627\u0644\u0634\u0642\u064A\u0642 ",
+    pamanKHint: "\u0623\u062E \u0627\u0644\u0623\u0628 \u0627\u0644\u0634\u0642\u064A\u0642",
+    pamanALabel: "\u0627\u0644\u0639\u0645 \u0644\u0623\u0628 ",
+    pamanAHint: "\u0623\u062E \u0627\u0644\u0623\u0628 \u0644\u0623\u0628",
+
+    card8Title: "8. \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0639\u0645 \u2014 \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628 \u0641\u0642\u0637",
+    card8Sub: "\u064A\u064F\u062D\u062C\u0628\u0648\u0646 \u0628\u0648\u062C\u0648\u062F \u0623\u064A \u0645\u0646 \u0627\u0644\u0648\u0631\u062B\u0629 \u0623\u0639\u0644\u0627\u0647.",
+    sepupuNote: "\u0641\u0642\u0637 \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0639\u0645 \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628 \u0627\u0644\u0630\u0643\u0648\u0631 \u0648\u0627\u0631\u062B\u0648\u0646.",
+    sepupuKLabel: "\u0627\u0628\u0646 \u0627\u0644\u0639\u0645 \u0627\u0644\u0634\u0642\u064A\u0642 ",
+    dariAyahHint: "\u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628",
+    sepupuALabel: "\u0627\u0628\u0646 \u0627\u0644\u0639\u0645 \u0644\u0623\u0628 ",
+
+    btnHitung: "\u0627\u062D\u0633\u0628 \u0627\u0644\u062A\u0648\u0632\u064A\u0639",
+    btnReset: "\u0625\u0639\u0627\u062F\u0629 \u0636\u0628\u0637",
+
+    printTitle: "\u062D\u0627\u0633\u0628\u0629 \u0627\u0644\u0641\u0631\u0627\u0626\u0636 \u2014 \u0646\u062A\u064A\u062C\u0629 \u0627\u0644\u062A\u0648\u0632\u064A\u0639",
+    printDateLabel: "\u0637ُ\u0628\u0639 \u0628\u062A\u0627\u0631\u064A\u062E ",
+    resultsTitle: "\u0646\u062A\u064A\u062C\u0629 \u0627\u0644\u062A\u0648\u0632\u064A\u0639",
+    btnShare: "\u{1F501} \u0645\u0634\u0627\u0631\u0643\u0629 \u0627\u0644\u0646\u062A\u064A\u062C\u0629",
+    btnPrint: "\u{1F5A8} \u0637\u0628\u0627\u0639\u0629 / \u062D\u0641\u0638 PDF",
+    mahjubGeneralNote: "\u0623\u064A \u0648\u0627\u0631\u062B \u0623\u062F\u062E\u0644\u062A \u0639\u062F\u062F\u0647 \u0648\u0644\u0645 \u064A\u0638\u0647\u0631 \u0641\u064A \u0627\u0644\u062C\u062F\u0648\u0644 \u0623\u062F\u0646\u0627\u0647 \u064A\u0639\u0646\u064A \u0623\u0646\u0647 <b>\u0645\u062D\u062C\u0648\u0628</b>.",
+    kasusAwalTitle: "\u0627\u0644\u062D\u0627\u0644\u0629 \u0627\u0644\u0623\u0648\u0644\u0649",
+    sebelumAulBadge: "\u0642\u0628\u0644 \u0627\u0644\u0639\u0648\u0644/\u0627\u0644\u0631\u062F/\u0627\u0644\u062A\u0635\u062D\u064A\u062D",
+    thAhliWaris: "\u0627\u0644\u0648\u0627\u0631\u062B",
+    thFurudh: "\u0627\u0644\u0641\u0631\u0636",
+    thSaham: "\u0627\u0644\u0633\u0647\u0645",
+    rincianSahamTitle: "\u062A\u0641\u0635\u064A\u0644 \u0627\u0644\u0633\u0647\u0627\u0645",
+    rincianAkhirTitle: "\u0627\u0644\u062A\u0641\u0635\u064A\u0644 \u0627\u0644\u0646\u0647\u0627\u0626\u064A",
+    setelahAulBadge: "\u0628\u0639\u062F \u0627\u0644\u0639\u0648\u0644/\u0627\u0644\u0631\u062F/\u0627\u0644\u062A\u0635\u062D\u064A\u062D",
+    ashlulMasalahLabel: "\u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629",
+    ashlulJamiahAkhirLabel: "\u0627\u0644\u062C\u0627\u0645\u0639\u0629 \u0627\u0644\u0646\u0647\u0627\u0626\u064A\u0629",
+    thJml: "\u0627\u0644\u0639\u062F\u062F",
+    thSahamOrang: "\u0627\u0644\u0633\u0647\u0645/\u0644\u0644\u0641\u0631\u062F",
+    thPersen: "%",
+    thNominal: "\u0627\u0644\u0645\u0628\u0644\u063A",
+    amDetailSummary: "\u062A\u0641\u0627\u0635\u064A\u0644 \u062A\u0642\u0646\u064A\u0629: \u062A\u0639\u062F\u064A\u0644 \u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629 (\u0639\u0648\u0644/\u0631\u062F/\u062A\u0635\u062D\u064A\u062D)",
+    finalDisclaimer: "\u062A\u062D\u0633\u0628 \u0647\u0630\u0647 \u0627\u0644\u0623\u062F\u0627\u0629 \u0627\u0644\u062D\u0627\u0644\u0627\u062A \u0627\u0644\u0634\u0627\u0626\u0639\u0629 \u0648\u0641\u0642 \u0631\u0623\u064A \u0627\u0644\u062C\u0645\u0647\u0648\u0631. \u0644\u0644\u062D\u0627\u0644\u0627\u062A \u0627\u0644\u0646\u0627\u062F\u0631\u0629 \u062C\u062F\u0627ً\u060C \u064A\u064F\u0646\u0635\u062D \u0628\u0645\u0631\u0627\u062C\u0639\u0629 \u0623\u0647\u0644 \u0627\u0644\u0639\u0644\u0645.",
+    footerCredit: "\u0623\u0646\u0634\u0623\u0647\u0627 <b>Danara Osa Raharsa</b> \u0628\u0645\u0633\u0627\u0639\u062F\u0629 Claude",
+    devTestLink: "\u062A\u0634\u063A\u064A\u0644 \u0627\u062E\u062A\u0628\u0627\u0631\u0627\u062A \u0627\u0644\u062A\u062D\u0642\u0642 \u0627\u0644\u062F\u0627\u062E\u0644\u064A\u0629",
+    errorNoHeir: "\u064A\u064F\u0631\u062C\u0649 \u0625\u062F\u062E\u0627\u0644 \u0648\u0627\u0631\u062B \u0648\u0627\u062D\u062F \u0639\u0644\u0649 \u0627\u0644\u0623\u0642\u0644.",
+
+    hartaKotorLabel: "\u0625\u062C\u0645\u0627\u0644\u064A \u0627\u0644\u062A\u0631\u0643\u0629",
+    biayaJenazahRowLabel: "\u062A\u0643\u0627\u0644\u064A\u0641 \u0627\u0644\u062C\u0646\u0627\u0632\u0629",
+    hutangRowLabel: "\u062F\u064A\u0646 \u0627\u0644\u0645\u064A\u062A",
+    wasiatRowLabel: "\u0627\u0644\u0648\u0635\u064A\u0629",
+    hartaBersihLabel: "\u0635\u0627\u0641\u064A \u0627\u0644\u062A\u0631\u0643\u0629 \u0627\u0644\u0645\u0648\u0632\u0651\u0639",
+    wasiatWarnPart1: "\u0627\u0644\u0648\u0635\u064A\u0629 \u0627\u0644\u0645\u062F\u062E\u0644\u0629",
+    wasiatWarnPart2: "\u062A\u062A\u062C\u0627\u0648\u0632 \u0627\u0644\u062D\u062F \u0627\u0644\u0623\u0642\u0635\u0649 1/3\u060C \u0641\u062A\u0645 \u0636\u0628\u0637\u0647\u0627 \u0625\u0644\u0649",
+    wasiatWarnPart3: "\u0627\u0644\u0648\u0635\u064A\u0629 \u0628\u0623\u0643\u062B\u0631 \u0645\u0646 1/3 \u062A\u062D\u062A\u0627\u062C \u0645\u0648\u0627\u0641\u0642\u0629 \u0627\u0644\u0648\u0631\u062B\u0629.",
+
+    badge_furudh: "\u0641\u0631\u0636",
+    badge_ashabah: "\u0639\u0635\u0628\u0629",
+    badge_mahjub: "\u0645\u062D\u062C\u0648\u0628",
+    badge_mixed: "\u0641\u0631\u0636 + \u0639\u0635\u0628\u0629",
+    badge_muqasamah: "\u0645\u0642\u0627\u0633\u0645\u0629",
+    badge_mauquf: "\u0645\u0648\u0642\u0648\u0641"
+  }
+};
+
+function t(key){
+  return (I18N[currentLang] && I18N[currentLang][key]) || I18N.id[key] || key;
+}
+
+// Terjemahan nama ahli waris (dipakai saat merender tabel hasil). Data internal
+// (results[].label) TETAP berbahasa Indonesia agar mesin perhitungan & test
+// suite tidak terganggu \u2014 terjemahan hanya diterapkan di lapisan tampilan.
+const HEIR_LABEL_AR = {
+  'Suami':'\u0627\u0644\u0632\u0648\u062C', 'Istri':'\u0627\u0644\u0632\u0648\u062C\u0629',
+  'Ayah':'\u0627\u0644\u0623\u0628', 'Ibu':'\u0627\u0644\u0623\u0645',
+  'Kakek':'\u0627\u0644\u062C\u062F', 'Buyut laki-laki':'\u062C\u062F \u0627\u0644\u062C\u062F',
+  'Nenek':'\u0627\u0644\u062C\u062F\u0629', 'Buyut perempuan':'\u062C\u062F\u0629 \u0627\u0644\u062C\u062F',
+  'Anak laki-laki':'\u0627\u0628\u0646', 'Anak perempuan':'\u0628\u0646\u062A',
+  'Cucu laki-laki (dari anak laki-laki)':'\u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646',
+  'Cucu perempuan (dari anak laki-laki)':'\u0628\u0646\u062A \u0627\u0644\u0627\u0628\u0646',
+  'Cicit laki-laki (dari cucu laki-laki)':'\u0627\u0628\u0646 \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646',
+  'Cicit perempuan (dari cucu laki-laki)':'\u0628\u0646\u062A \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646',
+  'Saudara/i seibu':'\u0625\u062E\u0648\u0629/\u0623\u062E\u0648\u0627\u062A \u0644\u0623\u0645',
+  'Saudara kandung laki-laki':'\u0627\u0644\u0623\u062E \u0627\u0644\u0634\u0642\u064A\u0642', 'Saudari kandung perempuan':'\u0627\u0644\u0623\u062E\u062A \u0627\u0644\u0634\u0642\u064A\u0642\u0629',
+  'Saudara seayah laki-laki':'\u0627\u0644\u0623\u062E \u0644\u0623\u0628', 'Saudari seayah perempuan':'\u0627\u0644\u0623\u062E\u062A \u0644\u0623\u0628',
+  'Keponakan laki-laki (anak saudara kandung)':'\u0627\u0628\u0646 \u0627\u0644\u0623\u062E \u0627\u0644\u0634\u0642\u064A\u0642',
+  'Keponakan laki-laki (anak saudara seayah)':'\u0627\u0628\u0646 \u0627\u0644\u0623\u062E \u0644\u0623\u0628',
+  'Paman kandung (saudara kandung ayah)':'\u0627\u0644\u0639\u0645 \u0627\u0644\u0634\u0642\u064A\u0642',
+  'Paman seayah (saudara seayah ayah)':'\u0627\u0644\u0639\u0645 \u0644\u0623\u0628',
+  'Sepupu laki-laki (anak paman kandung dari ayah)':'\u0627\u0628\u0646 \u0627\u0644\u0639\u0645 \u0627\u0644\u0634\u0642\u064A\u0642',
+  'Sepupu laki-laki (anak paman seayah dari ayah)':'\u0627\u0628\u0646 \u0627\u0644\u0639\u0645 \u0644\u0623\u0628'
+};
+function translateHeirLabel(label){
+  if(currentLang==='ar' && HEIR_LABEL_AR[label]) return HEIR_LABEL_AR[label];
+  return label;
+}
+
+function refreshAdvancedToggleLabel(btnId, sectionId, showKey, hideKey){
+  const btn = document.getElementById(btnId);
+  const section = document.getElementById(sectionId);
+  if(!btn || !section) return;
+  btn.dataset.showLabel = t(showKey);
+  btn.dataset.hideLabel = t(hideKey);
+  const isOpen = section.style.display !== 'none';
+  btn.textContent = isOpen ? btn.dataset.hideLabel : btn.dataset.showLabel;
+}
+
+function applyI18n(){
+  document.title = t('pageTitle');
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    el.innerHTML = t(el.getAttribute('data-i18n-html'));
+  });
+  refreshAdvancedToggleLabel('toggleBuyutBtn','buyutSection','toggleBuyutShow','toggleBuyutHide');
+  refreshAdvancedToggleLabel('toggleCicitBtn','cicitSection','toggleCicitShow','toggleCicitHide');
+}
+
+function setLanguage(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang==='ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
+  applyI18n();
+  if(typeof lastResultData !== 'undefined' && lastResultData){ hitungFaraidh(); }
+}
+
+// ---------- Menu utama (hamburger: bahasa + glosarium) ----------
+function toggleMainMenu(){
+  const isOpen = document.getElementById('mainMenuPanel').classList.contains('open');
+  if(isOpen) closeMainMenu(); else openMainMenu();
+}
+function openMainMenu(){
+  document.getElementById('mainMenuPanel').classList.add('open');
+  document.getElementById('mainMenuOverlay').classList.add('open');
+  document.getElementById('mainMenuPanel').setAttribute('aria-hidden','false');
+  document.getElementById('menuBtn').setAttribute('aria-expanded','true');
+}
+function closeMainMenu(){
+  document.getElementById('mainMenuPanel').classList.remove('open');
+  document.getElementById('mainMenuOverlay').classList.remove('open');
+  document.getElementById('mainMenuPanel').setAttribute('aria-hidden','true');
+  document.getElementById('menuBtn').setAttribute('aria-expanded','false');
+}
+
 // ---------- Fraction helpers ----------
 function gcd(a,b){a=Math.abs(a);b=Math.abs(b);return b?gcd(b,a%b):(a||1);}
 function frac(n,d){ if(d<0){n=-n;d=-d;} const g=gcd(n,d)||1; return {n:n/g,d:d/g}; }
@@ -973,7 +1536,7 @@ document.getElementById('genderToggle').addEventListener('click', e=>{
 function renderSpouseSection(){
   const el = document.getElementById('spouseSection');
   if(pewarisGender==='L'){
-    el.innerHTML = `<div class="row"><label>Istri<span class="hint">jumlah istri yang masih hidup (0 jika tidak ada, maksimal 4)</span></label><input type="number" id="istriCount" min="0" max="4" value="0"></div><div class="istri-warning" id="istriWarning" style="display:none">Maksimal 4 istri menurut syariat &mdash; jumlah otomatis dibatasi ke 4.</div>`;
+    el.innerHTML = `<div class="row"><label>${t('istriFieldLabel')}<span class="hint">${t('istriFieldHint')}</span></label><input type="number" id="istriCount" min="0" max="4" value="0"></div><div class="istri-warning" id="istriWarning" style="display:none">${t('istriWarningText')}</div><div class="row"><label class="checkbox-pill"><input type="checkbox" id="janinIstri"> ${t('janinIstriLabel')}</label></div><div class="dzawil-note" data-i18n-html="janinIstriNote">${t('janinIstriNote')}</div>`;
     document.getElementById('istriCount').addEventListener('input', function(){
       const warn = document.getElementById('istriWarning');
       if(this.value!=='' && +this.value>4){ this.value = 4; warn.style.display='block'; }
@@ -981,7 +1544,7 @@ function renderSpouseSection(){
       if(this.value!=='' && +this.value<0) this.value = 0;
     });
   } else {
-    el.innerHTML = `<div class="row"><label class="checkbox-pill"><input type="checkbox" id="suami"> Suami</label></div>`;
+    el.innerHTML = `<div class="row"><label class="checkbox-pill"><input type="checkbox" id="suami"> ${t('suamiFieldLabel')}</label></div>`;
   }
 }
 renderSpouseSection();
@@ -1120,6 +1683,7 @@ document.getElementById('buyutDariKakek').addEventListener('change', syncDepende
 document.getElementById('buyutDariNenekAyah').addEventListener('change', syncDependentRows);
 document.getElementById('buyutDariNenekIbu').addEventListener('change', syncDependentRows);
 syncDependentRows();
+applyI18n();
 
 // ---------- Format rupiah otomatis (pemisah ribuan) ----------
 function rupiahDigits(str){ return (str||'').replace(/\D/g,''); }
@@ -1140,11 +1704,12 @@ function formatRupiahInput(el){
 });
 
 
-function val(id){ const el=document.getElementById(id); if(!el) return 0; if(el.type==='checkbox') return el.checked; return +el.value||0; }
+let valOverrides = null;
+function val(id){ if(valOverrides && Object.prototype.hasOwnProperty.call(valOverrides, id)) return valOverrides[id]; const el=document.getElementById(id); if(!el) return 0; if(el.type==='checkbox') return el.checked; return +el.value||0; }
 let lastResultData = null;
 
 // ---------- Core calculation ----------
-function hitungFaraidh(){
+function computeFaraidh(){
   const errEl = document.getElementById('error');
   errEl.style.display='none';
 
@@ -1204,10 +1769,10 @@ function hitungFaraidh(){
 
   const anyHeir = suami||istriCount>0||ayah||kakek||buyutL||ibu||nenek||buyutP||anakL||anakP||cucuL||cucuP||cicitL||cicitP||saudaraK||saudariK||saudaraA||saudariA||saudaraIbu||keponakanKandung||keponakanSeayah||pamanKandung||pamanSeayah||sepupuKandung||sepupuSeayah;
   if(!anyHeir){
-    errEl.textContent = 'Masukkan minimal satu ahli waris terlebih dahulu.';
+    errEl.textContent = t('errorNoHeir');
     errEl.style.display='block';
     document.getElementById('results').style.display='none';
-    return;
+    return null;
   }
 
   const hasFarWaris = anakL>0||anakP>0||cucuL>0||cucuP>0||cicitL>0||cicitP>0;
@@ -1985,12 +2550,163 @@ function hitungFaraidh(){
     special = special ? (special + "<br><br>" + istriNote) : istriNote;
   }
 
-  renderResults(results, special, totalHartaBersih, AM0, AM_final, amDetail, initialSnapshot, {totalHartaRaw, jenazahRaw, hutangRaw, wasiatRaw, wasiatEfektif, wasiatDibatasi, totalHartaBersih});
+  return {results, special, totalHartaBersih, AM0, AM_final, amDetail, initialSnapshot,
+    hartaInfo: {totalHartaRaw, jenazahRaw, hutangRaw, wasiatRaw, wasiatEfektif, wasiatDibatasi, totalHartaBersih}};
+}
+
+// ---------- Warisan Janin (metode Syafi'iyyah: bagian minimal + mauquf) ----------
+// Janin (calon anak mayit, dari rahim istri) belum diketahui jenis kelamin & jumlahnya
+// (bisa laki-laki, perempuan, atau kembar). Metode ini TIDAK membatasi kemungkinan
+// tersebut: dihitung 3 skenario representatif (1 anak laki-laki; 1 anak perempuan
+// sendirian; 2 anak perempuan \u2014 mewakili kemungkinan kembar/lebih, karena secara
+// fardh hasilnya identik untuk ahli waris lain berapa pun jumlah anak perempuannya).
+// Ahli waris LAIN (bukan janin) diberikan bagian PALING KECIL yang pasti mereka
+// dapatkan di ANTARA ketiga skenario tsb (termasuk memperhitungkan bila salah satu
+// skenario memicu 'aul) \u2014 sisanya ditahan (mauquf) sampai janin lahir.
+function lcmTwo(a,b){ return a*b/gcd(a,b); }
+
+// Entri hasil untuk grup ashabah (mis. anak laki-laki+perempuan) tidak punya field
+// .label langsung (hanya groupInfo.maleLabel/femaleLabel) \u2014 dua helper berikut
+// menangani kedua bentuk entri secara seragam.
+function resultKey(r){
+  if(r.label) return r.label;
+  if(r.groupInfo) return r.groupInfo.maleLabel + '|' + r.groupInfo.femaleLabel;
+  return 'unknown';
+}
+function isJaninPlaceholderEntry(r){
+  const isAnak = (s)=> s && /^(Anak laki-laki|Anak perempuan)/.test(s);
+  if(isAnak(r.label)) return true;
+  if(r.groupInfo && (isAnak(r.groupInfo.maleLabel) || isAnak(r.groupInfo.femaleLabel))) return true;
+  return false;
+}
+
+function computeJaninMauquf(){
+  const scenarios = [
+    {anakL:1, anakP:0},
+    {anakL:0, anakP:1},
+    {anakL:0, anakP:2}
+  ];
+  const runs = [];
+  scenarios.forEach(ov=>{
+    valOverrides = ov;
+    const data = computeFaraidh();
+    valOverrides = null;
+    if(data) runs.push(data);
+  });
+  if(runs.length===0) return null;
+
+  const keys = [];
+  runs.forEach(run=>run.results.forEach(r=>{
+    if(isJaninPlaceholderEntry(r)) return;
+    const k = resultKey(r);
+    if(keys.indexOf(k)===-1) keys.push(k);
+  }));
+
+  function fracOf(run, key){
+    const r = run.results.find(x=>!isJaninPlaceholderEntry(x) && resultKey(x)===key);
+    return r ? r.saham / run.AM_final : 0;
+  }
+
+  // Cari skenario yang SEKALIGUS memberi hasil paling kecil untuk SEMUA kategori ahli
+  // waris lain (dominan) \u2014 bila ada, pakai skenario itu apa adanya (angka lebih
+  // sederhana). Bila tidak ada satu skenario yang dominan untuk semuanya, gabungkan
+  // lewat KPK ashlul masalah supaya tetap benar walau angkanya lebih besar.
+  let dominantIdx = -1;
+  for(let i=0;i<runs.length && dominantIdx<0;i++){
+    let dominates = true;
+    for(const key of keys){
+      const fi = fracOf(runs[i], key);
+      for(let j=0;j<runs.length;j++){
+        if(j===i) continue;
+        if(fi > fracOf(runs[j], key) + 1e-9){ dominates = false; break; }
+      }
+      if(!dominates) break;
+    }
+    if(dominates) dominantIdx = i;
+  }
+
+  const janinNote = "Bagian minimal (memperhitungkan kemungkinan janin)";
+  const finalResults = [];
+  let combinedAM, totalTaken = 0;
+
+  if(dominantIdx>=0){
+    const run = runs[dominantIdx];
+    combinedAM = run.AM_final;
+    run.results.forEach(r=>{
+      if(isJaninPlaceholderEntry(r)) return;
+      totalTaken += r.saham;
+      finalResults.push({label:r.label, share:frac(r.saham, combinedAM), saham:r.saham, count:r.count,
+        note:janinNote, isGroup:r.isGroup, groupInfo:r.groupInfo});
+    });
+  } else {
+    combinedAM = runs.map(r=>r.AM_final).reduce((a,b)=>lcmTwo(a,b));
+    const minMap = {};
+    runs.forEach(run=>{
+      const scale = combinedAM / run.AM_final;
+      run.results.forEach(r=>{
+        if(isJaninPlaceholderEntry(r)) return;
+        const key = resultKey(r);
+        const scaledSaham = r.saham * scale;
+        if(!(key in minMap) || scaledSaham < minMap[key].saham){
+          minMap[key] = {label:r.label, saham:scaledSaham, count:r.count, isGroup:r.isGroup, groupInfo:r.groupInfo};
+        }
+      });
+    });
+    keys.forEach(key=>{
+      const m = minMap[key];
+      if(!m) return;
+      totalTaken += m.saham;
+      finalResults.push({label:m.label, share:frac(m.saham, combinedAM), saham:m.saham, count:m.count,
+        note:janinNote, isGroup:m.isGroup, groupInfo:m.groupInfo});
+    });
+  }
+
+  const mauqufSaham = Math.round((combinedAM - totalTaken)*1e6)/1e6;
+  if(mauqufSaham>0){
+    finalResults.push({
+      label: t('janinLabel'),
+      share: frac(mauqufSaham, combinedAM),
+      saham: mauqufSaham,
+      count: 1,
+      note: t('janinMauqufNote')
+    });
+  }
+
+  return {
+    results: finalResults,
+    AM0: combinedAM,
+    AM_final: combinedAM,
+    special: t('janinSpecialNote'),
+    amDetail: null,
+    initialSnapshot: null,
+    totalHartaBersih: runs[0].totalHartaBersih,
+    hartaInfo: runs[0].hartaInfo
+  };
+}
+
+function hitungFaraidh(){
+  const janinAktif = pewarisGender==='L' && val('janinIstri');
+  let data;
+  if(janinAktif){
+    data = computeJaninMauquf();
+    if(!data){
+      const errEl = document.getElementById('error');
+      errEl.textContent = t('errorNoHeir');
+      errEl.style.display='block';
+      document.getElementById('results').style.display='none';
+      return;
+    }
+  } else {
+    data = computeFaraidh();
+    if(!data) return;
+  }
+  renderResults(data.results, data.special, data.totalHartaBersih, data.AM0, data.AM_final, data.amDetail, data.initialSnapshot, data.hartaInfo);
 }
 
 function classifyBadge(r){
   if(fToNum(r.share)===0) return {text:'Mahjub', cls:'mahjub'};
   const note = r.note || '';
+  if(/ditahan \(mauquf\)/i.test(note)) return {text:'Mauquf', cls:'mauquf'};
   if(/muqasamah/i.test(note)) return {text:'Muqasamah', cls:'muqasamah'};
   if(/ma'al ghair/i.test(note)) return {text:"Ashabah ma'al ghair", cls:'ashabah'};
   if(/\+ sisa sebagai ashabah/i.test(note)) return {text:'Furudh + Ashabah', cls:'mixed'};
@@ -2021,20 +2737,20 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
 
   if(hartaInfo && hartaInfo.totalHartaRaw>0 && (hartaInfo.jenazahRaw>0 || hartaInfo.hutangRaw>0 || hartaInfo.wasiatRaw>0)){
     const rp = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
-    let rows = `<div class="harta-row"><span>Harta kotor (peninggalan)</span><span>${rp(hartaInfo.totalHartaRaw)}</span></div>`;
+    let rows = `<div class="harta-row"><span>${t('hartaKotorLabel')}</span><span>${rp(hartaInfo.totalHartaRaw)}</span></div>`;
     if(hartaInfo.jenazahRaw>0){
-      rows += `<div class="harta-row"><span>&ndash; Biaya pengurusan jenazah</span><span>${rp(hartaInfo.jenazahRaw)}</span></div>`;
+      rows += `<div class="harta-row"><span>&ndash; ${t('biayaJenazahRowLabel')}</span><span>${rp(hartaInfo.jenazahRaw)}</span></div>`;
     }
     if(hartaInfo.hutangRaw>0){
-      rows += `<div class="harta-row"><span>&ndash; Hutang mayit</span><span>${rp(hartaInfo.hutangRaw)}</span></div>`;
+      rows += `<div class="harta-row"><span>&ndash; ${t('hutangRowLabel')}</span><span>${rp(hartaInfo.hutangRaw)}</span></div>`;
     }
     if(hartaInfo.wasiatEfektif>0){
-      rows += `<div class="harta-row"><span>&ndash; Wasiat (untuk non-ahli waris)</span><span>${rp(hartaInfo.wasiatEfektif)}</span></div>`;
+      rows += `<div class="harta-row"><span>&ndash; ${t('wasiatRowLabel')}</span><span>${rp(hartaInfo.wasiatEfektif)}</span></div>`;
     }
-    rows += `<div class="harta-row harta-total"><span>Harta bersih dibagi waris</span><span>${rp(hartaInfo.totalHartaBersih)}</span></div>`;
+    rows += `<div class="harta-row harta-total"><span>${t('hartaBersihLabel')}</span><span>${rp(hartaInfo.totalHartaBersih)}</span></div>`;
     let warn = '';
     if(hartaInfo.wasiatDibatasi){
-      warn = `<div class="wasiat-warn">Wasiat yang dimasukkan (${rp(hartaInfo.wasiatRaw)}) melebihi batas maksimal 1/3 dari harta setelah hutang, sehingga otomatis dibatasi menjadi ${rp(hartaInfo.wasiatEfektif)}. Wasiat lebih dari 1/3 hanya sah bila seluruh ahli waris yang berhak menyetujuinya.</div>`;
+      warn = `<div class="wasiat-warn">${t('wasiatWarnPart1')} (${rp(hartaInfo.wasiatRaw)}) ${t('wasiatWarnPart2')} ${rp(hartaInfo.wasiatEfektif)}. ${t('wasiatWarnPart3')}</div>`;
     }
     breakdownEl.innerHTML = `<div class="harta-box">${rows}${warn}</div>`;
   }
@@ -2048,22 +2764,22 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
   // ---------- Tabel "Kasus Awal" (hanya ditampilkan bila terjadi 'aul/radd/inkisar) ----------
   if(adjusted){
     initialWrap.style.display='block';
-    amEl.innerHTML = `<span class="am-label">Ashlul Mas'alah</span> <span class="am-value">${AM0}</span>`;
+    amEl.innerHTML = `<span class="am-label">${t('ashlulMasalahLabel')}</span> <span class="am-value">${AM0}</span>`;
     initialSnapshot.forEach(r=>{
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><div class="heir-name">${(r.count>1 && !r.isGroup)? `${r.count} `:''}${r.label}</div></td>
+        <td><div class="heir-name">${(r.count>1 && !r.isGroup)? `${r.count} `:''}${translateHeirLabel(r.label)}</div></td>
         <td class="num">${r.furudh}</td>
         <td class="num"><span class="saham-main">${r.saham}</span></td>
       `;
       initialBody.appendChild(tr);
     });
-    finalTitleEl.innerHTML = `Rincian Akhir <span class="case-badge">setelah 'aul/radd/inkisar</span>`;
-    amFinalEl.innerHTML = `<span class="am-label">Ashlul Jami'ah Akhir</span> <span class="am-value">${AM_final}</span>`;
+    finalTitleEl.innerHTML = `${t('rincianAkhirTitle')} <span class="case-badge">${t('setelahAulBadge')}</span>`;
+    amFinalEl.innerHTML = `<span class="am-label">${t('ashlulJamiahAkhirLabel')}</span> <span class="am-value">${AM_final}</span>`;
   } else {
     initialWrap.style.display='none';
-    finalTitleEl.textContent = 'Rincian Saham';
-    amFinalEl.innerHTML = `<span class="am-label">Ashlul Mas'alah</span> <span class="am-value">${AM_final}</span>`;
+    finalTitleEl.textContent = t('rincianSahamTitle');
+    amFinalEl.innerHTML = `<span class="am-label">${t('ashlulMasalahLabel')}</span> <span class="am-value">${AM_final}</span>`;
   }
 
   if(amDetail && adjusted){
@@ -2104,17 +2820,18 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
     }
 
     const badge = classifyBadge(r);
+    const badgeText = t('badge_' + badge.cls) || badge.text;
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>
-        <div class="heir-name">${r.label}</div>
+        <div class="heir-name">${translateHeirLabel(r.label)}</div>
         ${r.note? `<div class="heir-note">${r.note}</div>`:''}
       </td>
       <td class="num">${r.count}</td>
       <td class="num">
         <div class="saham-main">${fracDisplay}</div>
-        <div class="bagian-badge ${badge.cls}">${badge.text}</div>
+        <div class="bagian-badge ${badge.cls}">${badgeText}</div>
       </td>
       <td class="num">${r.count>1? `<span class="saham-main" style="font-size:13px;">${perPersonSaham}/${AM_final}</span>`:'&mdash;'}</td>
       <td class="num">${pct.toFixed(2)}%</td>
@@ -2393,6 +3110,26 @@ const FARAIDH_TEST_CASES = [
     expect: [
       { label:'Kakek', saham:3 },
       { label:'Saudara kandung laki-laki', saham:6 }
+    ]
+  },
+  {
+    name: "Warisan janin \u2014 Ayah+Ibu+Istri+Janin (harus 4:3:4:16 @ AM=27)",
+    setup: { ayah:true, ibu:true, istriCount:1, janinIstri:true },
+    expectAM: 27,
+    expect: [
+      { label:'Ibu', saham:4 },
+      { label:'Istri', saham:3 },
+      { label:'Ayah', saham:4 },
+      { label:'Janin (ditangguhkan / mauquf)', saham:16 }
+    ]
+  },
+  {
+    name: "Warisan janin sederhana \u2014 Istri+Janin saja",
+    setup: { istriCount:1, janinIstri:true },
+    expectAM: 8,
+    expect: [
+      { label:'Istri', saham:1 },
+      { label:'Janin (ditangguhkan / mauquf)', saham:7 }
     ]
   },
   {
