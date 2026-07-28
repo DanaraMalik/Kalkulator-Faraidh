@@ -1032,8 +1032,12 @@ const I18N = {
     suamiFieldLabel: "Suami",
     janinIstriLabel: "Istri sedang hamil / ada janin (calon anak mayit)?",
     janinIstriNote: "Bila dicentang, janin dianggap sebagai calon ahli waris yang belum diketahui jenis kelamin &amp; jumlahnya (bisa laki-laki, perempuan, atau kembar). Kalkulator akan memberi ahli waris lain bagian <b>paling kecil</b> yang pasti mereka dapatkan di semua kemungkinan tersebut (termasuk memperhitungkan bila terjadi 'aul), dan menahan (mauquf) sisanya sampai janin lahir.",
-    janinLabel: "Janin (ditangguhkan / mauquf)",
-    janinMauqufNote: "Bagian ini ditahan (mauquf) hingga janin lahir, karena jenis kelamin &amp; jumlahnya belum diketahui.",
+    hartaMauqufLabel: "Harta Mauquf (belum dibagi)",
+    janinBagianTerjaminNote: "Bagian yang terjamin/pasti (memperhitungkan kemungkinan janin)",
+    janinWithheldAshabah: "Ditahan (mauquf) bersama janin &mdash; ada kemungkinan ia menjadi ashabah (sisa), sehingga besarannya belum bisa dipastikan sebelum janin lahir.",
+    janinWithheldMahjub: "Ditahan (mauquf) bersama janin &mdash; ada kemungkinan ia mahjub (terhalang total), tergantung jenis kelamin &amp; jumlah janin.",
+    janinWithheldBoth: "Ditahan (mauquf) bersama janin &mdash; ada kemungkinan ia menjadi ashabah (belum pasti besarannya) maupun mahjub total, tergantung jenis kelamin &amp; jumlah janin.",
+    janinMauqufNote: "Bagian ini ditahan (mauquf) &mdash; mencakup kemungkinan bagian janin dan/atau bagian ahli waris lain yang belum bisa dipastikan (lihat catatan masing-masing di atas), sampai janin lahir dan status ahli waris lain dapat dipastikan.",
     janinSpecialNote: "Terdapat <b>janin</b> yang belum lahir. Mengikuti metode Syafi'iyyah: ahli waris lain diberikan bagian paling kecil yang pasti mereka dapatkan di antara kemungkinan janin (1 anak laki-laki, 1 anak perempuan, atau 2+ anak perempuan/kembar) &mdash; termasuk memperhitungkan kemungkinan 'aul. Sisanya ditahan (mauquf) sampai janin lahir, baru dibagi ulang sesuai jenis kelamin &amp; jumlah anak yang sebenarnya.",
 
     card3Title: "3. Orang Tua & Kakek/Nenek",
@@ -1202,8 +1206,12 @@ const I18N = {
     suamiFieldLabel: "\u0627\u0644\u0632\u0648\u062C",
     janinIstriLabel: "\u0647\u0644 \u0627\u0644\u0632\u0648\u062C\u0629 \u062D\u0627\u0645\u0644\u061F (\u0627\u0644\u062D\u0645\u0644)",
     janinIstriNote: "\u0625\u0630\u0627 \u062A\u0645 \u0627\u0644\u062A\u062D\u062F\u064A\u062F\u060C \u064A\u064F\u0639\u0627\u0645\u0644 \u0627\u0644\u062D\u0645\u0644 \u0643\u0648\u0627\u0631\u062B \u0645\u062D\u062A\u0645\u0644 \u0645\u062C\u0647\u0648\u0644 \u0627\u0644\u062C\u0646\u0633 \u0648\u0627\u0644\u0639\u062F\u062F. \u064A\u064F\u0639\u0637\u0649 \u0628\u0627\u0642\u064A \u0627\u0644\u0648\u0631\u062B\u0629 \u0623\u0642\u0644 \u0646\u0635\u064A\u0628 \u0645\u0624\u0643\u062F \u0641\u064A \u062C\u0645\u064A\u0639 \u0627\u0644\u0627\u062D\u062A\u0645\u0627\u0644\u0627\u062A\u060C \u0648\u064A\u064F\u0648\u0642\u0641 \u0627\u0644\u0628\u0627\u0642\u064A \u062D\u062A\u0649 \u0627\u0644\u0648\u0636\u0639.",
-    janinLabel: "\u0627\u0644\u062D\u0645\u0644 (\u0645\u0648\u0642\u0648\u0641)",
-    janinMauqufNote: "\u064A\u064F\u0648\u0642\u0641 \u0647\u0630\u0627 \u0627\u0644\u0646\u0635\u064A\u0628 \u062D\u062A\u0649 \u0648\u0636\u0639 \u0627\u0644\u062D\u0645\u0644\u060C \u0644\u0623\u0646 \u062C\u0646\u0633\u0647 \u0648\u0639\u062F\u062F\u0647 \u063A\u064A\u0631 \u0645\u0639\u0631\u0648\u0641\u064A\u0646 \u0628\u0639\u062F.",
+    hartaMauqufLabel: "\u0627\u0644\u062A\u0631\u0643\u0629 \u0627\u0644\u0645\u0648\u0642\u0648\u0641\u0629 (\u0644\u0645 \u062A\u064F\u0642\u0633\u0651\u0645 \u0628\u0639\u062F)",
+    janinBagianTerjaminNote: "\u0627\u0644\u0646\u0635\u064A\u0628 \u0627\u0644\u0645\u0624\u0643\u062F (\u0645\u0639 \u0645\u0631\u0627\u0639\u0627\u0629 \u0627\u062D\u062A\u0645\u0627\u0644 \u0627\u0644\u062D\u0645\u0644)",
+    janinWithheldAshabah: "\u0645\u0648\u0642\u0648\u0641 \u0645\u0639 \u0627\u0644\u062D\u0645\u0644 \u2014 \u064A\u062D\u062A\u0645\u0644 \u0623\u0646 \u064A\u0643\u0648\u0646 \u0639\u0627\u0635\u0628\u0627ً \u0641\u0644\u0645 \u064A\u064F\u062D\u062F\u0651\u062F \u0645\u0642\u062F\u0627\u0631\u0647 \u0628\u0639\u062F.",
+    janinWithheldMahjub: "\u0645\u0648\u0642\u0648\u0641 \u0645\u0639 \u0627\u0644\u062D\u0645\u0644 \u2014 \u064A\u062D\u062A\u0645\u0644 \u0623\u0646 \u064A\u0643\u0648\u0646 \u0645\u062D\u062C\u0648\u0628\u0627ً \u0643\u0644\u064A\u0627ً \u062D\u0633\u0628 \u062C\u0646\u0633 \u0648\u0639\u062F\u062F \u0627\u0644\u062D\u0645\u0644.",
+    janinWithheldBoth: "\u0645\u0648\u0642\u0648\u0641 \u0645\u0639 \u0627\u0644\u062D\u0645\u0644 \u2014 \u064A\u062D\u062A\u0645\u0644 \u0623\u0646 \u064A\u0643\u0648\u0646 \u0639\u0627\u0635\u0628\u0627ً \u0623\u0648 \u0645\u062D\u062C\u0648\u0628\u0627ً \u062D\u0633\u0628 \u062C\u0646\u0633 \u0648\u0639\u062F\u062F \u0627\u0644\u062D\u0645\u0644.",
+    janinMauqufNote: "\u064A\u064F\u0648\u0642\u0641 \u0647\u0630\u0627 \u0627\u0644\u0646\u0635\u064A\u0628 (\u0645\u0648\u0642\u0648\u0641) \u2014 \u064A\u0634\u0645\u0644 \u0646\u0635\u064A\u0628 \u0627\u0644\u062D\u0645\u0644 \u0648/\u0623\u0648 \u0646\u0635\u064A\u0628 \u0648\u0631\u062B\u0629 \u0622\u062E\u0631\u064A\u0646 \u063A\u064A\u0631 \u0645\u0624\u0643\u062F\u0629 \u0628\u0639\u062F\u060C \u062D\u062A\u0649 \u0648\u0636\u0639 \u0627\u0644\u062D\u0645\u0644 \u0648\u062A\u0623\u0643\u062F \u062D\u0627\u0644\u0629 \u0628\u0627\u0642\u064A \u0627\u0644\u0648\u0631\u062B\u0629.",
     janinSpecialNote: "\u064A\u0648\u062C\u062F <b>\u062D\u0645\u0644</b> \u0644\u0645 \u064A\u0648\u0644\u062F \u0628\u0639\u062F. \u0648\u0641\u0642 \u0645\u0630\u0647\u0628 \u0627\u0644\u0634\u0627\u0641\u0639\u064A\u0629: \u064A\u064F\u0639\u0637\u0649 \u0628\u0627\u0642\u064A \u0627\u0644\u0648\u0631\u062B\u0629 \u0623\u0642\u0644 \u0646\u0635\u064A\u0628 \u0645\u0624\u0643\u062F\u060C \u0648\u064A\u064F\u0648\u0642\u0641 \u0627\u0644\u0628\u0627\u0642\u064A \u062D\u062A\u0649 \u0627\u0644\u0648\u0636\u0639 \u062B\u0645 \u064A\u064F\u0639\u0627\u062F \u062A\u0648\u0632\u064A\u0639\u0647 \u062D\u0633\u0628 \u0627\u0644\u062C\u0646\u0633 \u0648\u0627\u0644\u0639\u062F\u062F \u0627\u0644\u0641\u0639\u0644\u064A.",
 
     card3Title: "3. \u0627\u0644\u0648\u0627\u0644\u062F\u0627\u0646 \u0648\u0627\u0644\u062C\u062F/\u0627\u0644\u062C\u062F\u0629",
@@ -1876,7 +1884,7 @@ function computeFaraidh(){
       results.push({label, share:frac(1,6), count:1, note:'1/6 karena ada anak/cucu laki-laki'});
       remainder = fsub(remainder, frac(1,6));
     } else if(hasFarWaris){
-      const entry = {label, share:frac(1,6), count:1, note:'1/6 ditambah sisa (ashabah) bila masih ada'};
+      const entry = {label, share:frac(1,6), count:1, note:'1/6 ditambah sisa (ashabah) bila masih ada', floorShare:frac(1,6)};
       results.push(entry);
       remainder = fsub(remainder, frac(1,6));
       ayahMixedEntry = entry;
@@ -2364,7 +2372,7 @@ function computeFaraidh(){
   function lcmNum(a,b){ return a*b/gcd(a,b); }
   let AM0 = 1;
   results.forEach(r=>{ if(r.share.d) AM0 = lcmNum(AM0, r.share.d); });
-  results.forEach(r=>{ r.saham = r.share.n * (AM0 / r.share.d); });
+  results.forEach(r=>{ r.saham = r.share.n * (AM0 / r.share.d); if(r.floorShare){ r.floorSaham = r.floorShare.n * (AM0 / r.floorShare.d); } });
   let totalSaham = results.reduce((s,r)=>s+r.saham,0);
 
   // Snapshot "Kasus Awal": furudh & saham masing-masing ahli waris pada Ashlul Mas'alah
@@ -2426,6 +2434,7 @@ function computeFaraidh(){
       AM_final = AM0 * S_ns;
       results.forEach(r=>{
         r.saham = r.isSpouse ? (r.saham * S_ns) : (r.saham * (AM0 - spouseSaham));
+        if(r.floorSaham!==undefined && !r.isSpouse){ r.floorSaham = r.floorSaham * (AM0 - spouseSaham); }
       });
       amDetail = (amDetail? amDetail+"<br><br>":"") + `Terjadi <b>radd (pengembalian sisa)</b>: tidak ada ahli waris ashabah selain pasangan. Bagian pasangan tetap, sedangkan sisa harta dikembalikan secara proporsional ke ahli waris furud lainnya. Asal masalah disesuaikan dari ${AM0} menjadi <b>${AM_final}</b>.`;
     }
@@ -2446,7 +2455,7 @@ function computeFaraidh(){
   if(inkisarMultiplier>1){
     const AM_pre_inkisar = AM_final;
     AM_final = AM_final * inkisarMultiplier;
-    results.forEach(r=>{ r.saham = r.saham * inkisarMultiplier; });
+    results.forEach(r=>{ r.saham = r.saham * inkisarMultiplier; if(r.floorSaham!==undefined){ r.floorSaham = r.floorSaham * inkisarMultiplier; } });
     amDetail = (amDetail? amDetail+"<br><br>":"") + `Terjadi <b>inkisar (tashih al-mas'alah)</b>: ada golongan ahli waris yang sahamnya tidak habis dibagi jumlah orangnya, sehingga asal masalah dikalikan ${inkisarMultiplier} kali (dari ${AM_pre_inkisar} menjadi <b>${AM_final}</b>) agar setiap orang mendapat saham bulat.`;
   }
 
@@ -2497,7 +2506,7 @@ function computeFaraidh(){
   if(overallGCD>1){
     const AM_before_simplify = AM_final;
     AM_final = AM_final / overallGCD;
-    results.forEach(r=>{ r.saham = r.saham / overallGCD; });
+    results.forEach(r=>{ r.saham = r.saham / overallGCD; if(r.floorSaham!==undefined){ r.floorSaham = r.floorSaham / overallGCD; } });
     amDetail = (amDetail? amDetail+"<br><br>":"") + `Disederhanakan: seluruh saham dan asal masalah memiliki faktor sekutu ${overallGCD}, sehingga asal masalah akhir disederhanakan dari ${AM_before_simplify} menjadi <b>${AM_final}</b>.`;
   }
 
@@ -2510,7 +2519,7 @@ function computeFaraidh(){
     const combinedTotal = kakekSahamBefore + saudariSahamBefore;
     const AM_beforeAkdariyyah = AM_final;
 
-    results.forEach(r=>{ r.saham = r.saham * 3; });
+    results.forEach(r=>{ r.saham = r.saham * 3; if(r.floorSaham!==undefined){ r.floorSaham = r.floorSaham * 3; } });
     AM_final = AM_final * 3;
     const combinedScaled = combinedTotal * 3;
     akdariyyahEntries.kakek.saham = combinedScaled * 2 / 3;
@@ -2554,37 +2563,56 @@ function computeFaraidh(){
     hartaInfo: {totalHartaRaw, jenazahRaw, hutangRaw, wasiatRaw, wasiatEfektif, wasiatDibatasi, totalHartaBersih}};
 }
 
-// ---------- Warisan Janin (metode Syafi'iyyah: bagian minimal + mauquf) ----------
+// ---------- Warisan Janin (metode Syafi'iyyah: bagian terjamin + mauquf) ----------
 // Janin (calon anak mayit, dari rahim istri) belum diketahui jenis kelamin & jumlahnya
-// (bisa laki-laki, perempuan, atau kembar). Metode ini TIDAK membatasi kemungkinan
-// tersebut: dihitung 3 skenario representatif (1 anak laki-laki; 1 anak perempuan
-// sendirian; 2 anak perempuan \u2014 mewakili kemungkinan kembar/lebih, karena secara
-// fardh hasilnya identik untuk ahli waris lain berapa pun jumlah anak perempuannya).
-// Ahli waris LAIN (bukan janin) diberikan bagian PALING KECIL yang pasti mereka
-// dapatkan di ANTARA ketiga skenario tsb (termasuk memperhitungkan bila salah satu
-// skenario memicu 'aul) \u2014 sisanya ditahan (mauquf) sampai janin lahir.
+// (bisa laki-laki, perempuan, atau kembar). Dihitung 3 skenario representatif:
+// 1 anak laki-laki; 1 anak perempuan sendirian; 2 anak perempuan (mewakili kemungkinan
+// kembar/lebih \u2014 secara fardh hasilnya identik utk ahli waris lain berapa pun jumlahnya).
+//
+// Untuk tiap ahli waris LAIN (bukan janin), bagian yang diberikan SEKARANG ditentukan
+// oleh SIFAT bagiannya di tiap skenario (dicek lewat classifyBadge), BUKAN sekadar
+// angka terkecil mentah:
+//  1. Bila di SEMUA skenario ia furudh murni & angkanya identik -> berikan seluruhnya
+//     (memang tidak terpengaruh kemungkinan janin sama sekali).
+//  2. Bila furudh murni tapi angkanya berbeda antar skenario -> berikan yang TERKECIL.
+//  3. Bila ada skenario di mana ia ASHABAH (murni, muqasamah, ta'shib, ashabah ma'al
+//     ghair) -> jangan diberi saham dulu (dianggap 0 utk itu) \u2014 KECUALI ayah/kakek/
+//     buyut laki-laki yang tetap dijamin minimal 1/6 (porsi furudh floor-nya saja,
+//     bukan potensi tambahan ashabah-nya).
+//  4. Bila ada skenario di mana ia mahjub (0) -> juga jangan diberi saham dulu.
+// Semua ini otomatis memperhitungkan kemungkinan 'aul di tiap skenario (AM masing-
+// masing skenario sudah termasuk penyesuaian 'aul/radd/inkisar).
 function lcmTwo(a,b){ return a*b/gcd(a,b); }
 
-// Entri hasil untuk grup ashabah (mis. anak laki-laki+perempuan) tidak punya field
-// .label langsung (hanya groupInfo.maleLabel/femaleLabel) \u2014 dua helper berikut
-// menangani kedua bentuk entri secara seragam.
-function resultKey(r){
-  if(r.label) return r.label;
-  if(r.groupInfo) return r.groupInfo.maleLabel + '|' + r.groupInfo.femaleLabel;
-  return 'unknown';
-}
-function isJaninPlaceholderEntry(r){
-  const isAnak = (s)=> s && /^(Anak laki-laki|Anak perempuan)/.test(s);
-  if(isAnak(r.label)) return true;
-  if(r.groupInfo && (isAnak(r.groupInfo.maleLabel) || isAnak(r.groupInfo.femaleLabel))) return true;
-  return false;
+// Bagian yang PASTI/terjamin dari suatu entri hasil pada satu skenario (lihat aturan
+// 1\u20134 di atas), dinyatakan dalam satuan saham pada AM skenario tsb.
+function guaranteedSaham(r){
+  const badge = classifyBadge(r);
+  if(badge.cls==='mahjub') return 0;
+  if(badge.cls==='furudh') return r.saham;
+  if(badge.cls==='mixed') return r.floorSaham!==undefined ? r.floorSaham : 0;
+  return 0; // ashabah / muqasamah / ashabah ma'al ghair -> belum pasti, ditahan dulu
 }
 
 function computeJaninMauquf(){
+  // Anak laki-laki/perempuan RIIL (dideklarasikan pengguna, di luar janin) \u2014 dibaca
+  // SEBELUM valOverrides diset supaya dapat nilai asli, bukan hasil skenario.
+  const realAnakL = val('anakL');
+  const realAnakP = val('anakP');
+  // Label "Anak laki-laki"/"Anak perempuan" hanya dikecualikan dari perbandingan
+  // skenario BILA tidak ada anak riil utk jenis kelamin itu (murni hipotetis janin,
+  // sehingga kehadirannya bisa asimetris antar skenario & merusak deteksi skenario
+  // dominan). Bila ADA anak riil yang dideklarasikan, label ini tetap ditampilkan.
+  function isJaninOnlyLabel(label){
+    if(/^Anak laki-laki/.test(label)) return realAnakL===0;
+    if(/^Anak perempuan/.test(label)) return realAnakP===0;
+    return false;
+  }
+
   const scenarios = [
-    {anakL:1, anakP:0},
-    {anakL:0, anakP:1},
-    {anakL:0, anakP:2}
+    {anakL:realAnakL+1, anakP:realAnakP},
+    {anakL:realAnakL, anakP:realAnakP+1},
+    {anakL:realAnakL, anakP:realAnakP+2}
   ];
   const runs = [];
   scenarios.forEach(ov=>{
@@ -2595,80 +2623,93 @@ function computeJaninMauquf(){
   });
   if(runs.length===0) return null;
 
-  const keys = [];
+  const labels = [];
   runs.forEach(run=>run.results.forEach(r=>{
-    if(isJaninPlaceholderEntry(r)) return;
-    const k = resultKey(r);
-    if(keys.indexOf(k)===-1) keys.push(k);
+    if(isJaninOnlyLabel(r.label)) return;
+    if(labels.indexOf(r.label)===-1) labels.push(r.label);
   }));
 
-  function fracOf(run, key){
-    const r = run.results.find(x=>!isJaninPlaceholderEntry(x) && resultKey(x)===key);
-    return r ? r.saham / run.AM_final : 0;
+  // Alasan sebuah ahli waris ditahan (belum diberi saham): ada kemungkinan ia jadi
+  // ashabah (belum pasti besarannya) dan/atau ada kemungkinan ia mahjub total,
+  // tergantung skenario janin.
+  function withheldReason(label){
+    let anyAshabah=false, anyMahjub=false;
+    runs.forEach(run=>{
+      const r = run.results.find(x=>x.label===label);
+      if(!r){ anyMahjub=true; return; }
+      const badge = classifyBadge(r);
+      if(badge.cls==='mahjub') anyMahjub = true;
+      else if(badge.cls==='ashabah' || badge.cls==='muqasamah') anyAshabah = true;
+    });
+    if(anyAshabah && anyMahjub) return t('janinWithheldBoth');
+    if(anyAshabah) return t('janinWithheldAshabah');
+    return t('janinWithheldMahjub');
   }
 
-  // Cari skenario yang SEKALIGUS memberi hasil paling kecil untuk SEMUA kategori ahli
-  // waris lain (dominan) \u2014 bila ada, pakai skenario itu apa adanya (angka lebih
-  // sederhana). Bila tidak ada satu skenario yang dominan untuk semuanya, gabungkan
-  // lewat KPK ashlul masalah supaya tetap benar walau angkanya lebih besar.
+  // Untuk tiap label, cari FRAKSI (bukan saham mentah) terjamin paling kecil di antara
+  // ketiga skenario, beserta jumlah orang (count) yang representatif.
+  const minFracMap = {};
+  runs.forEach(run=>{
+    run.results.forEach(r=>{
+      if(isJaninOnlyLabel(r.label)) return;
+      const gFrac = guaranteedSaham(r) / run.AM_final;
+      if(!(r.label in minFracMap) || gFrac < minFracMap[r.label].frac){
+        minFracMap[r.label] = {frac:gFrac, count:r.count};
+      }
+    });
+  });
+
+  // Cari skenario yang SEKALIGUS memberi hasil terjamin paling kecil untuk SEMUA
+  // kategori ahli waris lain (dominan) \u2014 bila ada, pakai AM skenario itu apa adanya
+  // (angka lebih sederhana). Bila tidak ada satu skenario yang dominan utk semuanya,
+  // gabungkan lewat KPK ashlul masalah supaya tetap benar walau angkanya lebih besar.
+  function guaranteedFracOf(run, label){
+    const r = run.results.find(x=>x.label===label);
+    return r ? guaranteedSaham(r) / run.AM_final : 0;
+  }
   let dominantIdx = -1;
   for(let i=0;i<runs.length && dominantIdx<0;i++){
     let dominates = true;
-    for(const key of keys){
-      const fi = fracOf(runs[i], key);
+    for(const label of labels){
+      const fi = guaranteedFracOf(runs[i], label);
       for(let j=0;j<runs.length;j++){
         if(j===i) continue;
-        if(fi > fracOf(runs[j], key) + 1e-9){ dominates = false; break; }
+        if(fi > guaranteedFracOf(runs[j], label) + 1e-9){ dominates = false; break; }
       }
       if(!dominates) break;
     }
     if(dominates) dominantIdx = i;
   }
+  const combinedAM = dominantIdx>=0 ? runs[dominantIdx].AM_final : runs.map(r=>r.AM_final).reduce((a,b)=>lcmTwo(a,b));
 
-  const janinNote = "Bagian minimal (memperhitungkan kemungkinan janin)";
+  const janinNote = t('janinBagianTerjaminNote');
   const finalResults = [];
-  let combinedAM, totalTaken = 0;
+  let totalTaken = 0;
+  labels.forEach(label=>{
+    const info = minFracMap[label];
+    const saham = Math.round(info.frac * combinedAM * 1e6) / 1e6;
+    if(saham>1e-9){
+      totalTaken += saham;
+      finalResults.push({label, share:frac(saham, combinedAM), saham, count:info.count, note:janinNote});
+    } else {
+      // Tetap ditampilkan (saham 0/ditahan) supaya pengguna tahu siapa saja yang
+      // bagiannya belum bisa dipastikan, alih-alih hilang begitu saja dari tabel.
+      finalResults.push({label, share:frac(0, combinedAM), saham:0, count:info.count, note:withheldReason(label), badgeOverride:'mauquf'});
+    }
+  });
 
-  if(dominantIdx>=0){
-    const run = runs[dominantIdx];
-    combinedAM = run.AM_final;
-    run.results.forEach(r=>{
-      if(isJaninPlaceholderEntry(r)) return;
-      totalTaken += r.saham;
-      finalResults.push({label:r.label, share:frac(r.saham, combinedAM), saham:r.saham, count:r.count,
-        note:janinNote, isGroup:r.isGroup, groupInfo:r.groupInfo});
-    });
-  } else {
-    combinedAM = runs.map(r=>r.AM_final).reduce((a,b)=>lcmTwo(a,b));
-    const minMap = {};
-    runs.forEach(run=>{
-      const scale = combinedAM / run.AM_final;
-      run.results.forEach(r=>{
-        if(isJaninPlaceholderEntry(r)) return;
-        const key = resultKey(r);
-        const scaledSaham = r.saham * scale;
-        if(!(key in minMap) || scaledSaham < minMap[key].saham){
-          minMap[key] = {label:r.label, saham:scaledSaham, count:r.count, isGroup:r.isGroup, groupInfo:r.groupInfo};
-        }
-      });
-    });
-    keys.forEach(key=>{
-      const m = minMap[key];
-      if(!m) return;
-      totalTaken += m.saham;
-      finalResults.push({label:m.label, share:frac(m.saham, combinedAM), saham:m.saham, count:m.count,
-        note:janinNote, isGroup:m.isGroup, groupInfo:m.groupInfo});
-    });
-  }
-
+  // Harta Mauquf ditampilkan sebagai baris TERSENDIRI (bukan "milik janin" semata) \u2014
+  // mencakup gabungan potensi bagian janin DAN bagian ahli waris lain yang di atas
+  // masih ditahan (saham 0), karena keduanya sama-sama belum bisa dipastikan sekarang.
   const mauqufSaham = Math.round((combinedAM - totalTaken)*1e6)/1e6;
   if(mauqufSaham>0){
     finalResults.push({
-      label: t('janinLabel'),
+      label: t('hartaMauqufLabel'),
       share: frac(mauqufSaham, combinedAM),
       saham: mauqufSaham,
       count: 1,
-      note: t('janinMauqufNote')
+      note: t('janinMauqufNote'),
+      badgeOverride: 'mauquf'
     });
   }
 
@@ -2704,12 +2745,13 @@ function hitungFaraidh(){
 }
 
 function classifyBadge(r){
-  if(fToNum(r.share)===0) return {text:'Mahjub', cls:'mahjub'};
+  if(r.badgeOverride) return {text:t('badge_'+r.badgeOverride), cls:r.badgeOverride};
   const note = r.note || '';
   if(/ditahan \(mauquf\)/i.test(note)) return {text:'Mauquf', cls:'mauquf'};
+  if(fToNum(r.share)===0) return {text:'Mahjub', cls:'mahjub'};
   if(/muqasamah/i.test(note)) return {text:'Muqasamah', cls:'muqasamah'};
   if(/ma'al ghair/i.test(note)) return {text:"Ashabah ma'al ghair", cls:'ashabah'};
-  if(/\+ sisa sebagai ashabah/i.test(note)) return {text:'Furudh + Ashabah', cls:'mixed'};
+  if(/\+ sisa sebagai ashabah/i.test(note) || /ditambah sisa \(ashabah\) bila masih ada/i.test(note)) return {text:'Furudh + Ashabah', cls:'mixed'};
   if(/ashabah/i.test(note) || /ta'shib/i.test(note)) return {text:'Ashabah', cls:'ashabah'};
   return {text:'Furudh', cls:'furudh'};
 }
@@ -3120,7 +3162,7 @@ const FARAIDH_TEST_CASES = [
       { label:'Ibu', saham:4 },
       { label:'Istri', saham:3 },
       { label:'Ayah', saham:4 },
-      { label:'Janin (ditangguhkan / mauquf)', saham:16 }
+      { label:'Harta Mauquf (belum dibagi)', saham:16 }
     ]
   },
   {
@@ -3129,7 +3171,7 @@ const FARAIDH_TEST_CASES = [
     expectAM: 8,
     expect: [
       { label:'Istri', saham:1 },
-      { label:'Janin (ditangguhkan / mauquf)', saham:7 }
+      { label:'Harta Mauquf (belum dibagi)', saham:7 }
     ]
   },
   {
