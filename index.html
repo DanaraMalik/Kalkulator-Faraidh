@@ -755,7 +755,7 @@
     </div>
     <div class="row">
       <label data-i18n="totalHartaLabel">Total harta warisan (Rp) <span class="hint" data-i18n="totalHartaHint">opsional, untuk menghitung nominal</span></label>
-      <input class="rupiah-input" style="width:200px" id="totalHarta" type="text" inputmode="numeric" placeholder="cth. 500.000.000">
+      <input class="rupiah-input" style="width:200px" id="totalHarta" type="text" inputmode="numeric" placeholder="cth. 500.000.000" data-i18n-placeholder="totalHartaPlaceholder">
     </div>
     <div class="row">
       <label data-i18n="biayaJenazahLabel">Biaya pengurusan jenazah (Rp) <span class="hint" data-i18n="biayaJenazahHint">didahulukan sebelum hutang &amp; wasiat, opsional</span></label>
@@ -963,8 +963,8 @@
 // catatan dzawil-arham, tombol, header tabel, glosarium, disclaimer) SUDAH
 // diterjemahkan penuh. Nama-nama ahli waris (label di tabel hasil) dan badge
 // kategori bagian JUGA diterjemahkan. NAMUN, catatan penjelasan per-baris di
-// tabel hasil (kolom "note" \u2014 misal alasan takmilah, ashabah, mahjub,
-// musytarakah, muqasamah, dst \u2014 ada puluhan variasi tersebar di seluruh
+// tabel hasil (kolom "note" — misal alasan takmilah, ashabah, mahjub,
+// musytarakah, muqasamah, dst — ada puluhan variasi tersebar di seluruh
 // mesin perhitungan) BELUM diterjemahkan pada tahap ini dan akan tetap
 // tampil berbahasa Indonesia meski mode Arab aktif. Ini keputusan cakupan
 // yang disengaja mengingat jumlahnya sangat banyak dan presisi istilah fiqih
@@ -974,7 +974,7 @@ let currentLang = 'id';
 const I18N = {
   id: {
     pageTitle: "Kalkulator Faraidh",
-    eyebrow: "Ilmu Faraidh \u2014 Ilmu Waris Islam",
+    eyebrow: "Ilmu Faraidh — Ilmu Waris Islam",
     appTitle: "Kalkulator Faraidh",
     appIntro: "Hitung pembagian warisan sesuai hukum faraidh berdasarkan ahli waris yang ada. Isi data di bawah, sistem akan menentukan siapa yang terhalang (hajb), berapa bagian masing-masing, dan menyesuaikan bila terjadi 'aul atau radd.",
     menuTitle: "Menu",
@@ -990,12 +990,12 @@ const I18N = {
     presetMuaddah: "Al-Mu'addah",
     presetAkdariyyah: "Al-Akdariyyah",
 
-    glossaryTitle: "\u{1F4D6} Istilah dalam Kalkulator Ini",
+    glossaryTitle: "📖 Istilah dalam Kalkulator Ini",
     glossaryIntro: "Ringkasan istilah faraidh yang dipakai di kalkulator ini, untuk yang belum familiar.",
     gAshabulFurudhT: "Ashabul Furudh",
     gAshabulFurudhD: "Ahli waris dengan bagian pasti sesuai Al-Qur'an, misalnya 1/2, 1/4, 1/8, 1/3, 2/3, atau 1/6.",
     gAshabahT: "Ashabah",
-    gAshabahD: "Ahli waris yang mendapat <i>sisa</i> harta setelah ashabul furudh dibagi \u2014 atau seluruh harta bila tidak ada ashabul furudh lain.",
+    gAshabahD: "Ahli waris yang mendapat <i>sisa</i> harta setelah ashabul furudh dibagi — atau seluruh harta bila tidak ada ashabul furudh lain.",
     gHajbT: "Hajb / Mahjub",
     gHajbD: "Terhalangnya seseorang dari mendapat warisan (total) atau berkurangnya bagian (sebagian), karena ada ahli waris lain yang berkedudukan lebih dekat/lebih kuat.",
     gAulT: "'Aul",
@@ -1017,6 +1017,7 @@ const I18N = {
     genderL: "Laki-laki",
     genderP: "Perempuan",
     totalHartaLabel: "Total harta warisan (Rp) ",
+    totalHartaPlaceholder: "cth. 500.000.000",
     totalHartaHint: "opsional, untuk menghitung nominal",
     biayaJenazahLabel: "Biaya pengurusan jenazah (Rp) ",
     biayaJenazahHint: "didahulukan sebelum hutang & wasiat, opsional",
@@ -1028,7 +1029,7 @@ const I18N = {
     card2Title: "2. Pasangan",
     istriFieldLabel: "Istri",
     istriFieldHint: "jumlah istri yang masih hidup (0 jika tidak ada, maksimal 4)",
-    istriWarningText: "Maksimal 4 istri menurut syariat \u2014 jumlah otomatis dibatasi ke 4.",
+    istriWarningText: "Maksimal 4 istri menurut syariat — jumlah otomatis dibatasi ke 4.",
     suamiFieldLabel: "Suami",
     janinIstriLabel: "Istri sedang hamil / ada janin (calon anak mayit)?",
     janinIstriNote: "Bila dicentang, janin dianggap sebagai calon ahli waris yang belum diketahui jenis kelamin &amp; jumlahnya (bisa laki-laki, perempuan, atau kembar). Kalkulator akan memberi ahli waris lain bagian <b>paling kecil</b> yang pasti mereka dapatkan di semua kemungkinan tersebut (termasuk memperhitungkan bila terjadi 'aul), dan menahan (mauquf) sisanya sampai janin lahir.",
@@ -1047,15 +1048,15 @@ const I18N = {
     ibuLabel: "Ibu",
     nenekIbuLabel: "Nenek dari pihak ibu (ibunya ibu)",
     nenekAyahLabel: "Nenek dari pihak ayah (ibunya ayah)",
-    nenekNote: "Kalkulator ini mengikuti pendapat bahwa <b>nenek (baik dari pihak ibu maupun ayah) hanya mahjub karena ibu</b>, sehingga nenek dari pihak ayah tetap mendapat bagian meskipun ayah masih hidup. Sebagian ulama/rujukan mawaris berpendapat nenek dari pihak ayah juga terhalang oleh ayah (selain ibu) \u2014 bila mazhab/lembaga faraidh yang Anda ikuti memakai pendapat itu, hasil terkait nenek dari pihak ayah sebaiknya diverifikasi ulang.",
+    nenekNote: "Kalkulator ini mengikuti pendapat bahwa <b>nenek (baik dari pihak ibu maupun ayah) hanya mahjub karena ibu</b>, sehingga nenek dari pihak ayah tetap mendapat bagian meskipun ayah masih hidup. Sebagian ulama/rujukan mawaris berpendapat nenek dari pihak ayah juga terhalang oleh ayah (selain ibu) — bila mazhab/lembaga faraidh yang Anda ikuti memakai pendapat itu, hasil terkait nenek dari pihak ayah sebaiknya diverifikasi ulang.",
     toggleBuyutShow: "+ Tampilkan buyut (kakek/nenek dari kakek/nenek)",
-    toggleBuyutHide: "\u2212 Sembunyikan buyut",
+    toggleBuyutHide: "− Sembunyikan buyut",
     buyutLLabel: "Buyut laki-laki (ayahnya ayahnya ayah)",
-    buyutLNote: "Kakek & buyut laki-laki di atas khusus jalur ayah-ke-ayah yang tidak putus (ashabah). Kakek/buyut dari pihak ibu, atau garis mana pun yang melalui <b>ayah dari ibu</b>, berstatus <b>dzawil arham</b> \u2014 tidak disediakan. Buyut laki-laki hanya dihitung bila ayah & kakek sudah tiada.",
+    buyutLNote: "Kakek & buyut laki-laki di atas khusus jalur ayah-ke-ayah yang tidak putus (ashabah). Kakek/buyut dari pihak ibu, atau garis mana pun yang melalui <b>ayah dari ibu</b>, berstatus <b>dzawil arham</b> — tidak disediakan. Buyut laki-laki hanya dihitung bila ayah & kakek sudah tiada.",
     buyutDariKakekLabel: "Ibunya ayahnya ayah <span class=\"hint\">(ibu dari kakek)</span>",
     buyutDariNenekAyahLabel: "Ibunya ibunya ayah <span class=\"hint\">(ibu dari nenek pihak ayah)</span>",
     buyutDariNenekIbuLabel: "Ibunya ibunya ibu <span class=\"hint\">(ibu dari nenek pihak ibu)</span>",
-    buyutPNote: "Hanya 3 jalur buyut perempuan di atas yang berstatus <b>shahihah</b> (ahli waris). Jalur lain yang melewati <b>ayah dari ibu / kakek dari ibu</b> di mana pun posisinya (misalnya \"ibunya ayahnya ibu\") berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga sengaja tidak disediakan agar tidak salah pilih. Buyut perempuan (jalur mana pun) hanya dihitung bila <b>ibu dan nenek (dari sisi manapun) semuanya tidak ada</b> \u2014 nenek yang lebih dekat menghalangi buyut yang lebih jauh, dari sisi manapun.",
+    buyutPNote: "Hanya 3 jalur buyut perempuan di atas yang berstatus <b>shahihah</b> (ahli waris). Jalur lain yang melewati <b>ayah dari ibu / kakek dari ibu</b> di mana pun posisinya (misalnya \"ibunya ayahnya ibu\") berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga sengaja tidak disediakan agar tidak salah pilih. Buyut perempuan (jalur mana pun) hanya dihitung bila <b>ibu dan nenek (dari sisi manapun) semuanya tidak ada</b> — nenek yang lebih dekat menghalangi buyut yang lebih jauh, dari sisi manapun.",
 
     card4Title: "4. Anak & Cucu",
     anakCucuNote: "Cucu & cicit di sini khusus jalur <b>anak laki-laki</b> (cucu) dan <b>cucu laki-laki dari anak laki-laki</b> (cicit). Keturunan lewat anak perempuan (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.",
@@ -1065,7 +1066,7 @@ const I18N = {
     cucuLLabel: "Cucu laki-laki (dari anak laki-laki)",
     cucuPLabel: "Cucu perempuan (dari anak laki-laki)",
     toggleCicitShow: "+ Tampilkan cicit (dari cucu laki-laki)",
-    toggleCicitHide: "\u2212 Sembunyikan cicit",
+    toggleCicitHide: "− Sembunyikan cicit",
     cicitLLabel: "Cicit laki-laki (dari cucu laki-laki)",
     cicitPLabel: "Cicit perempuan (dari cucu laki-laki)",
     cicitSub: "Cicit terhalang total hanya bila ada anak laki-laki atau cucu laki-laki. Bila hanya ada cucu perempuan (tanpa cucu laki-laki) yang sudah punya bagian tetap (takmilah/pengganti anak), cicit laki-laki hanya mengambil sisanya sendiri. Khusus bila cucu perempuan itu <b>mahjub</b> (misal karena 2+ anak perempuan sudah mengambil 2/3), cicit laki-laki bisa menyelamatkannya dengan meng-ashabah-kan (ta'shib) bersama.",
@@ -1086,15 +1087,15 @@ const I18N = {
     dariSaudaraKandung: "Dari saudara kandung",
     dariSaudaraSeayah: "Dari saudara seayah",
 
-    card7Title: "7. Paman \u2014 khusus saudara ayah",
+    card7Title: "7. Paman — khusus saudara ayah",
     card7Sub: "Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, saudara laki-laki, atau keponakan (di atas). Paman kandung menghalangi paman seayah.",
-    pamanNote: "<b>Perhatian:</b> dalam bahasa sehari-hari \"paman\" bisa berarti saudara laki-laki ayah <i>maupun</i> ibu. Di kalkulator ini, \"paman\" HANYA berarti <b>saudara laki-laki ayah</b> mayit \u2014 karena hanya jalur itu yang berstatus ahli waris. Paman dari pihak <b>ibu</b> (saudara laki-laki ibu), serta bibi dari pihak manapun, berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.",
+    pamanNote: "<b>Perhatian:</b> dalam bahasa sehari-hari \"paman\" bisa berarti saudara laki-laki ayah <i>maupun</i> ibu. Di kalkulator ini, \"paman\" HANYA berarti <b>saudara laki-laki ayah</b> mayit — karena hanya jalur itu yang berstatus ahli waris. Paman dari pihak <b>ibu</b> (saudara laki-laki ibu), serta bibi dari pihak manapun, berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.",
     pamanKLabel: "Paman kandung ",
     pamanKHint: "saudara kandung ayah",
     pamanALabel: "Paman seayah ",
     pamanAHint: "saudara seayah dari ayah",
 
-    card8Title: "8. Sepupu \u2014 khusus anak paman dari ayah",
+    card8Title: "8. Sepupu — khusus anak paman dari ayah",
     card8Sub: "Terhalang total bila ada ahli waris di atas (sampai dengan paman). Anak dari paman kandung menghalangi anak dari paman seayah.",
     sepupuNote: "<b>Perhatian:</b> \"sepupu\" di sini HANYA berarti anak laki-laki dari <b>paman pihak ayah</b> (saudara laki-laki ayah mayit) di atas, bukan sepupu secara umum. Sepupu <b>perempuan</b>, serta sepupu dari jalur <b>ibu</b> (anak dari saudara ibu, baik laki-laki maupun perempuan bibi/paman ibu), berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.",
     sepupuKLabel: "Anak paman kandung ",
@@ -1104,11 +1105,11 @@ const I18N = {
     btnHitung: "Hitung Pembagian Warisan",
     btnReset: "Reset",
 
-    printTitle: "Kalkulator Faraidh \u2014 Hasil Pembagian Warisan",
+    printTitle: "Kalkulator Faraidh — Hasil Pembagian Warisan",
     printDateLabel: "Dicetak pada ",
     resultsTitle: "Hasil Pembagian",
-    btnShare: "\u{1F501} Bagikan Hasil",
-    btnPrint: "\u{1F5A8} Cetak / Simpan PDF",
+    btnShare: "🔁 Bagikan Hasil",
+    btnPrint: "🖨 Cetak / Simpan PDF",
     mahjubGeneralNote: "Ahli waris yang Anda isi jumlahnya tetapi <b>tidak muncul</b> di tabel hasil di bawah berarti <b>mahjub (terhalang)</b> oleh ahli waris lain yang lebih berhak, sehingga tidak mendapat bagian warisan sama sekali.",
     kasusAwalTitle: "Kasus Awal",
     sebelumAulBadge: "sebelum 'aul/radd/inkisar",
@@ -1147,178 +1148,179 @@ const I18N = {
     badge_mauquf: "Mauquf"
   },
   ar: {
-    pageTitle: "\u062D\u0627\u0633\u0628\u0629 \u0627\u0644\u0641\u0631\u0627\u0626\u0636",
-    eyebrow: "\u0639\u0644\u0645 \u0627\u0644\u0641\u0631\u0627\u0626\u0636 \u2014 \u0639\u0644\u0645 \u0627\u0644\u0645\u0648\u0627\u0631\u064A\u062B \u0641\u064A \u0627\u0644\u0625\u0633\u0644\u0627\u0645",
-    appTitle: "\u062D\u0627\u0633\u0628\u0629 \u0627\u0644\u0641\u0631\u0627\u0626\u0636",
-    appIntro: "\u0627\u062D\u0633\u0628 \u062A\u0648\u0632\u064A\u0639 \u0627\u0644\u0645\u064A\u0631\u0627\u062B \u0648\u0641\u0642 \u0623\u062D\u0643\u0627\u0645 \u0627\u0644\u0641\u0631\u0627\u0626\u0636 \u0628\u0646\u0627\u0621ً \u0639\u0644\u0649 \u0627\u0644\u0648\u0631\u062B\u0629 \u0627\u0644\u0645\u0648\u062C\u0648\u062F\u064A\u0646. \u0627\u0645\u0644\u0623 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A \u0623\u062F\u0646\u0627\u0647\u060C \u0648\u0633\u064A\u062D\u062F\u062F \u0627\u0644\u0646\u0638\u0627\u0645 \u0645\u0646 \u0627\u0644\u0645\u062D\u062C\u0648\u0628 \u0648\u0645\u0642\u062F\u0627\u0631 \u0646\u0635\u064A\u0628 \u0643\u0644 \u0648\u0627\u0631\u062B\u060C \u0648\u064A\u0636\u0628\u0637 \u0627\u0644\u0646\u062A\u064A\u062C\u0629 \u0639\u0646\u062F \u062D\u062F\u0648\u062B \u0627\u0644\u0639\u0648\u0644 \u0623\u0648 \u0627\u0644\u0631\u062F.",
-    menuTitle: "\u0627\u0644\u0642\u0627\u0626\u0645\u0629",
-    menuLanguageLabel: "\u0627\u0644\u0644\u063A\u0629",
-    presetLabel: "\u062C\u0631\u0651\u0628 \u0645\u062B\u0627\u0644\u0627ً:",
-    presetIstriAnak: "\u0632\u0648\u062C\u0629 + \u0627\u0628\u0646\u0627\u0646",
-    presetAyahIbu: "\u0623\u0628 + \u0623\u0645 \u0641\u0642\u0637",
-    presetAul: "\u0632\u0648\u062C + \u0623\u0645 + \u0623\u062E\u062A\u0627\u0646",
-    presetSaudaraSaja: "\u0625\u062E\u0648\u0629 \u0641\u0642\u0637",
-    presetUmariyyatain: "\u0627\u0644\u0639\u0645\u0631\u064A\u062A\u0627\u0646 (\u0632\u0648\u062C+\u0623\u0628+\u0623\u0645)",
-    presetMusytarakah: "\u0627\u0644\u0645\u0634\u062A\u0631\u0643\u0629",
-    presetMuqasamah: "\u062C\u062F \u0645\u0639 \u0625\u062E\u0648\u0629 (\u0645\u0642\u0627\u0633\u0645\u0629)",
-    presetMuaddah: "\u0627\u0644\u0645\u0639\u0627\u062F\u0629",
-    presetAkdariyyah: "\u0627\u0644\u0623\u0643\u062F\u0631\u064A\u0629",
+    pageTitle: "حاسبة الفرائض",
+    eyebrow: "علم الفرائض — علم المواريث في الإسلام",
+    appTitle: "حاسبة الفرائض",
+    appIntro: "احسب توزيع الميراث وفق أحكام الفرائض بناءً على الورثة الموجودين. املأ البيانات أدناه، وسيحدد النظام من المحجوب ومقدار نصيب كل وارث، ويضبط النتيجة عند حدوث العول أو الرد.",
+    menuTitle: "القائمة",
+    menuLanguageLabel: "اللغة",
+    presetLabel: "جرّب مثالاً:",
+    presetIstriAnak: "زوجة + ابنان",
+    presetAyahIbu: "أب + أم فقط",
+    presetAul: "زوج + أم + أختان",
+    presetSaudaraSaja: "إخوة فقط",
+    presetUmariyyatain: "العمريتان (زوج+أب+أم)",
+    presetMusytarakah: "المشتركة",
+    presetMuqasamah: "جد مع إخوة (مقاسمة)",
+    presetMuaddah: "المعادة",
+    presetAkdariyyah: "الأكدرية",
 
-    glossaryTitle: "\u{1F4D6} \u0627\u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0641\u064A \u0647\u0630\u0647 \u0627\u0644\u062D\u0627\u0633\u0628\u0629",
-    glossaryIntro: "\u0645\u0644\u062E\u0635 \u0644\u0645\u0635\u0637\u0644\u062D\u0627\u062A \u0627\u0644\u0641\u0631\u0627\u0626\u0636 \u0627\u0644\u0645\u0633\u062A\u062E\u062F\u0645\u0629 \u0641\u064A \u0647\u0630\u0647 \u0627\u0644\u062D\u0627\u0633\u0628\u0629.",
-    gAshabulFurudhT: "\u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0641\u0631\u0648\u0636",
-    gAshabulFurudhD: "\u0627\u0644\u0648\u0631\u062B\u0629 \u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0623\u0646\u0635\u0628\u0629 \u0627\u0644\u0645\u0642\u062F\u0631\u0629 \u0634\u0631\u0639\u0627ً: 1/2\u060C 1/4\u060C 1/8\u060C 1/3\u060C 2/3\u060C \u0623\u0648 1/6.",
-    gAshabahT: "\u0627\u0644\u0639\u0635\u0628\u0629",
-    gAshabahD: "\u0627\u0644\u0648\u0631\u062B\u0629 \u0627\u0644\u0630\u064A\u0646 \u064A\u0623\u062E\u0630\u0648\u0646 <i>\u0627\u0644\u0628\u0627\u0642\u064A</i> \u0628\u0639\u062F \u0642\u0633\u0645\u0629 \u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0641\u0631\u0648\u0636 \u2014 \u0623\u0648 \u0643\u0644 \u0627\u0644\u062A\u0631\u0643\u0629 \u0625\u0646 \u0644\u0645 \u064A\u0648\u062C\u062F \u0635\u0627\u062D\u0628 \u0641\u0631\u0636 \u0622\u062E\u0631.",
-    gHajbT: "\u0627\u0644\u062D\u062C\u0628",
-    gHajbD: "\u0645\u0646\u0639 \u0627\u0644\u0648\u0627\u0631\u062B \u0645\u0646 \u0627\u0644\u0645\u064A\u0631\u0627\u062B \u0643\u0644\u064A\u0627ً \u0623\u0648 \u062C\u0632\u0626\u064A\u0627ً \u0628\u0633\u0628\u0628 \u0648\u062C\u0648\u062F \u0648\u0627\u0631\u062B \u0622\u062E\u0631 \u0623\u0642\u0631\u0628 \u0623\u0648 \u0623\u0642\u0648\u0649.",
-    gAulT: "\u0627\u0644\u0639\u0648\u0644",
-    gAulD: "\u0632\u064A\u0627\u062F\u0629 \u0645\u062C\u0645\u0648\u0639 \u0641\u0631\u0648\u0636 \u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0641\u0631\u0648\u0636 \u0639\u0644\u0649 \u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629\u060C \u0641\u064A\u0631\u0641\u0639 \u0627\u0644\u0623\u0635\u0644 \u0648\u062A\u0646\u0642\u0635 \u0627\u0644\u0623\u0646\u0635\u0628\u0629 \u062C\u0645\u064A\u0639\u0627ً \u0628\u0627\u0644\u062A\u0646\u0627\u0633\u0628.",
-    gRaddT: "\u0627\u0644\u0631\u062F",
-    gRaddD: "\u0646\u0642\u0635 \u0645\u062C\u0645\u0648\u0639 \u0641\u0631\u0648\u0636 \u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0641\u0631\u0648\u0636 \u0639\u0646 \u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629 \u0645\u0639 \u0639\u062F\u0645 \u0648\u062C\u0648\u062F \u0639\u0635\u0628\u0629\u060C \u0641\u064A\u0631\u062F \u0627\u0644\u0628\u0627\u0642\u064A \u0639\u0644\u064A\u0647\u0645 \u0628\u0627\u0644\u0646\u0633\u0628\u0629 (\u0628\u062E\u0644\u0627\u0641 \u0627\u0644\u0632\u0648\u062C/\u0627\u0644\u0632\u0648\u062C\u0629\u060C \u062D\u0633\u0628 \u0627\u0644\u0631\u0623\u064A \u0627\u0644\u0645\u0639\u062A\u0645\u062F \u0641\u064A \u0647\u0630\u0647 \u0627\u0644\u062D\u0627\u0633\u0628\u0629).",
-    gDzawilArhamT: "\u0630\u0648\u0648 \u0627\u0644\u0623\u0631\u062D\u0627\u0645",
-    gDzawilArhamD: "\u0623\u0642\u0627\u0631\u0628 \u0644\u064A\u0633\u0648\u0627 \u0645\u0646 \u0623\u0635\u062D\u0627\u0628 \u0627\u0644\u0641\u0631\u0648\u0636 \u0648\u0644\u0627 \u0627\u0644\u0639\u0635\u0628\u0629 (\u063A\u0627\u0644\u0628\u0627ً \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0625\u0646\u0627\u062B\u060C \u0645\u062B\u0644 \u0623\u0648\u0644\u0627\u062F \u0627\u0644\u0628\u0646\u062A\u060C \u0623\u0648 \u062C\u062F/\u0639\u0645 \u0627\u0644\u0623\u0645). \u0645\u062E\u062A\u0644\u0641 \u0641\u064A\u0647 \u0628\u064A\u0646 \u0627\u0644\u0641\u0642\u0647\u0627\u0621 \u0648<b>\u0644\u0627 \u062A\u062D\u0633\u0628\u0647</b> \u0647\u0630\u0647 \u0627\u0644\u0623\u062F\u0627\u0629.",
-    gAshlulT: "\u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629 / \u0627\u0644\u062C\u0627\u0645\u0639\u0629",
-    gAshlulD: "\u0627\u0644\u0645\u0642\u0627\u0645 \u0627\u0644\u0645\u0634\u062A\u0631\u0643 \u0627\u0644\u0630\u064A \u064A\u062C\u0639\u0644 \u0633\u0647\u0627\u0645 \u0643\u0644 \u0648\u0627\u0631\u062B \u0631\u0642\u0645\u0627ً \u0635\u062D\u064A\u062D\u0627ً. \u201C\u0627\u0644\u062C\u0627\u0645\u0639\u0629\u201D \u0647\u064A \u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629 \u0628\u0639\u062F \u0627\u0644\u062A\u0635\u062D\u064A\u062D (\u0639\u0648\u0644/\u0631\u062F/\u062A\u0635\u062D\u064A\u062D).",
-    gTakmilahT: "\u0627\u0644\u062A\u0643\u0645\u0644\u0629",
-    gTakmilahD: "\u0646\u0635\u064A\u0628 \u064A\u0643\u0645\u0651\u0644 \u0628\u0647 \u0628\u0627\u0642\u064A \u0627\u0644\u0641\u0631\u0636\u060C \u0645\u062B\u0644 \u0628\u0646\u062A \u0627\u0644\u0627\u0628\u0646 \u062A\u0623\u062E\u0630 1/6 \u0644\u064A\u0643\u062A\u0645\u0644 \u0627\u0644\u062B\u0644\u062B\u0627\u0646 \u0645\u0639 \u0627\u0644\u0628\u0646\u062A.",
-    gMuqasamahT: "\u0627\u0644\u0645\u0642\u0627\u0633\u0645\u0629 / \u0627\u0644\u0645\u0634\u0627\u0631\u0643\u0629",
-    gMuqasamahD: "\u0627\u0634\u062A\u0631\u0627\u0643 \u0641\u0626\u062A\u064A\u0646 \u0645\u062E\u062A\u0644\u0641\u062A\u064A\u0646 \u0641\u064A \u0627\u0644\u0645\u064A\u0631\u0627\u062B (\u0645\u062B\u0644 \u0627\u0644\u062C\u062F \u0648\u0627\u0644\u0625\u062E\u0648\u0629\u060C \u0639\u0646\u062F \u0632\u064A\u062F \u0628\u0646 \u062B\u0627\u0628\u062A) \u0643\u0623\u0646\u0647\u0645\u0627 \u0641\u0626\u0629 \u0648\u0627\u062D\u062F\u0629.",
+    glossaryTitle: "📖 المصطلحات في هذه الحاسبة",
+    glossaryIntro: "ملخص لمصطلحات الفرائض المستخدمة في هذه الحاسبة.",
+    gAshabulFurudhT: "أصحاب الفروض",
+    gAshabulFurudhD: "الورثة أصحاب الأنصبة المقدرة شرعاً: 1/2، 1/4، 1/8، 1/3، 2/3، أو 1/6.",
+    gAshabahT: "العصبة",
+    gAshabahD: "الورثة الذين يأخذون <i>الباقي</i> بعد قسمة أصحاب الفروض — أو كل التركة إن لم يوجد صاحب فرض آخر.",
+    gHajbT: "الحجب",
+    gHajbD: "منع الوارث من الميراث كلياً بسبب وجود وارث آخر أقرب أو أقوى (حجب حرمان)، أو تنقيص نصيبه من فرض أكبر إلى أصغر (حجب نقصان).",
+    gAulT: "العول",
+    gAulD: "زيادة مجموع فروض أصحاب الفروض على أصل المسألة، فيرفع الأصل وتنقص الأنصبة جميعاً بالتناسب.",
+    gRaddT: "الرد",
+    gRaddD: "نقص مجموع فروض أصحاب الفروض عن أصل المسألة مع عدم وجود عصبة، فيرد الباقي عليهم بالنسبة (بخلاف الزوج/الزوجة، حسب الرأي المعتمد في هذه الحاسبة).",
+    gDzawilArhamT: "ذوو الأرحام",
+    gDzawilArhamD: "أقارب ليسوا من أصحاب الفروض ولا العصبة (غالباً من جهة الإناث، مثل أولاد البنت، أو جد/عم الأم). مختلف فيه بين الفقهاء و<b>لا تحسبه</b> هذه الأداة.",
+    gAshlulT: "أصل المسألة / الجامعة",
+    gAshlulD: "المقام المشترك الذي يجعل سهام كل وارث رقماً صحيحاً. “الجامعة” هي أصل المسألة بعد التصحيح (عول/رد/تصحيح).",
+    gTakmilahT: "التكملة",
+    gTakmilahD: "نصيب يُكمَّل به فرض من قبله، ويُعرف عند الفقهاء بـ«تكملة الثلثين» — مثاله بنت الابن تأخذ 1/6 تكملةً للثلثين مع البنت صاحبة النصف.",
+    gMuqasamahT: "المقاسمة / المشاركة",
+    gMuqasamahD: "اشتراك فئتين مختلفتين في الميراث (مثل الجد والإخوة، عند زيد بن ثابت) كأنهما فئة واحدة.",
 
-    card1Title: "1. \u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u0645\u064A\u062A",
-    card1Sub: "\u062C\u0646\u0633 \u0627\u0644\u0645\u062A\u0648\u0641\u0649 \u064A\u062D\u062F\u062F \u0646\u0648\u0639 \u0627\u0644\u0632\u0648\u062C \u0627\u0644\u0648\u0627\u0631\u062B.",
-    genderLabel: "\u062C\u0646\u0633 \u0627\u0644\u0645\u064A\u062A",
-    genderL: "\u0630\u0643\u0631",
-    genderP: "\u0623\u0646\u062B\u0649",
-    totalHartaLabel: "\u0625\u062C\u0645\u0627\u0644\u064A \u0627\u0644\u062A\u0631\u0643\u0629 (\u0631\u0648\u0628\u064A\u0629) ",
-    totalHartaHint: "\u0627\u062E\u062A\u064A\u0627\u0631\u064A\u060C \u0644\u062D\u0633\u0627\u0628 \u0627\u0644\u0645\u0628\u0644\u063A",
-    biayaJenazahLabel: "\u062A\u0643\u0627\u0644\u064A\u0641 \u0627\u0644\u062C\u0646\u0627\u0632\u0629 (\u0631\u0648\u0628\u064A\u0629) ",
-    biayaJenazahHint: "\u062A\u064F\u0642\u062F\u0651\u0645 \u0642\u0628\u0644 \u0627\u0644\u062F\u064A\u0646 \u0648\u0627\u0644\u0648\u0635\u064A\u0629\u060C \u0627\u062E\u062A\u064A\u0627\u0631\u064A",
-    hutangLabel: "\u062F\u064A\u0646 \u0627\u0644\u0645\u064A\u062A (\u0631\u0648\u0628\u064A\u0629) ",
-    hutangHint: "\u064A\u064F\u0633\u062F\u0651\u062F \u0642\u0628\u0644 \u0642\u0633\u0645\u0629 \u0627\u0644\u0645\u064A\u0631\u0627\u062B\u060C \u0627\u062E\u062A\u064A\u0627\u0631\u064A",
-    wasiatLabel: "\u0648\u0635\u064A\u0629 \u0644\u063A\u064A\u0631 \u0627\u0644\u0648\u0631\u062B\u0629 (\u0631\u0648\u0628\u064A\u0629) ",
-    wasiatHint: "\u062D\u062F \u0623\u0642\u0635\u0649 1/3 \u0645\u0646 \u0627\u0644\u062A\u0631\u0643\u0629 \u0628\u0639\u062F \u0627\u0644\u062F\u064A\u0646\u060C \u0627\u062E\u062A\u064A\u0627\u0631\u064A",
+    card1Title: "1. بيانات الميت",
+    card1Sub: "جنس المتوفى يحدد نوع الزوج الوارث.",
+    genderLabel: "جنس الميت",
+    genderL: "ذكر",
+    genderP: "أنثى",
+    totalHartaLabel: "إجمالي التركة ",
+    totalHartaPlaceholder: "مثال: 500,000,000",
+    totalHartaHint: "اختياري، لحساب المبلغ",
+    biayaJenazahLabel: "تكاليف الجنازة ",
+    biayaJenazahHint: "تُقدّم قبل الدين والوصية، اختياري",
+    hutangLabel: "دين الميت ",
+    hutangHint: "يُسدّد قبل قسمة الميراث، اختياري",
+    wasiatLabel: "وصية لغير الورثة ",
+    wasiatHint: "حد أقصى 1/3 من التركة بعد الدين، اختياري",
 
-    card2Title: "2. \u0627\u0644\u0632\u0648\u062C",
-    istriFieldLabel: "\u0627\u0644\u0632\u0648\u062C\u0629",
-    istriFieldHint: "\u0639\u062F\u062F \u0627\u0644\u0632\u0648\u062C\u0627\u062A \u0627\u0644\u0623\u062D\u064A\u0627\u0621 (0 \u0625\u0646 \u0644\u0645 \u062A\u0648\u062C\u062F\u060C \u0628\u062D\u062F \u0623\u0642\u0635\u0649 4)",
-    istriWarningText: "\u0627\u0644\u062D\u062F \u0627\u0644\u0623\u0642\u0635\u0649 4 \u0632\u0648\u062C\u0627\u062A \u0634\u0631\u0639\u0627ً \u2014 \u062A\u0645 \u0636\u0628\u0637 \u0627\u0644\u0639\u062F\u062F \u062A\u0644\u0642\u0627\u0626\u064A\u0627ً \u0625\u0644\u0649 4.",
-    suamiFieldLabel: "\u0627\u0644\u0632\u0648\u062C",
-    janinIstriLabel: "\u0647\u0644 \u0627\u0644\u0632\u0648\u062C\u0629 \u062D\u0627\u0645\u0644\u061F (\u0627\u0644\u062D\u0645\u0644)",
-    janinIstriNote: "\u0625\u0630\u0627 \u062A\u0645 \u0627\u0644\u062A\u062D\u062F\u064A\u062F\u060C \u064A\u064F\u0639\u0627\u0645\u0644 \u0627\u0644\u062D\u0645\u0644 \u0643\u0648\u0627\u0631\u062B \u0645\u062D\u062A\u0645\u0644 \u0645\u062C\u0647\u0648\u0644 \u0627\u0644\u062C\u0646\u0633 \u0648\u0627\u0644\u0639\u062F\u062F. \u064A\u064F\u0639\u0637\u0649 \u0628\u0627\u0642\u064A \u0627\u0644\u0648\u0631\u062B\u0629 \u0623\u0642\u0644 \u0646\u0635\u064A\u0628 \u0645\u0624\u0643\u062F \u0641\u064A \u062C\u0645\u064A\u0639 \u0627\u0644\u0627\u062D\u062A\u0645\u0627\u0644\u0627\u062A\u060C \u0648\u064A\u064F\u0648\u0642\u0641 \u0627\u0644\u0628\u0627\u0642\u064A \u062D\u062A\u0649 \u0627\u0644\u0648\u0636\u0639.",
-    hartaMauqufLabel: "\u0627\u0644\u062A\u0631\u0643\u0629 \u0627\u0644\u0645\u0648\u0642\u0648\u0641\u0629 (\u0644\u0645 \u062A\u064F\u0642\u0633\u0651\u0645 \u0628\u0639\u062F)",
-    janinBagianTerjaminNote: "\u0627\u0644\u0646\u0635\u064A\u0628 \u0627\u0644\u0645\u0624\u0643\u062F (\u0645\u0639 \u0645\u0631\u0627\u0639\u0627\u0629 \u0627\u062D\u062A\u0645\u0627\u0644 \u0627\u0644\u062D\u0645\u0644)",
-    janinWithheldAshabah: "\u0645\u0648\u0642\u0648\u0641 \u0645\u0639 \u0627\u0644\u062D\u0645\u0644 \u2014 \u064A\u062D\u062A\u0645\u0644 \u0623\u0646 \u064A\u0643\u0648\u0646 \u0639\u0627\u0635\u0628\u0627ً \u0641\u0644\u0645 \u064A\u064F\u062D\u062F\u0651\u062F \u0645\u0642\u062F\u0627\u0631\u0647 \u0628\u0639\u062F.",
-    janinWithheldMahjub: "\u0645\u0648\u0642\u0648\u0641 \u0645\u0639 \u0627\u0644\u062D\u0645\u0644 \u2014 \u064A\u062D\u062A\u0645\u0644 \u0623\u0646 \u064A\u0643\u0648\u0646 \u0645\u062D\u062C\u0648\u0628\u0627ً \u0643\u0644\u064A\u0627ً \u062D\u0633\u0628 \u062C\u0646\u0633 \u0648\u0639\u062F\u062F \u0627\u0644\u062D\u0645\u0644.",
-    janinWithheldBoth: "\u0645\u0648\u0642\u0648\u0641 \u0645\u0639 \u0627\u0644\u062D\u0645\u0644 \u2014 \u064A\u062D\u062A\u0645\u0644 \u0623\u0646 \u064A\u0643\u0648\u0646 \u0639\u0627\u0635\u0628\u0627ً \u0623\u0648 \u0645\u062D\u062C\u0648\u0628\u0627ً \u062D\u0633\u0628 \u062C\u0646\u0633 \u0648\u0639\u062F\u062F \u0627\u0644\u062D\u0645\u0644.",
-    janinMauqufNote: "\u064A\u064F\u0648\u0642\u0641 \u0647\u0630\u0627 \u0627\u0644\u0646\u0635\u064A\u0628 (\u0645\u0648\u0642\u0648\u0641) \u2014 \u064A\u0634\u0645\u0644 \u0646\u0635\u064A\u0628 \u0627\u0644\u062D\u0645\u0644 \u0648/\u0623\u0648 \u0646\u0635\u064A\u0628 \u0648\u0631\u062B\u0629 \u0622\u062E\u0631\u064A\u0646 \u063A\u064A\u0631 \u0645\u0624\u0643\u062F\u0629 \u0628\u0639\u062F\u060C \u062D\u062A\u0649 \u0648\u0636\u0639 \u0627\u0644\u062D\u0645\u0644 \u0648\u062A\u0623\u0643\u062F \u062D\u0627\u0644\u0629 \u0628\u0627\u0642\u064A \u0627\u0644\u0648\u0631\u062B\u0629.",
-    janinSpecialNote: "\u064A\u0648\u062C\u062F <b>\u062D\u0645\u0644</b> \u0644\u0645 \u064A\u0648\u0644\u062F \u0628\u0639\u062F. \u0648\u0641\u0642 \u0645\u0630\u0647\u0628 \u0627\u0644\u0634\u0627\u0641\u0639\u064A\u0629: \u064A\u064F\u0639\u0637\u0649 \u0628\u0627\u0642\u064A \u0627\u0644\u0648\u0631\u062B\u0629 \u0623\u0642\u0644 \u0646\u0635\u064A\u0628 \u0645\u0624\u0643\u062F\u060C \u0648\u064A\u064F\u0648\u0642\u0641 \u0627\u0644\u0628\u0627\u0642\u064A \u062D\u062A\u0649 \u0627\u0644\u0648\u0636\u0639 \u062B\u0645 \u064A\u064F\u0639\u0627\u062F \u062A\u0648\u0632\u064A\u0639\u0647 \u062D\u0633\u0628 \u0627\u0644\u062C\u0646\u0633 \u0648\u0627\u0644\u0639\u062F\u062F \u0627\u0644\u0641\u0639\u0644\u064A.",
+    card2Title: "2. الزوج",
+    istriFieldLabel: "الزوجة",
+    istriFieldHint: "عدد الزوجات الأحياء (0 إن لم توجد، بحد أقصى 4)",
+    istriWarningText: "الحد الأقصى 4 زوجات شرعاً — تم ضبط العدد تلقائياً إلى 4.",
+    suamiFieldLabel: "الزوج",
+    janinIstriLabel: "هل الزوجة حامل؟ (الحمل)",
+    janinIstriNote: "إذا تم التحديد، يُعامل الحمل كوارث محتمل مجهول الجنس والعدد. يُعطى باقي الورثة أقل نصيب مؤكد في جميع الاحتمالات، ويُوقف الباقي حتى الوضع.",
+    hartaMauqufLabel: "التركة الموقوفة (لم تُقسّم بعد)",
+    janinBagianTerjaminNote: "النصيب المؤكد (مع مراعاة احتمال الحمل)",
+    janinWithheldAshabah: "موقوف مع الحمل — يحتمل أن يكون عاصباً فلم يُحدّد مقداره بعد.",
+    janinWithheldMahjub: "موقوف مع الحمل — يحتمل أن يكون محجوباً كلياً حسب جنس وعدد الحمل.",
+    janinWithheldBoth: "موقوف مع الحمل — يحتمل أن يكون عاصباً أو محجوباً حسب جنس وعدد الحمل.",
+    janinMauqufNote: "يُوقف هذا النصيب (موقوف) — يشمل نصيب الحمل و/أو نصيب ورثة آخرين غير مؤكدة بعد، حتى وضع الحمل وتأكد حالة باقي الورثة.",
+    janinSpecialNote: "يوجد <b>حمل</b> لم يولد بعد. وفق مذهب الشافعية: يُعطى باقي الورثة أقل نصيب مؤكد، ويُوقف الباقي حتى الوضع ثم يُعاد توزيعه حسب الجنس والعدد الفعلي.",
 
-    card3Title: "3. \u0627\u0644\u0648\u0627\u0644\u062F\u0627\u0646 \u0648\u0627\u0644\u062C\u062F/\u0627\u0644\u062C\u062F\u0629",
-    card3Sub: "\u064A\u064F\u062D\u0633\u0628 \u0627\u0644\u062C\u062F \u0648\u0627\u0644\u062C\u062F\u0629 \u0641\u0642\u0637 \u0625\u0646 \u0644\u0645 \u064A\u0648\u062C\u062F \u0627\u0644\u0623\u0628/\u0627\u0644\u0623\u0645.",
-    ayahLabel: "\u0627\u0644\u0623\u0628",
-    kakekLabel: "\u0627\u0644\u062C\u062F (\u0623\u0628\u0648 \u0627\u0644\u0623\u0628)",
-    ibuLabel: "\u0627\u0644\u0623\u0645",
-    nenekIbuLabel: "\u0627\u0644\u062C\u062F\u0629 \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0645 (\u0623\u0645 \u0627\u0644\u0623\u0645)",
-    nenekAyahLabel: "\u0627\u0644\u062C\u062F\u0629 \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628 (\u0623\u0645 \u0627\u0644\u0623\u0628)",
-    nenekNote: "\u062A\u0639\u062A\u0645\u062F \u0647\u0630\u0647 \u0627\u0644\u062D\u0627\u0633\u0628\u0629 \u0627\u0644\u0631\u0623\u064A \u0627\u0644\u0642\u0627\u0626\u0644 \u0628\u0623\u0646 <b>\u0627\u0644\u062C\u062F\u0629 (\u0645\u0646 \u0623\u064A \u0627\u0644\u062C\u0647\u062A\u064A\u0646) \u062A\u064F\u062D\u062C\u0628 \u0641\u0642\u0637 \u0628\u0648\u062C\u0648\u062F \u0627\u0644\u0623\u0645</b>\u060C \u0641\u062A\u0628\u0642\u0649 \u062C\u062F\u0629 \u0627\u0644\u0623\u0628 \u0648\u0627\u0631\u062B\u0629 \u0648\u0625\u0646 \u0643\u0627\u0646 \u0627\u0644\u0623\u0628 \u062D\u064A\u0627ً. \u0628\u0639\u0636 \u0627\u0644\u0641\u0642\u0647\u0627\u0621 \u064A\u0631\u0648\u0646 \u0623\u0646 \u0627\u0644\u0623\u0628 \u064A\u062D\u062C\u0628 \u062C\u062F\u062A\u0647 \u0623\u064A\u0636\u0627ً.",
-    toggleBuyutShow: "+ \u0625\u0638\u0647\u0627\u0631 \u0627\u0644\u062C\u062F \u0627\u0644\u0623\u0639\u0644\u0649",
-    toggleBuyutHide: "\u2212 \u0625\u062E\u0641\u0627\u0621 \u0627\u0644\u062C\u062F \u0627\u0644\u0623\u0639\u0644\u0649",
-    buyutLLabel: "\u062C\u062F \u0627\u0644\u062C\u062F (\u0623\u0628\u0648 \u0623\u0628\u064A \u0627\u0644\u0623\u0628)",
-    buyutLNote: "\u0627\u0644\u062C\u062F \u0648\u062C\u062F \u0627\u0644\u062C\u062F \u0623\u0639\u0644\u0627\u0647 \u062E\u0627\u0635\u0627\u0646 \u0628\u0627\u0644\u062C\u062F \u0627\u0644\u0635\u062D\u064A\u062D (\u0639\u0635\u0628\u0629). \u0627\u0644\u062C\u062F \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0645 \u0630\u0648 \u0623\u0631\u062D\u0627\u0645\u060C \u063A\u064A\u0631 \u0645\u062A\u0648\u0641\u0631.",
-    buyutDariKakekLabel: "\u0623\u0645 \u0627\u0644\u062C\u062F <span class=\"hint\">(\u0623\u0645 \u0623\u0628\u064A \u0627\u0644\u0623\u0628)</span>",
-    buyutDariNenekAyahLabel: "\u0623\u0645 \u062C\u062F\u0629 \u0627\u0644\u0623\u0628 <span class=\"hint\">(\u0623\u0645 \u0623\u0645 \u0627\u0644\u0623\u0628)</span>",
-    buyutDariNenekIbuLabel: "\u0623\u0645 \u062C\u062F\u0629 \u0627\u0644\u0623\u0645 <span class=\"hint\">(\u0623\u0645 \u0623\u0645 \u0627\u0644\u0623\u0645)</span>",
-    buyutPNote: "\u0641\u0642\u0637 \u0627\u0644\u062C\u062F\u0627\u062A \u0627\u0644\u062B\u0644\u0627\u062B \u0623\u0639\u0644\u0627\u0647 \u0635\u062D\u064A\u062D\u0627\u062A. \u0627\u0644\u062C\u062F\u0629 \u0627\u0644\u0623\u0639\u0644\u0649 \u062A\u064F\u062D\u0633\u0628 \u0641\u0642\u0637 \u0625\u0646 \u0644\u0645 \u062A\u0648\u062C\u062F \u0627\u0644\u0623\u0645 \u0648\u0644\u0627 \u0627\u0644\u062C\u062F\u0629.",
+    card3Title: "3. الوالدان والجد/الجدة",
+    card3Sub: "يُحسب الجد والجدة فقط إن لم يوجد الأب/الأم.",
+    ayahLabel: "الأب",
+    kakekLabel: "الجد (أبو الأب)",
+    ibuLabel: "الأم",
+    nenekIbuLabel: "الجدة من جهة الأم (أم الأم)",
+    nenekAyahLabel: "الجدة من جهة الأب (أم الأب)",
+    nenekNote: "تعتمد هذه الحاسبة الرأي القائل بأن <b>الجدة (من أي الجهتين) تُحجب فقط بوجود الأم</b>، فتبقى جدة الأب وارثة وإن كان الأب حياً. بعض الفقهاء يرون أن الأب يحجب جدته أيضاً.",
+    toggleBuyutShow: "+ إظهار الجد الأعلى",
+    toggleBuyutHide: "− إخفاء الجد الأعلى",
+    buyutLLabel: "جد الجد (أبو أبي الأب)",
+    buyutLNote: "الجد وجد الجد أعلاه خاصان بالجد الصحيح (عصبة). الجد من جهة الأم ذو أرحام، غير متوفر.",
+    buyutDariKakekLabel: "أم الجد <span class=\"hint\">(أم أبي الأب)</span>",
+    buyutDariNenekAyahLabel: "أم جدة الأب <span class=\"hint\">(أم أم الأب)</span>",
+    buyutDariNenekIbuLabel: "أم جدة الأم <span class=\"hint\">(أم أم الأم)</span>",
+    buyutPNote: "فقط الجدات الثلاث أعلاه صحيحات. الجدة الأعلى تُحسب فقط إن لم توجد الأم ولا الجدة.",
 
-    card4Title: "4. \u0627\u0644\u0623\u0648\u0644\u0627\u062F \u0648\u0627\u0644\u0623\u062D\u0641\u0627\u062F",
-    anakCucuNote: "\u0627\u0644\u0623\u062D\u0641\u0627\u062F \u0647\u0646\u0627 \u062E\u0627\u0635\u0629 \u0628\u0630\u0631\u064A\u0629 <b>\u0627\u0644\u0627\u0628\u0646</b>. \u0623\u0648\u0644\u0627\u062F \u0627\u0644\u0628\u0646\u062A \u0630\u0648\u0648 \u0623\u0631\u062D\u0627\u0645\u060C \u063A\u064A\u0631 \u0645\u062A\u0648\u0641\u0631\u064A\u0646 \u0647\u0646\u0627.",
-    anakLLabel: "\u0627\u0628\u0646",
-    anakPLabel: "\u0628\u0646\u062A",
-    jumlahHint: "\u0627\u0644\u0639\u062F\u062F",
-    cucuLLabel: "\u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646",
-    cucuPLabel: "\u0628\u0646\u062A \u0627\u0644\u0627\u0628\u0646",
-    toggleCicitShow: "+ \u0625\u0638\u0647\u0627\u0631 \u0623\u0648\u0644\u0627\u062F \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646",
-    toggleCicitHide: "\u2212 \u0625\u062E\u0641\u0627\u0621",
-    cicitLLabel: "\u0627\u0628\u0646 \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646",
-    cicitPLabel: "\u0628\u0646\u062A \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646",
-    cicitSub: "\u064A\u064F\u062D\u062C\u0628 \u0623\u0648\u0644\u0627\u062F \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646 \u0641\u0642\u0637 \u0628\u0648\u062C\u0648\u062F \u0627\u0628\u0646 \u0623\u0648 \u0627\u0628\u0646 \u0627\u0628\u0646.",
+    card4Title: "4. الأولاد والأحفاد",
+    anakCucuNote: "الأحفاد هنا خاصة بذرية <b>الابن</b>. أولاد البنت ذوو أرحام، غير متوفرين هنا.",
+    anakLLabel: "ابن",
+    anakPLabel: "بنت",
+    jumlahHint: "العدد",
+    cucuLLabel: "ابن الابن",
+    cucuPLabel: "بنت الابن",
+    toggleCicitShow: "+ إظهار أولاد ابن الابن",
+    toggleCicitHide: "− إخفاء",
+    cicitLLabel: "ابن ابن الابن",
+    cicitPLabel: "بنت ابن الابن",
+    cicitSub: "يُحجب أولاد ابن الابن فقط بوجود ابن أو ابن ابن.",
 
-    card5Title: "5. \u0627\u0644\u0625\u062E\u0648\u0629",
-    card5Sub: "\u064A\u064F\u062D\u062C\u0628\u0648\u0646 \u0628\u0648\u062C\u0648\u062F \u0627\u0628\u0646\u060C \u0627\u0628\u0646 \u0627\u0628\u0646\u060C \u0623\u0648 \u0627\u0644\u0623\u0628. \u0648\u062C\u0648\u062F \u0627\u0644\u062C\u062F \u0641\u0642\u0637 \u0644\u0627 \u064A\u062D\u062C\u0628\u0647\u0645 (\u062E\u0644\u0627\u0641 \u0641\u064A \u0630\u0644\u0643\u060C \u0627\u0646\u0638\u0631 \u0627\u0644\u0645\u0644\u0627\u062D\u0638\u0629).",
-    saudaraNote: "\u0623\u0648\u0644\u0627\u062F \u0627\u0644\u0623\u062E\u062A \u0630\u0648\u0648 \u0623\u0631\u062D\u0627\u0645. \u0641\u0642\u0637 \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0623\u062E \u0648\u0627\u0631\u062B\u0648\u0646.",
-    sectionKandung: "\u0623\u0634\u0642\u0627\u0621",
-    saudaraLLabel: "\u0623\u062E",
-    saudariPLabel: "\u0623\u062E\u062A",
-    sectionSeayah: "\u0644\u0623\u0628 \u0641\u0642\u0637",
-    sectionSeibu: "\u0644\u0623\u0645 \u0641\u0642\u0637",
-    saudaraIbuLabel: "\u0625\u062E\u0648\u0629/\u0623\u062E\u0648\u0627\u062A \u0644\u0623\u0645 (\u0630\u0643\u0648\u0631 \u0648\u0625\u0646\u0627\u062B\u060C \u0646\u0641\u0633 \u0627\u0644\u0646\u0635\u064A\u0628)",
+    card5Title: "5. الإخوة",
+    card5Sub: "يُحجبون بوجود ابن، ابن ابن، أو الأب. وجود الجد فقط لا يحجبهم (خلاف في ذلك، انظر الملاحظة).",
+    saudaraNote: "أولاد الأخت ذوو أرحام. فقط أبناء الأخ وارثون.",
+    sectionKandung: "أشقاء",
+    saudaraLLabel: "أخ",
+    saudariPLabel: "أخت",
+    sectionSeayah: "لأب فقط",
+    sectionSeibu: "لأم فقط",
+    saudaraIbuLabel: "إخوة/أخوات لأم (ذكور وإناث، نفس النصيب)",
 
-    card6Title: "6. \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0623\u062E",
-    card6Sub: "\u064A\u064F\u062D\u062C\u0628\u0648\u0646 \u0628\u0648\u062C\u0648\u062F \u0627\u0628\u0646/\u0627\u0628\u0646 \u0627\u0628\u0646\u060C \u0627\u0644\u0623\u0628\u060C \u0627\u0644\u062C\u062F\u060C \u0623\u0648 \u0627\u0644\u0623\u062E.",
-    keponakanNote: "\u0641\u0642\u0637 \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0623\u062E \u0627\u0644\u0630\u0643\u0648\u0631 \u0648\u0627\u0631\u062B\u0648\u0646.",
-    dariSaudaraKandung: "\u0645\u0646 \u0627\u0644\u0623\u062E \u0627\u0644\u0634\u0642\u064A\u0642",
-    dariSaudaraSeayah: "\u0645\u0646 \u0627\u0644\u0623\u062E \u0644\u0623\u0628",
+    card6Title: "6. أبناء الأخ",
+    card6Sub: "يُحجبون بوجود ابن/ابن ابن، الأب، الجد، أو الأخ.",
+    keponakanNote: "فقط أبناء الأخ الذكور وارثون.",
+    dariSaudaraKandung: "من الأخ الشقيق",
+    dariSaudaraSeayah: "من الأخ لأب",
 
-    card7Title: "7. \u0627\u0644\u0639\u0645 \u2014 \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628 \u0641\u0642\u0637",
-    card7Sub: "\u064A\u064F\u062D\u062C\u0628 \u0628\u0648\u062C\u0648\u062F \u0627\u0628\u0646/\u0627\u0628\u0646 \u0627\u0628\u0646\u060C \u0627\u0644\u0623\u0628\u060C \u0627\u0644\u062C\u062F\u060C \u0627\u0644\u0623\u062E\u060C \u0623\u0648 \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0623\u062E.",
-    pamanNote: "<b>\u062A\u0646\u0628\u064A\u0647:</b> \u0647\u0646\u0627 \u0627\u0644\u0645\u0642\u0635\u0648\u062F \u0641\u0642\u0637 <b>\u0639\u0645 \u0627\u0644\u0645\u064A\u062A \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628</b>\u060C \u0644\u0623\u0646 \u0639\u0645 \u0627\u0644\u0623\u0645 \u0630\u0648 \u0623\u0631\u062D\u0627\u0645 \u0648\u0644\u064A\u0633 \u0648\u0627\u0631\u062B\u0627ً.",
-    pamanKLabel: "\u0627\u0644\u0639\u0645 \u0627\u0644\u0634\u0642\u064A\u0642 ",
-    pamanKHint: "\u0623\u062E \u0627\u0644\u0623\u0628 \u0627\u0644\u0634\u0642\u064A\u0642",
-    pamanALabel: "\u0627\u0644\u0639\u0645 \u0644\u0623\u0628 ",
-    pamanAHint: "\u0623\u062E \u0627\u0644\u0623\u0628 \u0644\u0623\u0628",
+    card7Title: "7. العم — من جهة الأب فقط",
+    card7Sub: "يُحجب بوجود ابن/ابن ابن، الأب، الجد، الأخ، أو أبناء الأخ.",
+    pamanNote: "<b>تنبيه:</b> هنا المقصود فقط <b>عم الميت من جهة الأب</b>، لأن عم الأم ذو أرحام وليس وارثاً.",
+    pamanKLabel: "العم الشقيق ",
+    pamanKHint: "أخ الأب الشقيق",
+    pamanALabel: "العم لأب ",
+    pamanAHint: "أخ الأب لأب",
 
-    card8Title: "8. \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0639\u0645 \u2014 \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628 \u0641\u0642\u0637",
-    card8Sub: "\u064A\u064F\u062D\u062C\u0628\u0648\u0646 \u0628\u0648\u062C\u0648\u062F \u0623\u064A \u0645\u0646 \u0627\u0644\u0648\u0631\u062B\u0629 \u0623\u0639\u0644\u0627\u0647.",
-    sepupuNote: "\u0641\u0642\u0637 \u0623\u0628\u0646\u0627\u0621 \u0627\u0644\u0639\u0645 \u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628 \u0627\u0644\u0630\u0643\u0648\u0631 \u0648\u0627\u0631\u062B\u0648\u0646.",
-    sepupuKLabel: "\u0627\u0628\u0646 \u0627\u0644\u0639\u0645 \u0627\u0644\u0634\u0642\u064A\u0642 ",
-    dariAyahHint: "\u0645\u0646 \u062C\u0647\u0629 \u0627\u0644\u0623\u0628",
-    sepupuALabel: "\u0627\u0628\u0646 \u0627\u0644\u0639\u0645 \u0644\u0623\u0628 ",
+    card8Title: "8. أبناء العم — من جهة الأب فقط",
+    card8Sub: "يُحجبون بوجود أي من الورثة أعلاه.",
+    sepupuNote: "فقط أبناء العم من جهة الأب الذكور وارثون.",
+    sepupuKLabel: "ابن العم الشقيق ",
+    dariAyahHint: "من جهة الأب",
+    sepupuALabel: "ابن العم لأب ",
 
-    btnHitung: "\u0627\u062D\u0633\u0628 \u0627\u0644\u062A\u0648\u0632\u064A\u0639",
-    btnReset: "\u0625\u0639\u0627\u062F\u0629 \u0636\u0628\u0637",
+    btnHitung: "احسب التوزيع",
+    btnReset: "إعادة ضبط",
 
-    printTitle: "\u062D\u0627\u0633\u0628\u0629 \u0627\u0644\u0641\u0631\u0627\u0626\u0636 \u2014 \u0646\u062A\u064A\u062C\u0629 \u0627\u0644\u062A\u0648\u0632\u064A\u0639",
-    printDateLabel: "\u0637ُ\u0628\u0639 \u0628\u062A\u0627\u0631\u064A\u062E ",
-    resultsTitle: "\u0646\u062A\u064A\u062C\u0629 \u0627\u0644\u062A\u0648\u0632\u064A\u0639",
-    btnShare: "\u{1F501} \u0645\u0634\u0627\u0631\u0643\u0629 \u0627\u0644\u0646\u062A\u064A\u062C\u0629",
-    btnPrint: "\u{1F5A8} \u0637\u0628\u0627\u0639\u0629 / \u062D\u0641\u0638 PDF",
-    mahjubGeneralNote: "\u0623\u064A \u0648\u0627\u0631\u062B \u0623\u062F\u062E\u0644\u062A \u0639\u062F\u062F\u0647 \u0648\u0644\u0645 \u064A\u0638\u0647\u0631 \u0641\u064A \u0627\u0644\u062C\u062F\u0648\u0644 \u0623\u062F\u0646\u0627\u0647 \u064A\u0639\u0646\u064A \u0623\u0646\u0647 <b>\u0645\u062D\u062C\u0648\u0628</b>.",
-    kasusAwalTitle: "\u0627\u0644\u062D\u0627\u0644\u0629 \u0627\u0644\u0623\u0648\u0644\u0649",
-    sebelumAulBadge: "\u0642\u0628\u0644 \u0627\u0644\u0639\u0648\u0644/\u0627\u0644\u0631\u062F/\u0627\u0644\u062A\u0635\u062D\u064A\u062D",
-    thAhliWaris: "\u0627\u0644\u0648\u0627\u0631\u062B",
-    thFurudh: "\u0627\u0644\u0641\u0631\u0636",
-    thSaham: "\u0627\u0644\u0633\u0647\u0645",
-    rincianSahamTitle: "\u062A\u0641\u0635\u064A\u0644 \u0627\u0644\u0633\u0647\u0627\u0645",
-    rincianAkhirTitle: "\u0627\u0644\u062A\u0641\u0635\u064A\u0644 \u0627\u0644\u0646\u0647\u0627\u0626\u064A",
-    setelahAulBadge: "\u0628\u0639\u062F \u0627\u0644\u0639\u0648\u0644/\u0627\u0644\u0631\u062F/\u0627\u0644\u062A\u0635\u062D\u064A\u062D",
-    ashlulMasalahLabel: "\u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629",
-    ashlulJamiahAkhirLabel: "\u0627\u0644\u062C\u0627\u0645\u0639\u0629 \u0627\u0644\u0646\u0647\u0627\u0626\u064A\u0629",
-    thJml: "\u0627\u0644\u0639\u062F\u062F",
-    thSahamOrang: "\u0627\u0644\u0633\u0647\u0645/\u0644\u0644\u0641\u0631\u062F",
+    printTitle: "حاسبة الفرائض — نتيجة التوزيع",
+    printDateLabel: "طُبع بتاريخ ",
+    resultsTitle: "نتيجة التوزيع",
+    btnShare: "🔁 مشاركة النتيجة",
+    btnPrint: "🖨 طباعة / حفظ PDF",
+    mahjubGeneralNote: "أي وارث أدخلت عدده ولم يظهر في الجدول أدناه يعني أنه <b>محجوب</b>.",
+    kasusAwalTitle: "الحالة الأولى",
+    sebelumAulBadge: "قبل العول/الرد/التصحيح",
+    thAhliWaris: "الوارث",
+    thFurudh: "الفرض",
+    thSaham: "السهم",
+    rincianSahamTitle: "تفصيل السهام",
+    rincianAkhirTitle: "التفصيل النهائي",
+    setelahAulBadge: "بعد العول/الرد/التصحيح",
+    ashlulMasalahLabel: "أصل المسألة",
+    ashlulJamiahAkhirLabel: "الجامعة النهائية",
+    thJml: "العدد",
+    thSahamOrang: "السهم/للفرد",
     thPersen: "%",
-    thNominal: "\u0627\u0644\u0645\u0628\u0644\u063A",
-    amDetailSummary: "\u062A\u0641\u0627\u0635\u064A\u0644 \u062A\u0642\u0646\u064A\u0629: \u062A\u0639\u062F\u064A\u0644 \u0623\u0635\u0644 \u0627\u0644\u0645\u0633\u0623\u0644\u0629 (\u0639\u0648\u0644/\u0631\u062F/\u062A\u0635\u062D\u064A\u062D)",
-    finalDisclaimer: "\u062A\u062D\u0633\u0628 \u0647\u0630\u0647 \u0627\u0644\u0623\u062F\u0627\u0629 \u0627\u0644\u062D\u0627\u0644\u0627\u062A \u0627\u0644\u0634\u0627\u0626\u0639\u0629 \u0648\u0641\u0642 \u0631\u0623\u064A \u0627\u0644\u062C\u0645\u0647\u0648\u0631. \u0644\u0644\u062D\u0627\u0644\u0627\u062A \u0627\u0644\u0646\u0627\u062F\u0631\u0629 \u062C\u062F\u0627ً\u060C \u064A\u064F\u0646\u0635\u062D \u0628\u0645\u0631\u0627\u062C\u0639\u0629 \u0623\u0647\u0644 \u0627\u0644\u0639\u0644\u0645.",
-    footerCredit: "\u0623\u0646\u0634\u0623\u0647\u0627 <b>Danara Osa Raharsa</b> \u0628\u0645\u0633\u0627\u0639\u062F\u0629 Claude",
-    devTestLink: "\u062A\u0634\u063A\u064A\u0644 \u0627\u062E\u062A\u0628\u0627\u0631\u0627\u062A \u0627\u0644\u062A\u062D\u0642\u0642 \u0627\u0644\u062F\u0627\u062E\u0644\u064A\u0629",
-    errorNoHeir: "\u064A\u064F\u0631\u062C\u0649 \u0625\u062F\u062E\u0627\u0644 \u0648\u0627\u0631\u062B \u0648\u0627\u062D\u062F \u0639\u0644\u0649 \u0627\u0644\u0623\u0642\u0644.",
+    thNominal: "المبلغ",
+    amDetailSummary: "تفاصيل تقنية: تعديل أصل المسألة (عول/رد/تصحيح)",
+    finalDisclaimer: "تحسب هذه الأداة الحالات الشائعة وفق رأي الجمهور. للحالات النادرة جداً، يُنصح بمراجعة أهل العلم.",
+    footerCredit: "أنشأها <b>Danara Osa Raharsa</b> بمساعدة Claude",
+    devTestLink: "تشغيل اختبارات التحقق الداخلية",
+    errorNoHeir: "يُرجى إدخال وارث واحد على الأقل.",
 
-    hartaKotorLabel: "\u0625\u062C\u0645\u0627\u0644\u064A \u0627\u0644\u062A\u0631\u0643\u0629",
-    biayaJenazahRowLabel: "\u062A\u0643\u0627\u0644\u064A\u0641 \u0627\u0644\u062C\u0646\u0627\u0632\u0629",
-    hutangRowLabel: "\u062F\u064A\u0646 \u0627\u0644\u0645\u064A\u062A",
-    wasiatRowLabel: "\u0627\u0644\u0648\u0635\u064A\u0629",
-    hartaBersihLabel: "\u0635\u0627\u0641\u064A \u0627\u0644\u062A\u0631\u0643\u0629 \u0627\u0644\u0645\u0648\u0632\u0651\u0639",
-    wasiatWarnPart1: "\u0627\u0644\u0648\u0635\u064A\u0629 \u0627\u0644\u0645\u062F\u062E\u0644\u0629",
-    wasiatWarnPart2: "\u062A\u062A\u062C\u0627\u0648\u0632 \u0627\u0644\u062D\u062F \u0627\u0644\u0623\u0642\u0635\u0649 1/3\u060C \u0641\u062A\u0645 \u0636\u0628\u0637\u0647\u0627 \u0625\u0644\u0649",
-    wasiatWarnPart3: "\u0627\u0644\u0648\u0635\u064A\u0629 \u0628\u0623\u0643\u062B\u0631 \u0645\u0646 1/3 \u062A\u062D\u062A\u0627\u062C \u0645\u0648\u0627\u0641\u0642\u0629 \u0627\u0644\u0648\u0631\u062B\u0629.",
+    hartaKotorLabel: "إجمالي التركة",
+    biayaJenazahRowLabel: "تكاليف الجنازة",
+    hutangRowLabel: "دين الميت",
+    wasiatRowLabel: "الوصية",
+    hartaBersihLabel: "صافي التركة الموزّع",
+    wasiatWarnPart1: "الوصية المدخلة",
+    wasiatWarnPart2: "تتجاوز الحد الأقصى 1/3، فتم ضبطها إلى",
+    wasiatWarnPart3: "الوصية بأكثر من 1/3 تحتاج موافقة الورثة.",
 
-    badge_furudh: "\u0641\u0631\u0636",
-    badge_ashabah: "\u0639\u0635\u0628\u0629",
-    badge_mahjub: "\u0645\u062D\u062C\u0648\u0628",
-    badge_mixed: "\u0641\u0631\u0636 + \u0639\u0635\u0628\u0629",
-    badge_muqasamah: "\u0645\u0642\u0627\u0633\u0645\u0629",
-    badge_mauquf: "\u0645\u0648\u0642\u0648\u0641"
+    badge_furudh: "فرض",
+    badge_ashabah: "عصبة",
+    badge_mahjub: "محجوب",
+    badge_mixed: "فرض + عصبة",
+    badge_muqasamah: "مقاسمة",
+    badge_mauquf: "موقوف"
   }
 };
 
@@ -1328,30 +1330,35 @@ function t(key){
 
 // Terjemahan nama ahli waris (dipakai saat merender tabel hasil). Data internal
 // (results[].label) TETAP berbahasa Indonesia agar mesin perhitungan & test
-// suite tidak terganggu \u2014 terjemahan hanya diterapkan di lapisan tampilan.
+// suite tidak terganggu — terjemahan hanya diterapkan di lapisan tampilan.
 const HEIR_LABEL_AR = {
-  'Suami':'\u0627\u0644\u0632\u0648\u062C', 'Istri':'\u0627\u0644\u0632\u0648\u062C\u0629',
-  'Ayah':'\u0627\u0644\u0623\u0628', 'Ibu':'\u0627\u0644\u0623\u0645',
-  'Kakek':'\u0627\u0644\u062C\u062F', 'Buyut laki-laki':'\u062C\u062F \u0627\u0644\u062C\u062F',
-  'Nenek':'\u0627\u0644\u062C\u062F\u0629', 'Buyut perempuan':'\u062C\u062F\u0629 \u0627\u0644\u062C\u062F',
-  'Anak laki-laki':'\u0627\u0628\u0646', 'Anak perempuan':'\u0628\u0646\u062A',
-  'Cucu laki-laki (dari anak laki-laki)':'\u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646',
-  'Cucu perempuan (dari anak laki-laki)':'\u0628\u0646\u062A \u0627\u0644\u0627\u0628\u0646',
-  'Cicit laki-laki (dari cucu laki-laki)':'\u0627\u0628\u0646 \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646',
-  'Cicit perempuan (dari cucu laki-laki)':'\u0628\u0646\u062A \u0627\u0628\u0646 \u0627\u0644\u0627\u0628\u0646',
-  'Saudara/i seibu':'\u0625\u062E\u0648\u0629/\u0623\u062E\u0648\u0627\u062A \u0644\u0623\u0645',
-  'Saudara kandung laki-laki':'\u0627\u0644\u0623\u062E \u0627\u0644\u0634\u0642\u064A\u0642', 'Saudari kandung perempuan':'\u0627\u0644\u0623\u062E\u062A \u0627\u0644\u0634\u0642\u064A\u0642\u0629',
-  'Saudara seayah laki-laki':'\u0627\u0644\u0623\u062E \u0644\u0623\u0628', 'Saudari seayah perempuan':'\u0627\u0644\u0623\u062E\u062A \u0644\u0623\u0628',
-  'Keponakan laki-laki (anak saudara kandung)':'\u0627\u0628\u0646 \u0627\u0644\u0623\u062E \u0627\u0644\u0634\u0642\u064A\u0642',
-  'Keponakan laki-laki (anak saudara seayah)':'\u0627\u0628\u0646 \u0627\u0644\u0623\u062E \u0644\u0623\u0628',
-  'Paman kandung (saudara kandung ayah)':'\u0627\u0644\u0639\u0645 \u0627\u0644\u0634\u0642\u064A\u0642',
-  'Paman seayah (saudara seayah ayah)':'\u0627\u0644\u0639\u0645 \u0644\u0623\u0628',
-  'Sepupu laki-laki (anak paman kandung dari ayah)':'\u0627\u0628\u0646 \u0627\u0644\u0639\u0645 \u0627\u0644\u0634\u0642\u064A\u0642',
-  'Sepupu laki-laki (anak paman seayah dari ayah)':'\u0627\u0628\u0646 \u0627\u0644\u0639\u0645 \u0644\u0623\u0628'
+  'Suami':'الزوج', 'Istri':'الزوجة',
+  'Ayah':'الأب', 'Ibu':'الأم',
+  'Kakek':'الجد', 'Buyut laki-laki':'جد الجد',
+  'Nenek':'الجدة', 'Buyut perempuan':'جدة الجد',
+  'Anak laki-laki':'ابن', 'Anak perempuan':'بنت',
+  'Cucu laki-laki (dari anak laki-laki)':'ابن الابن',
+  'Cucu perempuan (dari anak laki-laki)':'بنت الابن',
+  'Cicit laki-laki (dari cucu laki-laki)':'ابن ابن الابن',
+  'Cicit perempuan (dari cucu laki-laki)':'بنت ابن الابن',
+  'Saudara/i seibu':'إخوة/أخوات لأم',
+  'Saudara kandung laki-laki':'الأخ الشقيق', 'Saudari kandung perempuan':'الأخت الشقيقة',
+  'Saudara seayah laki-laki':'الأخ لأب', 'Saudari seayah perempuan':'الأخت لأب',
+  'Keponakan laki-laki (anak saudara kandung)':'ابن الأخ الشقيق',
+  'Keponakan laki-laki (anak saudara seayah)':'ابن الأخ لأب',
+  'Paman kandung (saudara kandung ayah)':'العم الشقيق',
+  'Paman seayah (saudara seayah ayah)':'العم لأب',
+  'Sepupu laki-laki (anak paman kandung dari ayah)':'ابن العم الشقيق',
+  'Sepupu laki-laki (anak paman seayah dari ayah)':'ابن العم لأب'
 };
 function translateHeirLabel(label){
   if(currentLang==='ar' && HEIR_LABEL_AR[label]) return HEIR_LABEL_AR[label];
   return label;
+}
+
+// Bilingual note helper: kembalikan versi Arab bila bahasa aktif Arab, selain itu Indonesia.
+function tn(idText, arText){
+  return currentLang==='ar' ? arText : idText;
 }
 
 function refreshAdvancedToggleLabel(btnId, sectionId, showKey, hideKey){
@@ -1372,6 +1379,9 @@ function applyI18n(){
   document.querySelectorAll('[data-i18n-html]').forEach(el=>{
     el.innerHTML = t(el.getAttribute('data-i18n-html'));
   });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
   refreshAdvancedToggleLabel('toggleBuyutBtn','buyutSection','toggleBuyutShow','toggleBuyutHide');
   refreshAdvancedToggleLabel('toggleCicitBtn','cicitSection','toggleCicitShow','toggleCicitHide');
 }
@@ -1382,6 +1392,25 @@ function setLanguage(lang){
   document.documentElement.dir = lang==='ar' ? 'rtl' : 'ltr';
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
   applyI18n();
+  // Card istri/suami dibangun via innerHTML manual (bukan data-i18n statis), jadi harus
+  // dirender ulang secara eksplisit di sini agar ikut berganti bahasa. Nilai yang sudah
+  // diisi pengguna (jumlah istri / centang suami / centang janin) disimpan dulu lalu
+  // dikembalikan setelah render ulang, supaya tidak hilang saat ganti bahasa.
+  if(typeof renderSpouseSection === 'function'){
+    const istriCountEl = document.getElementById('istriCount');
+    const suamiEl = document.getElementById('suami');
+    const janinIstriEl = document.getElementById('janinIstri');
+    const savedIstriCount = istriCountEl ? istriCountEl.value : null;
+    const savedSuamiChecked = suamiEl ? suamiEl.checked : null;
+    const savedJaninChecked = janinIstriEl ? janinIstriEl.checked : null;
+    renderSpouseSection();
+    const newIstriCountEl = document.getElementById('istriCount');
+    if(newIstriCountEl && savedIstriCount!==null) newIstriCountEl.value = savedIstriCount;
+    const newSuamiEl = document.getElementById('suami');
+    if(newSuamiEl && savedSuamiChecked!==null) newSuamiEl.checked = savedSuamiChecked;
+    const newJaninIstriEl = document.getElementById('janinIstri');
+    if(newJaninIstriEl && savedJaninChecked!==null) newJaninIstriEl.checked = savedJaninChecked;
+  }
   if(typeof lastResultData !== 'undefined' && lastResultData){ hitungFaraidh(); }
 }
 
@@ -1582,7 +1611,7 @@ function syncDependentRows(){
   nenekAyahBox.disabled = ibu; if(ibu) nenekAyahBox.checked=false;
 
   // Buyut perempuan (3 jalur shahihah): terhalang oleh ibu ATAU nenek manapun (dari pihak
-  // ibu/ayah) \u2014 nenek yang lebih dekat menghalangi buyut yang lebih jauh, dari sisi manapun.
+  // ibu/ayah) — nenek yang lebih dekat menghalangi buyut yang lebih jauh, dari sisi manapun.
   const buyutDariKakekBox = document.getElementById('buyutDariKakek');
   const buyutDariNenekAyahBox = document.getElementById('buyutDariNenekAyah');
   const buyutDariNenekIbuBox = document.getElementById('buyutDariNenekIbu');
@@ -1600,7 +1629,7 @@ function syncDependentRows(){
 
   // Cicit (dari cucu laki-laki): terhalang total hanya bila ada anak laki-laki ATAU cucu
   // laki-laki (nearer MALE descendant). Bila hanya ada cucu perempuan (tanpa cucu laki-laki),
-  // cicit tetap aktif \u2014 cicit laki-laki bisa meng-ashabah-kan cucu perempuan tsb lintas-generasi.
+  // cicit tetap aktif — cicit laki-laki bisa meng-ashabah-kan cucu perempuan tsb lintas-generasi.
   const cucuLval = +document.getElementById('cucuL').value || 0;
   const blockCicit = anakL>0 || cucuLval>0;
   ['rowCicitL','rowCicitP'].forEach(id=>document.getElementById(id).classList.toggle('disabled', blockCicit));
@@ -1611,7 +1640,7 @@ function syncDependentRows(){
   // Saudara/i kandung & seayah: terhalang total bila ada anak laki-laki, cucu laki-laki, atau
   // ayah. TIDAK terhalang (kartu tetap aktif) hanya karena kakek/buyut laki-laki, karena kakek
   // atau buyut laki-laki bersama saudara/i kandung/seayah adalah kasus khilafiyah (lihat catatan
-  // di hasil) \u2014 kalkulator tetap menghitungnya sebagai mahjub mengikuti pendapat Abu Bakar,
+  // di hasil) — kalkulator tetap menghitungnya sebagai mahjub mengikuti pendapat Abu Bakar,
   // tapi input tidak dipaksa nol supaya pengguna tetap bisa melihat/mengubah datanya.
   const cucuLforSaudara = +document.getElementById('cucuL').value || 0;
   const cucuP = +document.getElementById('cucuP').value || 0;
@@ -1624,7 +1653,7 @@ function syncDependentRows(){
   });
 
   // Saudara/i seibu: terhalang total bila ada anak/cucu (laki-laki ATAU perempuan) atau ayah,
-  // kakek, ATAU buyut laki-laki \u2014 ini TIDAK diperselisihkan, jadi tetap menghalangi (berbeda
+  // kakek, ATAU buyut laki-laki — ini TIDAK diperselisihkan, jadi tetap menghalangi (berbeda
   // dari saudara/i kandung/seayah di atas).
   const kakekForSaudara = kakekBox.checked || buyutLBox.checked;
   const blockSaudaraIbu = ayah || kakekForSaudara || anakL>0 || anakP>0 || cucuLforSaudara>0 || cucuP>0;
@@ -1733,9 +1762,9 @@ function computeFaraidh(){
   let nenekAyah = val('nenekAyah') && !ibu;
   let nenekCount = (nenekIbu?1:0) + (nenekAyah?1:0);
   let nenek = nenekCount>0;
-  // Buyut perempuan (great-grandmother, jaddah shahihah) \u2014 hanya 3 jalur ini yang shahihah:
+  // Buyut perempuan (great-grandmother, jaddah shahihah) — hanya 3 jalur ini yang shahihah:
   // ibu dari kakek, ibu dari nenek-ayah, ibu dari nenek-ibu. Semuanya terhalang oleh ibu ATAU
-  // nenek manapun (dari pihak ibu maupun ayah) \u2014 nenek yang lebih dekat menghalangi buyut
+  // nenek manapun (dari pihak ibu maupun ayah) — nenek yang lebih dekat menghalangi buyut
   // yang lebih jauh, dari sisi manapun.
   let buyutDariKakek = val('buyutDariKakek') && !ibu && !nenek;
   let buyutDariNenekAyah = val('buyutDariNenekAyah') && !ibu && !nenek;
@@ -1747,7 +1776,7 @@ function computeFaraidh(){
   let cucuL = useCucu? val('cucuL'):0;
   let cucuP = useCucu? val('cucuP'):0;
   // Cicit hanya terblokir TOTAL bila ada anakL atau cucuL (nearer MALE descendant).
-  // cucuP sendiri (tanpa cucuL) TIDAK memblokir cicit total \u2014 cicit laki-laki tetap bisa
+  // cucuP sendiri (tanpa cucuL) TIDAK memblokir cicit total — cicit laki-laki tetap bisa
   // meng-ashabah-kan (ta'shib) cucuP lintas-generasi (lihat pushMixedAshabah di bawah).
   let useCicit = (anakL===0 && cucuL===0);
   let cicitL = useCicit? val('cicitL'):0;
@@ -1793,7 +1822,7 @@ function computeFaraidh(){
   // Hajb kandung->seayah (tidak diperselisihkan, berlaku selalu, terapkan lebih dulu supaya
   // nilai "aktif" saudara/i kandung/seayah sudah benar sebelum dipakai di bawah).
   if(saudaraK>0){ saudaraA=0; saudariA=0; }
-  // 2+ saudari kandung (2/3) hanya menghalangi SAUDARI seayah bila sendirian \u2014 sama seperti
+  // 2+ saudari kandung (2/3) hanya menghalangi SAUDARI seayah bila sendirian — sama seperti
   // 2+ anak perempuan yang TIDAK menghalangi cucu laki-laki. Bila ada saudara seayah laki-laki,
   // ia tetap ashabah dan bisa meng-ashabah-kan saudari seayah bersamanya.
   else if(saudariK>=2 && saudaraA===0){ saudariA=0; }
@@ -1831,7 +1860,7 @@ function computeFaraidh(){
   let spouseGiven = false;
   if(pewarisGender==='L' && istriCount>0){
     const s = hasFarWaris? frac(1,8): frac(1,4);
-    results.push({label:'Istri', share:s, count:istriCount, note: istriCount>1? `Dibagi rata untuk ${istriCount} istri`:null, isSpouse:true});
+    results.push({label:'Istri', share:s, count:istriCount, note: istriCount>1? tn(`Dibagi rata untuk ${istriCount} istri`, `يُقسَّم بالتساوي بين ${istriCount} زوجات`):null, isSpouse:true});
     remainder = fsub(remainder, s);
     spouseGiven = true;
   } else if(pewarisGender==='P' && suami){
@@ -1847,30 +1876,36 @@ function computeFaraidh(){
   let ibuEntry=null;
   if(gharrawain){
     const ibuFrac = fmul(frac(1,3), remainder);
-    ibuEntry = {label:'Ibu', share:ibuFrac, count:1, note:"Kasus gharrawain/umariyatain: 1/3 dari sisa setelah bagian pasangan"};
+    ibuEntry = {label:'Ibu', share:ibuFrac, count:1, note:tn("Kasus gharrawain/umariyatain: 1/3 dari sisa setelah bagian pasangan", "حالة الغراوين/العمريتين: الثلث من الباقي بعد نصيب الزوج")};
     results.push(ibuEntry);
     remainder = fsub(remainder, ibuFrac);
     special = "Kasus <b>gharrawain (umariyatain)</b> terdeteksi: ahli waris hanya terdiri dari ayah, ibu, dan pasangan. Bagian ibu dihitung 1/3 dari sisa harta setelah diambil bagian pasangan, bukan 1/3 dari total &mdash; sesuai pendapat jumhur sahabat.";
   } else {
     if(ibu){
       const f = (hasFarWaris || siblingsTotal>=2) ? frac(1,6) : frac(1,3);
-      results.push({label:'Ibu', share:f, count:1, note: (hasFarWaris||siblingsTotal>=2)? "1/6 karena ada anak/cucu atau \u2265 2 saudara/i" : null});
+      results.push({label:'Ibu', share:f, count:1, note: (hasFarWaris||siblingsTotal>=2)? tn("1/6 karena ada anak/cucu atau ≥ 2 saudara/i", "السدس لوجود فرع وارث أو وجود أخوين فأكثر") : null});
       remainder = fsub(remainder, f);
     } else if(nenek){
       let nenekNote = null;
-      if(nenekCount===2) nenekNote = 'Nenek dari pihak ibu & pihak ayah \u2014 1/6 dibagi rata untuk keduanya';
-      else if(nenekIbu) nenekNote = 'Nenek dari pihak ibu';
-      else nenekNote = 'Nenek dari pihak ayah';
+      if(nenekCount===2) nenekNote = tn('Nenek dari pihak ibu & pihak ayah — 1/6 dibagi rata untuk keduanya', 'الجدة من جهة الأم والجدة من جهة الأب — السدس يُقسَّم بينهما بالتساوي');
+      else if(nenekIbu) nenekNote = tn('Nenek dari pihak ibu', 'الجدة من جهة الأم');
+      else nenekNote = tn('Nenek dari pihak ayah', 'الجدة من جهة الأب');
       results.push({label:'Nenek', share:frac(1,6), count:nenekCount, note:nenekNote});
       remainder = fsub(remainder, frac(1,6));
     } else if(buyutPCount>0){
       const buyutLabels = [];
-      if(buyutDariKakek) buyutLabels.push('ibunya ayahnya ayah (ibu dari kakek)');
-      if(buyutDariNenekAyah) buyutLabels.push('ibunya ibunya ayah (ibu dari nenek pihak ayah)');
-      if(buyutDariNenekIbu) buyutLabels.push('ibunya ibunya ibu (ibu dari nenek pihak ibu)');
-      const buyutNote = (buyutPCount>1
-        ? 'Gabungan jalur ' + buyutLabels.join(' &amp; ') + ' \u2014 1/6 dibagi rata karena tidak ada nenek'
-        : 'Jalur ' + buyutLabels[0] + ' \u2014 karena tidak ada nenek');
+      const buyutLabelsAr = [];
+      if(buyutDariKakek){ buyutLabels.push('ibunya ayahnya ayah (ibu dari kakek)'); buyutLabelsAr.push('أم أبي الأب (أم الجد)'); }
+      if(buyutDariNenekAyah){ buyutLabels.push('ibunya ibunya ayah (ibu dari nenek pihak ayah)'); buyutLabelsAr.push('أم أم الأب (أم الجدة من جهة الأب)'); }
+      if(buyutDariNenekIbu){ buyutLabels.push('ibunya ibunya ibu (ibu dari nenek pihak ibu)'); buyutLabelsAr.push('أم أم الأم (أم الجدة من جهة الأم)'); }
+      const buyutNote = tn(
+        (buyutPCount>1
+          ? 'Gabungan jalur ' + buyutLabels.join(' &amp; ') + ' — 1/6 dibagi rata karena tidak ada nenek'
+          : 'Jalur ' + buyutLabels[0] + ' — karena tidak ada nenek'),
+        (buyutPCount>1
+          ? 'اجتماع جهات ' + buyutLabelsAr.join(' و') + ' — السدس يُقسَّم بالتساوي لعدم وجود جدة'
+          : 'جهة ' + buyutLabelsAr[0] + ' — لعدم وجود جدة')
+      );
       results.push({label:'Buyut perempuan', share:frac(1,6), count:buyutPCount, note:buyutNote});
       remainder = fsub(remainder, frac(1,6));
     }
@@ -1881,19 +1916,19 @@ function computeFaraidh(){
   if(!kakekMuqasamahActive && (ayah || kakek || buyutL)){
     const label = ayah? 'Ayah' : (kakek? 'Kakek' : 'Buyut laki-laki');
     if(hasFarWarisMudzakkar){
-      results.push({label, share:frac(1,6), count:1, note:'1/6 karena ada anak/cucu laki-laki'});
+      results.push({label, share:frac(1,6), count:1, note:tn('1/6 karena ada anak/cucu laki-laki', 'السدس لوجود ابن أو ابن ابن')});
       remainder = fsub(remainder, frac(1,6));
     } else if(hasFarWaris){
-      const entry = {label, share:frac(1,6), count:1, note:'1/6 ditambah sisa (ashabah) bila masih ada', floorShare:frac(1,6)};
+      const entry = {label, share:frac(1,6), count:1, note:tn('1/6 ditambah sisa (ashabah) bila masih ada', 'السدس مع الباقي (تعصيبًا) إن وُجد'), floorShare:frac(1,6)};
       results.push(entry);
       remainder = fsub(remainder, frac(1,6));
       ayahMixedEntry = entry;
     } else if(!gharrawain){
-      const entry = {label, share:null, count:1, note:'Ashabah \u2014 mengambil sisa harta'};
+      const entry = {label, share:null, count:1, note:tn('Ashabah — mengambil sisa harta', 'عصبة — يأخذ الباقي من التركة')};
       results.push(entry);
       ayahAshabahEntry = entry;
     } else {
-      const entry = {label, share:null, count:1, note:'Ashabah \u2014 mengambil sisa harta (kasus gharrawain)'};
+      const entry = {label, share:null, count:1, note:tn('Ashabah — mengambil sisa harta (kasus gharrawain)', 'عصبة — يأخذ الباقي من التركة (حالة الغراوين)')};
       results.push(entry);
       ayahAshabahEntry = entry;
     }
@@ -1904,8 +1939,8 @@ function computeFaraidh(){
   // Ashabah is mahjub (gets nothing) if furudh has already exhausted (or exceeded) the whole estate.
   function pushCucuAshabah(noteExtra){
     if(remainder.n<=0){
-      results.push({label:'Cucu laki-laki (dari anak laki-laki)', share:frac(0,1), count:cucuL, note:"Mahjub \u2014 furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib"});
-      if(cucuP>0) results.push({label:'Cucu perempuan (dari anak laki-laki)', share:frac(0,1), count:cucuP, note:"Mahjub \u2014 furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib"});
+      results.push({label:'Cucu laki-laki (dari anak laki-laki)', share:frac(0,1), count:cucuL, note:tn("Mahjub — furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib", "محجوب — استغرقت الفروض التركة كاملة، فلا يبقى شيء للتعصيب")});
+      if(cucuP>0) results.push({label:'Cucu perempuan (dari anak laki-laki)', share:frac(0,1), count:cucuP, note:tn("Mahjub — furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib", "محجوب — استغرقت الفروض التركة كاملة، فلا يبقى شيء للتعصيب")});
       return;
     }
     const totalWeight = cucuL*2+cucuP;
@@ -1916,8 +1951,8 @@ function computeFaraidh(){
       groupInfo:{
         maleLabel:'Cucu laki-laki (dari anak laki-laki)', femaleLabel:'Cucu perempuan (dari anak laki-laki)',
         maleCount:cucuL, femaleCount:cucuP, maleWeight:2, femaleWeight:1,
-        maleNote:"Ta'shib"+(noteExtra? ' \u2014 '+noteExtra:'')+', bagian 2:1 dgn cucu perempuan',
-        femaleNote:"Ta'shib bersama cucu laki-laki (2:1)"+(noteExtra? ', '+noteExtra:'')
+        maleNote:tn("Ta'shib"+(noteExtra? ' — '+noteExtra:'')+', bagian 2:1 dgn cucu perempuan', "تعصيب"+(noteExtra? ' — '+noteExtra:'')+'، بنسبة 2:1 مع بنت الابن'),
+        femaleNote:tn("Ta'shib bersama cucu laki-laki (2:1)"+(noteExtra? ', '+noteExtra:''), "تعصيب مع ابن الابن (2:1)"+(noteExtra? '، '+noteExtra:''))
       }
     });
     remainder = frac(0,1);
@@ -1925,11 +1960,11 @@ function computeFaraidh(){
 
   // Cicit (great-grandchildren, through son-of-son line only). Terhalang total hanya bila ada
   // anakL atau cucuL. Bila cucuP ada tanpa cucuL, cicit laki-laki TETAP bisa meng-ashabah-kan
-  // (ta'shib) cucuP lintas-generasi \u2014 lihat pushMixedAshabah di bawah.
+  // (ta'shib) cucuP lintas-generasi — lihat pushMixedAshabah di bawah.
   function pushCicitAshabah(noteExtra){
     if(remainder.n<=0){
-      results.push({label:'Cicit laki-laki (dari cucu laki-laki)', share:frac(0,1), count:cicitL, note:"Mahjub \u2014 furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib"});
-      if(cicitP>0) results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:"Mahjub \u2014 furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib"});
+      results.push({label:'Cicit laki-laki (dari cucu laki-laki)', share:frac(0,1), count:cicitL, note:tn("Mahjub — furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib", "محجوب — استغرقت الفروض التركة كاملة، فلا يبقى شيء للتعصيب")});
+      if(cicitP>0) results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:tn("Mahjub — furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib", "محجوب — استغرقت الفروض التركة كاملة، فلا يبقى شيء للتعصيب")});
       return;
     }
     const totalWeight = cicitL*2+cicitP;
@@ -1940,21 +1975,21 @@ function computeFaraidh(){
       groupInfo:{
         maleLabel:'Cicit laki-laki (dari cucu laki-laki)', femaleLabel:'Cicit perempuan (dari cucu laki-laki)',
         maleCount:cicitL, femaleCount:cicitP, maleWeight:2, femaleWeight:1,
-        maleNote:"Ta'shib"+(noteExtra? ' \u2014 '+noteExtra:'')+', bagian 2:1 dgn cicit perempuan',
-        femaleNote:"Ta'shib bersama cicit laki-laki (2:1)"+(noteExtra? ', '+noteExtra:'')
+        maleNote:tn("Ta'shib"+(noteExtra? ' — '+noteExtra:'')+', bagian 2:1 dgn cicit perempuan', "تعصيب"+(noteExtra? ' — '+noteExtra:'')+'، بنسبة 2:1 مع بنت ابن الابن'),
+        femaleNote:tn("Ta'shib bersama cicit laki-laki (2:1)"+(noteExtra? ', '+noteExtra:''), "تعصيب مع ابن ابن الابن (2:1)"+(noteExtra? '، '+noteExtra:''))
       }
     });
     remainder = frac(0,1);
   }
 
   // Cicit laki-laki (generasi lebih jauh) dapat meng-ashabah-kan cucu perempuan (generasi lebih
-  // dekat) bila tidak ada cucu laki-laki sederajat \u2014 cucu perempuan & cicit perempuan (bila
+  // dekat) bila tidak ada cucu laki-laki sederajat — cucu perempuan & cicit perempuan (bila
   // ada) digabung sebagai satu kelompok ashabah bersama cicit laki-laki (2:1).
   function pushMixedAshabah(noteExtra){
     if(remainder.n<=0){
-      results.push({label:'Cicit laki-laki (dari cucu laki-laki)', share:frac(0,1), count:cicitL, note:"Mahjub \u2014 furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib"});
-      results.push({label:'Cucu perempuan (dari anak laki-laki)', share:frac(0,1), count:cucuP, note:"Mahjub \u2014 furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib"});
-      if(cicitP>0) results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:"Mahjub \u2014 furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib"});
+      results.push({label:'Cicit laki-laki (dari cucu laki-laki)', share:frac(0,1), count:cicitL, note:tn("Mahjub — furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib", "محجوب — استغرقت الفروض التركة كاملة، فلا يبقى شيء للتعصيب")});
+      results.push({label:'Cucu perempuan (dari anak laki-laki)', share:frac(0,1), count:cucuP, note:tn("Mahjub — furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib", "محجوب — استغرقت الفروض التركة كاملة، فلا يبقى شيء للتعصيب")});
+      if(cicitP>0) results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:tn("Mahjub — furudh sudah menghabiskan seluruh harta, tidak ada sisa untuk ta'shib", "محجوب — استغرقت الفروض التركة كاملة، فلا يبقى شيء للتعصيب")});
       return;
     }
     const totalWeight = cicitL*2 + cucuP + cicitP;
@@ -1965,11 +2000,11 @@ function computeFaraidh(){
       groupInfo:{
         maleLabel:'Cicit laki-laki (dari cucu laki-laki)', femaleLabel:'Cucu perempuan (dari anak laki-laki)',
         maleCount:cicitL, femaleCount:cucuP, maleWeight:2, femaleWeight:1,
-        maleNote:"Ta'shib"+(noteExtra? ' \u2014 '+noteExtra:'')+", meng-ashabah-kan cucu perempuan lintas-generasi (2:1)",
-        femaleNote:"Ta'shib (2:1) bersama cicit laki-laki"+(noteExtra? ', '+noteExtra:'')+" \u2014 tidak mahjub karena ada cicit laki-laki yang meng-ashabah-kan lintas-generasi",
+        maleNote:tn("Ta'shib"+(noteExtra? ' — '+noteExtra:'')+", meng-ashabah-kan cucu perempuan lintas-generasi (2:1)", "تعصيب"+(noteExtra? ' — '+noteExtra:'')+"، يُعصِّب بنت الابن عبر الأجيال (2:1)"),
+        femaleNote:tn("Ta'shib (2:1) bersama cicit laki-laki"+(noteExtra? ', '+noteExtra:'')+" — tidak mahjub karena ada cicit laki-laki yang meng-ashabah-kan lintas-generasi", "تعصيب (2:1) مع ابن ابن الابن"+(noteExtra? '، '+noteExtra:'')+" — غير محجوبة لوجود ابن ابن الابن الذي يُعصِّب عبر الأجيال"),
         extras: cicitP>0 ? [{
           label:'Cicit perempuan (dari cucu laki-laki)', count:cicitP, weight:1,
-          note:"Ta'shib (2:1) bersama cicit laki-laki"+(noteExtra? ', '+noteExtra:'')
+          note:tn("Ta'shib (2:1) bersama cicit laki-laki"+(noteExtra? ', '+noteExtra:''), "تعصيب (2:1) مع ابن ابن الابن"+(noteExtra? '، '+noteExtra:''))
         }] : []
       }
     });
@@ -1979,8 +2014,8 @@ function computeFaraidh(){
   if(anakL>0){
     // Son present: blocks all grandchildren entirely (cucuL/cucuP already forced to 0 via useCucu)
     if(remainder.n<=0){
-      results.push({label:'Anak laki-laki', share:frac(0,1), count:anakL, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta'});
-      if(anakP>0) results.push({label:'Anak perempuan', share:frac(0,1), count:anakP, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta'});
+      results.push({label:'Anak laki-laki', share:frac(0,1), count:anakL, note:tn('Mahjub — furudh sudah menghabiskan seluruh harta', 'محجوب — استغرقت الفروض التركة كاملة')});
+      if(anakP>0) results.push({label:'Anak perempuan', share:frac(0,1), count:anakP, note:tn('Mahjub — furudh sudah menghabiskan seluruh harta', 'محجوب — استغرقت الفروض التركة كاملة')});
     } else {
       const totalWeight = anakL*2+anakP;
       results.push({
@@ -1990,8 +2025,8 @@ function computeFaraidh(){
         groupInfo:{
           maleLabel:'Anak laki-laki', femaleLabel:'Anak perempuan',
           maleCount:anakL, femaleCount:anakP, maleWeight:2, femaleWeight:1,
-          maleNote:'Ashabah, bagian laki-laki:perempuan = 2:1',
-          femaleNote:'Ashabah bersama saudara laki-laki (2:1)'
+          maleNote:tn('Ashabah, bagian laki-laki:perempuan = 2:1', 'عصبة، نصيب الذكر ضعف نصيب الأنثى (2:1)'),
+          femaleNote:tn('Ashabah bersama saudara laki-laki (2:1)', 'عصبة مع الابن (2:1)')
         }
       });
     }
@@ -1999,76 +2034,76 @@ function computeFaraidh(){
   } else if(anakP>0){
     // No son, but daughter(s) present. Grandchildren are NOT automatically blocked.
     const daughterFrac = anakP===1? frac(1,2): frac(2,3);
-    results.push({label:'Anak perempuan', share:daughterFrac, count:anakP, note: anakP===1? '1/2 (anak tunggal)':'2/3 dibagi rata (2 anak perempuan atau lebih)'});
+    results.push({label:'Anak perempuan', share:daughterFrac, count:anakP, note: tn(anakP===1? '1/2 (anak tunggal)':'2/3 dibagi rata (2 anak perempuan atau lebih)', anakP===1? 'النصف (بنت واحدة)':'الثلثان يُقسَّمان بالتساوي (بنتان فأكثر)')});
     remainder = fsub(remainder, daughterFrac);
 
     if(anakP===1){
       // Only one daughter (took 1/2). Grandson always inherits as ashabah on the rest.
       if(cucuL>0){
-        pushCucuAshabah('mengambil sisa bersama 1 anak perempuan');
+        pushCucuAshabah(tn('mengambil sisa bersama 1 anak perempuan', 'يأخذ الباقي مع بنت واحدة'));
       } else if(cucuP>0){
         // Takmilah tsulutsain: granddaughter(s) get 1/6 to complete 2/3. Ini bagian TETAP
-        // (bukan mahjub), jadi TIDAK di-ta'shib silang generasi oleh cicit laki-laki \u2014
+        // (bukan mahjub), jadi TIDAK di-ta'shib silang generasi oleh cicit laki-laki —
         // ta'shib lintas-generasi hanya berlaku bila cucu perempuan-nya mahjub (lihat cabang
         // 2+ anak perempuan di bawah).
         const f = frac(1,6);
-        results.push({label:'Cucu perempuan (dari anak laki-laki)', share:f, count:cucuP, note:"Takmilah tsulutsain \u2014 1/6 melengkapi 2/3 (karena hanya 1 anak perempuan, tanpa cucu laki-laki)"});
+        results.push({label:'Cucu perempuan (dari anak laki-laki)', share:f, count:cucuP, note:tn("Takmilah tsulutsain — 1/6 melengkapi 2/3 (karena hanya 1 anak perempuan, tanpa cucu laki-laki)", "تكملة الثلثين — السدس يكمل الثلثين (لوجود بنت واحدة فقط، دون ابن ابن)")});
         remainder = fsub(remainder, f);
         if(cicitL>0){
           // Cicit laki-laki mengambil SISA sendiri (setelah anak & cucu perempuan mengambil
           // bagian tetap masing-masing), bukan gabung 2:1 dengan cucu perempuan.
-          pushCicitAshabah('mengambil sisa sendiri, setelah anak &amp; cucu perempuan mengambil bagian tetap masing-masing');
+          pushCicitAshabah(tn('mengambil sisa sendiri, setelah anak &amp; cucu perempuan mengambil bagian tetap masing-masing', 'يأخذ الباقي منفردًا، بعد أخذ البنت وبنت الابن نصيبيهما الثابتين'));
         } else if(cicitP>0){
-          results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:"Mahjub \u2014 cucu perempuan sudah mengambil takmilah (bagian tetap), dan tidak ada cicit/cucu laki-laki untuk meng-ashabah-kan"});
+          results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:tn("Mahjub — cucu perempuan sudah mengambil takmilah (bagian tetap), dan tidak ada cicit/cucu laki-laki untuk meng-ashabah-kan", "محجوبة — أخذت بنت الابن التكملة (نصيبًا ثابتًا)، ولا يوجد ابن ابن الابن ليُعصِّبها")});
         }
       } else if(cicitL>0){
         // Tidak ada cucu sama sekali; cicit laki-laki mengambil alih peran cucu laki-laki.
-        pushCicitAshabah('mengambil sisa bersama 1 anak perempuan, karena tidak ada cucu');
+        pushCicitAshabah(tn('mengambil sisa bersama 1 anak perempuan, karena tidak ada cucu', 'يأخذ الباقي مع بنت واحدة، لعدم وجود بنت ابن'));
       } else if(cicitP>0){
         const f = frac(1,6);
-        results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:f, count:cicitP, note:"Takmilah tsulutsain \u2014 1/6 melengkapi 2/3 (karena hanya 1 anak perempuan, tanpa cucu maupun cicit laki-laki)"});
+        results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:f, count:cicitP, note:tn("Takmilah tsulutsain — 1/6 melengkapi 2/3 (karena hanya 1 anak perempuan, tanpa cucu maupun cicit laki-laki)", "تكملة الثلثين — السدس يكمل الثلثين (لوجود بنت واحدة فقط، دون ابن ابن أو ابن ابن الابن)")});
         remainder = fsub(remainder, f);
       }
     } else {
       // 2+ daughters already took 2/3 (furud maksimal untuk far' waris muannats).
       if(cucuL>0){
         // Grandson still inherits as ashabah on whatever remains, taking granddaughters along (ta'shib) even though 2+ daughters normally would block granddaughters alone.
-        pushCucuAshabah('tidak mahjub karena ada cucu laki-laki sederajat, bersama 2+ anak perempuan');
+        pushCucuAshabah(tn('tidak mahjub karena ada cucu laki-laki sederajat, bersama 2+ anak perempuan', 'غير محجوب لوجود ابن ابن من نفس الدرجة، مع بنتين فأكثر'));
       } else if(cucuP>0 && cicitL>0){
         // Cucu perempuan di sini MAHJUB tanpa penyelamat (2+ anak perempuan sudah ambil 2/3,
-        // tidak ada cucu laki-laki sederajat) \u2014 dalam kondisi mahjub inilah cicit laki-laki
+        // tidak ada cucu laki-laki sederajat) — dalam kondisi mahjub inilah cicit laki-laki
         // (meski derajatnya lebih jauh) boleh menyelamatkan & meng-ashabah-kan cucu perempuan.
-        pushMixedAshabah('menyelamatkan cucu perempuan dari mahjub (lintas-generasi), bersama 2+ anak perempuan');
+        pushMixedAshabah(tn('menyelamatkan cucu perempuan dari mahjub (lintas-generasi), bersama 2+ anak perempuan', 'ينقذ بنت الابن من الحجب (عبر الأجيال)، مع بنتين فأكثر'));
       } else if(cucuP>0){
-        // No grandson (or cicit laki-laki) to make them ashabah, and 2+ daughters already exhausted the 2/3 \u2014 granddaughters are mahjub.
-        results.push({label:'Cucu perempuan (dari anak laki-laki)', share:frac(0,1), count:cucuP, note:"Mahjub (terhalang) \u2014 2 anak perempuan atau lebih sudah mengambil 2/3, dan tidak ada cucu/cicit laki-laki untuk meng-ashabah-kan"});
-        if(cicitP>0) results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:"Mahjub (terhalang) \u2014 2 anak perempuan atau lebih sudah mengambil 2/3, dan tidak ada cucu/cicit laki-laki untuk meng-ashabah-kan"});
+        // No grandson (or cicit laki-laki) to make them ashabah, and 2+ daughters already exhausted the 2/3 — granddaughters are mahjub.
+        results.push({label:'Cucu perempuan (dari anak laki-laki)', share:frac(0,1), count:cucuP, note:tn("Mahjub (terhalang) — 2 anak perempuan atau lebih sudah mengambil 2/3, dan tidak ada cucu/cicit laki-laki untuk meng-ashabah-kan", "محجوبة — أخذت بنتان فأكثر الثلثين كاملاً، ولا يوجد ابن ابن أو ابن ابن الابن ليُعصِّبها")});
+        if(cicitP>0) results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:tn("Mahjub (terhalang) — 2 anak perempuan atau lebih sudah mengambil 2/3, dan tidak ada cucu/cicit laki-laki untuk meng-ashabah-kan", "محجوبة — أخذت بنتان فأكثر الثلثين كاملاً، ولا يوجد ابن ابن أو ابن ابن الابن ليُعصِّبها")});
       } else if(cicitL>0){
-        pushCicitAshabah('tidak mahjub karena ada cicit laki-laki, karena tidak ada cucu, bersama 2+ anak perempuan');
+        pushCicitAshabah(tn('tidak mahjub karena ada cicit laki-laki, karena tidak ada cucu, bersama 2+ anak perempuan', 'غير محجوب لوجود ابن ابن الابن، لعدم وجود ابن ابن، مع بنتين فأكثر'));
       } else if(cicitP>0){
-        results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:"Mahjub (terhalang) \u2014 2 anak perempuan atau lebih sudah mengambil 2/3, dan tidak ada cucu/cicit laki-laki untuk meng-ashabah-kan"});
+        results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:tn("Mahjub (terhalang) — 2 anak perempuan atau lebih sudah mengambil 2/3, dan tidak ada cucu/cicit laki-laki untuk meng-ashabah-kan", "محجوبة — أخذت بنتان فأكثر الثلثين كاملاً، ولا يوجد ابن ابن أو ابن ابن الابن ليُعصِّبها")});
       }
     }
   } else if(cucuL>0){
     // No children at all; grandchildren take the place of children entirely.
-    pushCucuAshabah('pengganti kedudukan anak laki-laki');
+    pushCucuAshabah(tn('pengganti kedudukan anak laki-laki', 'يقوم مقام الابن'));
   } else if(cucuP>0){
     // Cucu perempuan berperan sebagai pengganti anak perempuan (bagian TETAP 1/2 atau 2/3,
-    // bukan mahjub) \u2014 tidak di-ta'shib silang generasi oleh cicit laki-laki.
+    // bukan mahjub) — tidak di-ta'shib silang generasi oleh cicit laki-laki.
     const f = cucuP===1? frac(1,2): frac(2,3);
-    results.push({label:'Cucu perempuan (dari anak laki-laki)', share:f, count:cucuP, note:'Pengganti kedudukan anak perempuan'});
+    results.push({label:'Cucu perempuan (dari anak laki-laki)', share:f, count:cucuP, note:tn('Pengganti kedudukan anak perempuan', 'تقوم مقام البنت')});
     remainder = fsub(remainder, f);
     if(cicitL>0){
-      pushCicitAshabah('mengambil sisa sendiri, setelah cucu perempuan mengambil bagian tetap sebagai pengganti anak perempuan');
+      pushCicitAshabah(tn('mengambil sisa sendiri, setelah cucu perempuan mengambil bagian tetap sebagai pengganti anak perempuan', 'يأخذ الباقي منفردًا، بعد أخذ بنت الابن نصيبها الثابت بدلاً عن البنت'));
     } else if(cicitP>0){
-      results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:"Mahjub \u2014 cucu perempuan sudah mengambil bagian, dan tidak ada cicit/cucu laki-laki untuk meng-ashabah-kan"});
+      results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:frac(0,1), count:cicitP, note:tn("Mahjub — cucu perempuan sudah mengambil bagian, dan tidak ada cicit/cucu laki-laki untuk meng-ashabah-kan", "محجوبة — أخذت بنت الابن نصيبها، ولا يوجد ابن ابن الابن ليُعصِّبها")});
     }
   } else if(cicitL>0){
     // Tidak ada anak maupun cucu sama sekali; cicit mengambil alih seluruhnya.
-    pushCicitAshabah('pengganti kedudukan anak/cucu laki-laki, karena keduanya tidak ada');
+    pushCicitAshabah(tn('pengganti kedudukan anak/cucu laki-laki, karena keduanya tidak ada', 'يقوم مقام الابن وابن الابن لعدم وجودهما'));
   } else if(cicitP>0){
     const f = cicitP===1? frac(1,2): frac(2,3);
-    results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:f, count:cicitP, note:'Pengganti kedudukan anak/cucu perempuan, karena keduanya tidak ada'});
+    results.push({label:'Cicit perempuan (dari cucu laki-laki)', share:f, count:cicitP, note:tn('Pengganti kedudukan anak/cucu perempuan, karena keduanya tidak ada', 'تقوم مقام البنت وبنت الابن لعدم وجودهما')});
     remainder = fsub(remainder, f);
   }
 
@@ -2076,28 +2111,28 @@ function computeFaraidh(){
   // Pendapat Zaid bin Tsabit (dipakai mayoritas mazhab termasuk Syafi'i): bila tidak ada
   // ayah & tidak ada far' waris mudzakkar (anak/cucu/cicit laki-laki), kakek mengambil bagian
   // TERBESAR di antara 3 opsi:
-  //  1. Muqasamah \u2014 kakek dianggap seperti 1 saudara laki-laki (bobot 2), ikut berbagi sisa
+  //  1. Muqasamah — kakek dianggap seperti 1 saudara laki-laki (bobot 2), ikut berbagi sisa
   //     harta bersama saudara/i kandung/seayah (2:1). Lebih baik bila saudara/i "kurang dari
   //     2x lipat kakek" (kurang dari 2 saudara / 4 saudari).
   //  2. 1/3 dari SISA harta (setelah furudh lain seperti pasangan/ibu/nenek/anak perempuan).
   //     Lebih baik bila saudara/i "lebih dari 2x lipat kakek".
   //  Bila jumlah saudara/i TEPAT "2x lipat kakek", keduanya menghasilkan angka yang sama.
   // Kemudian, bagian kakek (dari opsi 1 atau 2 di atas) tidak boleh kurang dari 1/6 dari TOTAL
-  // harta (batas bawah, sama seperti ayah) \u2014 bila sisa harta setelah furudh lain hanya pas
+  // harta (batas bawah, sama seperti ayah) — bila sisa harta setelah furudh lain hanya pas
   // 1/6 (atau kurang), semua sisa itu untuk kakek dan saudara/i kandung/seayah mahjub total.
   if(kakekMuqasamahActive && akdariyyahCase){
     // ---------- Al-Akdariyyah ----------
     // Suami+Ibu+Kakek+1 saudari sendirian: SEMUA diberi furudh independen dulu (bukan
-    // muqasamah) \u2014 Suami 1/2 (sudah dipush di bagian pasangan), Ibu 1/3 penuh (sudah
+    // muqasamah) — Suami 1/2 (sudah dipush di bagian pasangan), Ibu 1/3 penuh (sudah
     // dipush di bagian ibu, karena hanya 1 saudari belum memenuhi syarat "2+ saudara" utk
     // menurunkan ibu ke 1/6), Kakek 1/6, dan Saudari 1/2 (sendirian). Totalnya melebihi 1
     // (over-subscribed) sehingga 'aul terjadi otomatis lewat mekanisme umum. SETELAH 'aul,
     // bagian kakek & saudari (yang sudah disesuaikan 'aul) digabung lalu dibagi ULANG 2:1
-    // \u2014 ini dilakukan di tahap akhir perhitungan (lihat dekat overallGCD).
+    // — ini dilakukan di tahap akhir perhitungan (lihat dekat overallGCD).
     const kakekLabel = kakek? 'Kakek' : 'Buyut laki-laki';
     const saudariLabel = saudariK===1 ? 'Saudari kandung perempuan' : 'Saudari seayah perempuan';
-    const kakekEntry = {label:kakekLabel, share:frac(1,6), count:1, note:"Akdariyyah \u2014 furudh independen 1/6 (bukan muqasamah); akan digabung &amp; dibagi ulang 2:1 dgn saudari setelah 'aul"};
-    const saudariEntry = {label:saudariLabel, share:frac(1,2), count:1, note:"Akdariyyah \u2014 furudh independen 1/2 (sendirian); akan digabung &amp; dibagi ulang 2:1 dgn kakek setelah 'aul"};
+    const kakekEntry = {label:kakekLabel, share:frac(1,6), count:1, note:tn("Akdariyyah — furudh independen 1/6 (bukan muqasamah); akan digabung &amp; dibagi ulang 2:1 dgn saudari setelah 'aul", "الأكدرية — فرض مستقل بالسدس (وليس مقاسمة)؛ يُجمع ويُعاد توزيعه 2:1 مع الأخت بعد العول")};
+    const saudariEntry = {label:saudariLabel, share:frac(1,2), count:1, note:tn("Akdariyyah — furudh independen 1/2 (sendirian); akan digabung &amp; dibagi ulang 2:1 dgn kakek setelah 'aul", "الأكدرية — فرض مستقل بالنصف (منفردة)؛ يُجمع ويُعاد توزيعه 2:1 مع الجد بعد العول")};
     results.push(kakekEntry);
     results.push(saudariEntry);
     akdariyyahEntries = {kakek:kakekEntry, saudari:saudariEntry};
@@ -2108,6 +2143,7 @@ function computeFaraidh(){
     const sL = useKandung? saudaraK : saudaraA;
     const sP = useKandung? saudariK : saudariA;
     const kakekLabel = kakek? 'Kakek' : 'Buyut laki-laki';
+    const kakekLabelAr = HEIR_LABEL_AR[kakekLabel];
     const siblingLabel = useKandung
       ? { m:'Saudara kandung laki-laki', f:'Saudari kandung perempuan' }
       : { m:'Saudara seayah laki-laki', f:'Saudari seayah perempuan' };
@@ -2115,7 +2151,7 @@ function computeFaraidh(){
     const remainderBeforeSplit = remainder;
 
     // Keputusan METODE (muqasamah vs 1/3) hanya berdasarkan kelompok aktif (kandung, atau
-    // seayah bila tidak ada kandung sama sekali) \u2014 mu'addah TIDAK mempengaruhi keputusan
+    // seayah bila tidak ada kandung sama sekali) — mu'addah TIDAK mempengaruhi keputusan
     // ini, hanya besaran angka muqasamah bila muqasamah yang menang (lihat di bawah).
     const totalWeightMuqBase = 2 + sL*2 + sP; // kakek dihitung bobot 2, seperti 1 saudara laki-laki
     const muqasamahShareBase = totalWeightMuqBase>0 ? fmul(remainderBeforeSplit, frac(2, totalWeightMuqBase)) : frac(0,1);
@@ -2124,7 +2160,7 @@ function computeFaraidh(){
     const method = cmp>0 ? 'muqasamah' : (cmp<0 ? 'sepertiga' : 'sama');
 
     // Al-Mu'addah: bila kelompok aktif adalah KANDUNG, dan ada saudara/i SEAYAH yang
-    // seharusnya mahjub, dan metode di atas (berdasar kandung saja) adalah muqasamah \u2014
+    // seharusnya mahjub, dan metode di atas (berdasar kandung saja) adalah muqasamah —
     // maka seayah tetap dihitung sbg "kepala" tambahan dalam muqasamah (memperbesar total
     // kepala, memperkecil jatah kakek), lalu jatah notional seayah dikembalikan ke kandung.
     // Bila kandung sudah >= 2x lipat kakek (metode = 1/3 atau sama), seayah tidak berpengaruh
@@ -2156,23 +2192,33 @@ function computeFaraidh(){
     const methodNote = floorApplied
       ? `mendapat batas bawah 1/6 dari total harta (hasil muqasamah/sepertiga sisa lebih kecil dari 1/6)`
       : muaddahActive
-        ? `muqasamah dgn al-mu'addah \u2014 saudara/i seayah (yang seharusnya mahjub) tetap dihitung sbg kepala tambahan agar jatah ${kakekLabel.toLowerCase()} mengecil, lalu jatah notionalnya dikembalikan ke saudara/i kandung`
+        ? `muqasamah dgn al-mu'addah — saudara/i seayah (yang seharusnya mahjub) tetap dihitung sbg kepala tambahan agar jatah ${kakekLabel.toLowerCase()} mengecil, lalu jatah notionalnya dikembalikan ke saudara/i kandung`
         : (method==='muqasamah'
-            ? `muqasamah \u2014 ikut berbagi seperti seorang saudara bersama ${sL+sP} saudara/i, lebih besar drpd 1/3 sisa`
+            ? `muqasamah — ikut berbagi seperti seorang saudara bersama ${sL+sP} saudara/i, lebih besar drpd 1/3 sisa`
             : (method==='sepertiga'
                 ? `1/3 dari sisa harta, lebih besar drpd muqasamah (jumlah saudara/i melebihi 2x lipat ${kakekLabel.toLowerCase()})`
                 : `1/3 dari sisa harta, sama besar dgn muqasamah (jumlah saudara/i tepat 2x lipat ${kakekLabel.toLowerCase()})`));
 
-    results.push({label:kakekLabel, share:kakekShare, count:1, note:`Pendapat Zaid bin Tsabit (muqasamah dgn saudara/i) \u2014 ${methodNote}`});
+    const methodNoteAr = floorApplied
+      ? `يأخذ الحد الأدنى وهو السدس من كامل التركة (لأن نصيبه بالمقاسمة أو ثلث الباقي أقل من السدس)`
+      : muaddahActive
+        ? `مقاسمة مع الإعداد — يُحسب الإخوة لأب (وهم محجوبون أصلاً) كرؤوس إضافية لتقليل نصيب ${kakekLabelAr}، ثم يُرَدّ نصيبهم التقديري إلى الإخوة الأشقاء`
+        : (method==='muqasamah'
+            ? `مقاسمة — يشارك كأحد الإخوة مع ${sL+sP} من الإخوة والأخوات، وهو أكبر من ثلث الباقي`
+            : (method==='sepertiga'
+                ? `ثلث الباقي، وهو أكبر من نصيب المقاسمة (عدد الإخوة يتجاوز ضعف نصيب ${kakekLabelAr})`
+                : `ثلث الباقي، وهو مساوٍ لنصيب المقاسمة (عدد الإخوة ضعف نصيب ${kakekLabelAr} تمامًا)`));
+
+    results.push({label:kakekLabel, share:kakekShare, count:1, note:tn(`Pendapat Zaid bin Tsabit (muqasamah dgn saudara/i) — ${methodNote}`, `رأي زيد بن ثابت (المقاسمة مع الإخوة) — ${methodNoteAr}`)});
 
     if(muaddahActive){
-      if(saudaraARawMuaddah>0) results.push({label:'Saudara seayah laki-laki', share:frac(0,1), count:saudaraARawMuaddah, note:`Mahjub (dihalangi saudara kandung) \u2014 tetap dihitung sbg "kepala" dalam muqasamah (al-mu'addah) agar jatah ${kakekLabel.toLowerCase()} mengecil; jatah notionalnya dikembalikan ke saudara kandung`});
-      if(saudariARawMuaddah>0) results.push({label:'Saudari seayah perempuan', share:frac(0,1), count:saudariARawMuaddah, note:`Mahjub (dihalangi saudara/i kandung) \u2014 tetap dihitung sbg "kepala" dalam muqasamah (al-mu'addah) agar jatah ${kakekLabel.toLowerCase()} mengecil; jatah notionalnya dikembalikan ke saudara kandung`});
+      if(saudaraARawMuaddah>0) results.push({label:'Saudara seayah laki-laki', share:frac(0,1), count:saudaraARawMuaddah, note:tn(`Mahjub (dihalangi saudara kandung) — tetap dihitung sbg "kepala" dalam muqasamah (al-mu'addah) agar jatah ${kakekLabel.toLowerCase()} mengecil; jatah notionalnya dikembalikan ke saudara kandung`, `محجوب (بالإخوة الأشقاء) — يُحسب مع ذلك كـ"رأس" في المقاسمة (الإعداد) لتقليل نصيب ${kakekLabelAr}؛ ثم يُرَدّ نصيبه التقديري إلى الإخوة الأشقاء`)});
+      if(saudariARawMuaddah>0) results.push({label:'Saudari seayah perempuan', share:frac(0,1), count:saudariARawMuaddah, note:tn(`Mahjub (dihalangi saudara/i kandung) — tetap dihitung sbg "kepala" dalam muqasamah (al-mu'addah) agar jatah ${kakekLabel.toLowerCase()} mengecil; jatah notionalnya dikembalikan ke saudara kandung`, `محجوبة (بالإخوة والأخوات الأشقاء) — تُحسب مع ذلك كـ"رأس" في المقاسمة (الإعداد) لتقليل نصيب ${kakekLabelAr}؛ ثم يُرَدّ نصيبها التقديري إلى الإخوة الأشقاء`)});
     }
 
     if(fToNum(siblingsShare)<=0){
-      results.push({label:siblingLabel.m, share:frac(0,1), count:sL, note:`Mahjub \u2014 ${kakekLabel.toLowerCase()} sudah mengambil seluruh sisa (minimal 1/6), tidak ada sisa lagi`});
-      if(sP>0) results.push({label:siblingLabel.f, share:frac(0,1), count:sP, note:`Mahjub \u2014 ${kakekLabel.toLowerCase()} sudah mengambil seluruh sisa (minimal 1/6), tidak ada sisa lagi`});
+      results.push({label:siblingLabel.m, share:frac(0,1), count:sL, note:tn(`Mahjub — ${kakekLabel.toLowerCase()} sudah mengambil seluruh sisa (minimal 1/6), tidak ada sisa lagi`, `محجوب — أخذ ${kakekLabelAr} كامل الباقي (بحد أدنى السدس)، فلم يبقَ شيء`)});
+      if(sP>0) results.push({label:siblingLabel.f, share:frac(0,1), count:sP, note:tn(`Mahjub — ${kakekLabel.toLowerCase()} sudah mengambil seluruh sisa (minimal 1/6), tidak ada sisa lagi`, `محجوبة — أخذ ${kakekLabelAr} كامل الباقي (بحد أدنى السدس)، فلم يبقَ شيء`)});
     } else {
       const totalWeightSib = sL*2+sP;
       results.push({
@@ -2182,8 +2228,8 @@ function computeFaraidh(){
         groupInfo:{
           maleLabel:siblingLabel.m, femaleLabel:siblingLabel.f,
           maleCount:sL, femaleCount:sP, maleWeight:2, femaleWeight:1,
-          maleNote: muaddahActive? `Muqasamah bersama ${kakekLabel.toLowerCase()}, termasuk jatah notional dari al-mu'addah (2:1 dgn saudari)` : `Muqasamah bersama ${kakekLabel.toLowerCase()}, bagian 2:1 dgn saudari`,
-          femaleNote: muaddahActive? `Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki, termasuk jatah notional dari al-mu'addah` : `Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki`
+          maleNote: tn(muaddahActive? `Muqasamah bersama ${kakekLabel.toLowerCase()}, termasuk jatah notional dari al-mu'addah (2:1 dgn saudari)` : `Muqasamah bersama ${kakekLabel.toLowerCase()}, bagian 2:1 dgn saudari`, muaddahActive? `مقاسمة مع ${kakekLabelAr}، وتشمل النصيب التقديري من الإعداد (2:1 مع الأخت)` : `مقاسمة مع ${kakekLabelAr}، بنسبة 2:1 مع الأخت`),
+          femaleNote: tn(muaddahActive? `Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki, termasuk jatah notional dari al-mu'addah` : `Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki`, muaddahActive? `مقاسمة مع ${kakekLabelAr} والأخ، وتشمل النصيب التقديري من الإعداد` : `مقاسمة مع ${kakekLabelAr} والأخ`)
         }
       });
     }
@@ -2199,7 +2245,7 @@ function computeFaraidh(){
   // kandung (ada saudara laki-laki, sendiri atau bersama saudari kandung yang ikut ashabah),
   // di mana bagian mereka menghabiskan seluruh harta sehingga saudara kandung seharusnya
   // mahjub (tidak dapat sisa sebagai ashabah). Dikhususkan untuk suami (bukan istri) karena
-  // hanya bagian suami (1/2) yang menghabiskan sisa secara pas dalam kasus klasik ini \u2014
+  // hanya bagian suami (1/2) yang menghabiskan sisa secara pas dalam kasus klasik ini —
   // dengan istri (1/4) biasanya masih menyisakan bagian untuk saudara kandung. Default
   // kalkulator ini: saudara kandung tetap mahjub (pendapat jumhur). Bila musytarakahOpt
   // aktif: saudara kandung ikut berbagi rata (per kepala, bukan 2:1) bersama saudara/i seibu.
@@ -2210,23 +2256,23 @@ function computeFaraidh(){
     // Gabung seibu + kandung (laki-laki & perempuan), berbagi RATA per kepala.
     const totalHeads = saudaraIbu + saudaraK + saudariK;
     const perHead = fdiv(seibuFrac, frac(totalHeads,1));
-    results.push({label:'Saudara/i seibu', share: fmul(perHead, frac(saudaraIbu,1)), count:saudaraIbu, note:`Musytarakah \u2014 berbagi rata per kepala (${totalHeads} orang total) bersama saudara kandung, karena saudara kandung seharusnya mahjub (tidak ada sisa harta)`});
-    results.push({label:'Saudara kandung laki-laki', share: fmul(perHead, frac(saudaraK,1)), count:saudaraK, note:`Musytarakah \u2014 ikut berbagi rata per kepala (bukan 2:1) bersama saudara/i seibu, karena seharusnya mahjub (tidak ada sisa harta)`});
-    if(saudariK>0) results.push({label:'Saudari kandung perempuan', share: fmul(perHead, frac(saudariK,1)), count:saudariK, note:`Musytarakah \u2014 ikut berbagi rata per kepala (bukan 2:1) bersama saudara/i seibu, karena seharusnya mahjub (tidak ada sisa harta)`});
+    results.push({label:'Saudara/i seibu', share: fmul(perHead, frac(saudaraIbu,1)), count:saudaraIbu, note:tn(`Musytarakah — berbagi rata per kepala (${totalHeads} orang total) bersama saudara kandung, karena saudara kandung seharusnya mahjub (tidak ada sisa harta)`, `المشتركة — يشتركون بالتساوي على عدد الرؤوس (${totalHeads} شخصًا) مع الإخوة الأشقاء، لأنهم كانوا سيُحجبون أصلاً (لا يوجد باقٍ من التركة)`)});
+    results.push({label:'Saudara kandung laki-laki', share: fmul(perHead, frac(saudaraK,1)), count:saudaraK, note:tn(`Musytarakah — ikut berbagi rata per kepala (bukan 2:1) bersama saudara/i seibu, karena seharusnya mahjub (tidak ada sisa harta)`, `المشتركة — يشارك بالتساوي على عدد الرؤوس (وليس 2:1) مع الإخوة لأم، لأنه كان سيُحجب أصلاً (لا يوجد باقٍ من التركة)`)});
+    if(saudariK>0) results.push({label:'Saudari kandung perempuan', share: fmul(perHead, frac(saudariK,1)), count:saudariK, note:tn(`Musytarakah — ikut berbagi rata per kepala (bukan 2:1) bersama saudara/i seibu, karena seharusnya mahjub (tidak ada sisa harta)`, `المشتركة — يشارك بالتساوي على عدد الرؤوس (وليس 2:1) مع الإخوة لأم، لأنه كان سيُحجب أصلاً (لا يوجد باقٍ من التركة)`)});
     remainder = fsub(remainder, seibuFrac);
   } else {
     // Siblings: seibu first (independent furud)
     if(saudaraIbu>0){
-      results.push({label:'Saudara/i seibu', share:seibuFrac, count:saudaraIbu, note:'Bagian sama rata, tanpa membedakan laki-laki/perempuan'});
+      results.push({label:'Saudara/i seibu', share:seibuFrac, count:saudaraIbu, note:tn('Bagian sama rata, tanpa membedakan laki-laki/perempuan', 'يتساوى النصيب بين الذكر والأنثى')});
       remainder = fsub(remainder, seibuFrac);
     }
 
     // Kandung
     if(saudaraK>0){
       if(remainder.n<=0){
-        const musytarakahHint = musytarakahCase? ' Kasus ini termasuk musytarakah/himariyyah \u2014 lihat catatan di atas hasil untuk memilih pendapat yang tetap memberinya bagian.' : '';
-        results.push({label:'Saudara kandung laki-laki', share:frac(0,1), count:saudaraK, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta.'+musytarakahHint});
-        if(saudariK>0) results.push({label:'Saudari kandung perempuan', share:frac(0,1), count:saudariK, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta.'+musytarakahHint});
+        const musytarakahHint = musytarakahCase? tn(' Kasus ini termasuk musytarakah/himariyyah — lihat catatan di atas hasil untuk memilih pendapat yang tetap memberinya bagian.', ' هذه الحالة من مسائل المشتركة/الحمارية — راجع الملاحظة أعلى النتائج لاختيار الرأي الذي يمنحه نصيبًا.') : '';
+        results.push({label:'Saudara kandung laki-laki', share:frac(0,1), count:saudaraK, note:tn('Mahjub — furudh sudah menghabiskan seluruh harta.', 'محجوب — استغرقت الفروض التركة كاملة.')+musytarakahHint});
+        if(saudariK>0) results.push({label:'Saudari kandung perempuan', share:frac(0,1), count:saudariK, note:tn('Mahjub — furudh sudah menghabiskan seluruh harta.', 'محجوب — استغرقت الفروض التركة كاملة.')+musytarakahHint});
       } else {
         const totalWeight = saudaraK*2+saudariK;
         results.push({
@@ -2236,8 +2282,8 @@ function computeFaraidh(){
           groupInfo:{
             maleLabel:'Saudara kandung laki-laki', femaleLabel:'Saudari kandung perempuan',
             maleCount:saudaraK, femaleCount:saudariK, maleWeight:2, femaleWeight:1,
-            maleNote:'Ashabah, bagian 2:1 dgn saudari',
-            femaleNote:'Ashabah bersama saudara laki-laki'
+            maleNote:tn('Ashabah, bagian 2:1 dgn saudari', 'عصبة، بنسبة 2:1 مع الأخت'),
+            femaleNote:tn('Ashabah bersama saudara laki-laki', 'عصبة مع الأخ')
           }
         });
       }
@@ -2246,17 +2292,17 @@ function computeFaraidh(){
     const ghairCase = hasFarWaris && !ayah && !kakek && !hasFarWarisMudzakkar;
     if(ghairCase){
       // Bila ada anak/cucu perempuan (tanpa anak/cucu laki-laki, tanpa ayah/kakek), saudari kandung
-      // SELALU berstatus ashabah ma'al ghair (bukan furudh mandiri) \u2014 mengambil sisa bila ada,
+      // SELALU berstatus ashabah ma'al ghair (bukan furudh mandiri) — mengambil sisa bila ada,
       // atau mahjub bila furudh lain sudah menghabiskan seluruh harta.
       if(fToNum(remainder)>0){
-        results.push({label:'Saudari kandung perempuan', share:remainder, count:saudariK, note:"Ashabah ma'al ghair \u2014 mengambil sisa bersama anak/cucu perempuan"});
+        results.push({label:'Saudari kandung perempuan', share:remainder, count:saudariK, note:tn("Ashabah ma'al ghair — mengambil sisa bersama anak/cucu perempuan", "عصبة مع الغير — تأخذ الباقي مع البنت أو بنت الابن")});
         remainder = frac(0,1);
       } else {
-        results.push({label:'Saudari kandung perempuan', share:frac(0,1), count:saudariK, note:"Mahjub \u2014 furudh sudah menghabiskan seluruh harta (anak/cucu perempuan sudah mengambil bagian maksimal)"});
+        results.push({label:'Saudari kandung perempuan', share:frac(0,1), count:saudariK, note:tn("Mahjub — furudh sudah menghabiskan seluruh harta (anak/cucu perempuan sudah mengambil bagian maksimal)", "محجوبة — استغرقت الفروض التركة كاملة (أخذت البنت أو بنت الابن أقصى نصيبها)")});
       }
     } else {
       const f = saudariK===1? frac(1,2): frac(2,3);
-      results.push({label:'Saudari kandung perempuan', share:f, count:saudariK, note: saudariK===1? '1/2 (sendiri)':'2/3 dibagi rata'});
+      results.push({label:'Saudari kandung perempuan', share:f, count:saudariK, note: tn(saudariK===1? '1/2 (sendiri)':'2/3 dibagi rata', saudariK===1? 'النصف (منفردة)':'الثلثان يُقسَّمان بالتساوي')});
       remainder = fsub(remainder, f);
     }
   }
@@ -2265,8 +2311,8 @@ function computeFaraidh(){
   // Seayah
   if(saudaraA>0){
     if(remainder.n<=0){
-      results.push({label:'Saudara seayah laki-laki', share:frac(0,1), count:saudaraA, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta'});
-      if(saudariA>0) results.push({label:'Saudari seayah perempuan', share:frac(0,1), count:saudariA, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta'});
+      results.push({label:'Saudara seayah laki-laki', share:frac(0,1), count:saudaraA, note:tn('Mahjub — furudh sudah menghabiskan seluruh harta', 'محجوب — استغرقت الفروض التركة كاملة')});
+      if(saudariA>0) results.push({label:'Saudari seayah perempuan', share:frac(0,1), count:saudariA, note:tn('Mahjub — furudh sudah menghabiskan seluruh harta', 'محجوب — استغرقت الفروض التركة كاملة')});
     } else {
       const totalWeight = saudaraA*2+saudariA;
       results.push({
@@ -2276,8 +2322,8 @@ function computeFaraidh(){
         groupInfo:{
           maleLabel:'Saudara seayah laki-laki', femaleLabel:'Saudari seayah perempuan',
           maleCount:saudaraA, femaleCount:saudariA, maleWeight:2, femaleWeight:1,
-          maleNote:'Ashabah, bagian 2:1 dgn saudari',
-          femaleNote:'Ashabah bersama saudara laki-laki'
+          maleNote:tn('Ashabah, bagian 2:1 dgn saudari', 'عصبة، بنسبة 2:1 مع الأخت'),
+          femaleNote:tn('Ashabah bersama saudara laki-laki', 'عصبة مع الأخ')
         }
       });
     }
@@ -2288,24 +2334,24 @@ function computeFaraidh(){
       // Sama seperti saudari kandung: bila ada anak/cucu perempuan (tanpa anak/cucu laki-laki,
       // tanpa ayah/kakek), saudari seayah berstatus ashabah ma'al ghair atau mahjub jika sisa habis.
       // (Catatan: jika saudari kandung juga ada, ia akan lebih dulu mengambil status ini di atas
-      // dan menghabiskan sisa, sehingga saudari seayah otomatis mahjub di sini \u2014 sesuai kaidah
+      // dan menghabiskan sisa, sehingga saudari seayah otomatis mahjub di sini — sesuai kaidah
       // "yang menjadi ashabah bersama/melalui orang lain berlaku seperti ashabah sendiri dalam hajb".)
       if(fToNum(remainder)>0){
-        results.push({label:'Saudari seayah perempuan', share:remainder, count:saudariA, note:"Ashabah ma'al ghair \u2014 mengambil sisa bersama anak/cucu perempuan"});
+        results.push({label:'Saudari seayah perempuan', share:remainder, count:saudariA, note:tn("Ashabah ma'al ghair — mengambil sisa bersama anak/cucu perempuan", "عصبة مع الغير — تأخذ الباقي مع البنت أو بنت الابن")});
         remainder = frac(0,1);
       } else {
-        results.push({label:'Saudari seayah perempuan', share:frac(0,1), count:saudariA, note:"Mahjub \u2014 furudh sudah menghabiskan seluruh harta (anak/cucu perempuan sudah mengambil bagian maksimal)"});
+        results.push({label:'Saudari seayah perempuan', share:frac(0,1), count:saudariA, note:tn("Mahjub — furudh sudah menghabiskan seluruh harta (anak/cucu perempuan sudah mengambil bagian maksimal)", "محجوبة — استغرقت الفروض التركة كاملة (أخذت البنت أو بنت الابن أقصى نصيبها)")});
       }
     } else if(saudariK===1){
-      // Takmilah tsulutsain \u2014 persis seperti cucu perempuan saat hanya ada 1 anak perempuan:
+      // Takmilah tsulutsain — persis seperti cucu perempuan saat hanya ada 1 anak perempuan:
       // 1 saudari kandung mengambil 1/2, saudari seayah (tanpa saudara seayah laki-laki)
       // melengkapi menjadi 2/3 dengan mengambil 1/6.
       const f = frac(1,6);
-      results.push({label:'Saudari seayah perempuan', share:f, count:saudariA, note:"Takmilah tsulutsain \u2014 1/6 melengkapi 2/3 (karena hanya 1 saudari kandung, tanpa saudara seayah laki-laki)"});
+      results.push({label:'Saudari seayah perempuan', share:f, count:saudariA, note:tn("Takmilah tsulutsain — 1/6 melengkapi 2/3 (karena hanya 1 saudari kandung, tanpa saudara seayah laki-laki)", "تكملة الثلثين — السدس يكمل الثلثين (لوجود أخت شقيقة واحدة فقط، دون أخ لأب)")});
       remainder = fsub(remainder, f);
     } else {
       const f = saudariA===1? frac(1,2): frac(2,3);
-      results.push({label:'Saudari seayah perempuan', share:f, count:saudariA, note: saudariA===1? '1/2 (sendiri)':'2/3 dibagi rata'});
+      results.push({label:'Saudari seayah perempuan', share:f, count:saudariA, note: tn(saudariA===1? '1/2 (sendiri)':'2/3 dibagi rata', saudariA===1? 'النصف (منفردة)':'الثلثان يُقسَّمان بالتساوي')});
       remainder = fsub(remainder, f);
     }
   }
@@ -2316,14 +2362,14 @@ function computeFaraidh(){
     remainder = frac(0,1);
   } else if(ayahMixedEntry && fToNum(remainder)>0){
     ayahMixedEntry.share = fadd(ayahMixedEntry.share, remainder);
-    ayahMixedEntry.note = '1/6 + sisa sebagai ashabah (karena hanya ada anak/cucu perempuan)';
+    ayahMixedEntry.note = tn('1/6 + sisa sebagai ashabah (karena hanya ada anak/cucu perempuan)', 'السدس + الباقي تعصيبًا (لوجود بنت أو بنت ابن فقط)');
     remainder = frac(0,1);
   }
 
   // ---------- Keponakan (anak saudara laki-laki) & Paman ----------
   // Lanjutan tangga ashabah binnafsihi setelah saudara laki-laki: anak laki-laki dari saudara
   // laki-laki (keponakan), lalu paman (saudara laki-laki ayah). Hanya berlaku bila TIDAK ada
-  // anak/cucu laki-laki, ayah, kakek, ATAU saudara laki-laki (kandung/seayah) \u2014 kehadiran
+  // anak/cucu laki-laki, ayah, kakek, ATAU saudara laki-laki (kandung/seayah) — kehadiran
   // salah satu dari itu menghalangi (hajb hirman) seluruh golongan ini secara total, terlepas
   // dari berapa sisa harta yang ada. Kandung selalu menghalangi seayah pada tingkat yang sama,
   // persis seperti saudara laki-laki kandung menghalangi saudara laki-laki seayah. Paman &
@@ -2341,9 +2387,9 @@ function computeFaraidh(){
   function pushAshabahTunggal(label, count){
     if(count<=0) return;
     if(remainder.n<=0){
-      results.push({label, share:frac(0,1), count, note:'Mahjub \u2014 furudh sudah menghabiskan seluruh harta'});
+      results.push({label, share:frac(0,1), count, note:tn('Mahjub — furudh sudah menghabiskan seluruh harta', 'محجوب — استغرقت الفروض التركة كاملة')});
     } else {
-      results.push({label, share:remainder, count, note: count>1? 'Ashabah, sisa dibagi rata':'Ashabah, mengambil sisa'});
+      results.push({label, share:remainder, count, note: tn(count>1? 'Ashabah, sisa dibagi rata':'Ashabah, mengambil sisa', count>1? 'عصبة، الباقي يُقسَّم بالتساوي':'عصبة، يأخذ الباقي')});
       remainder = frac(0,1);
     }
   }
@@ -2461,7 +2507,7 @@ function computeFaraidh(){
 
   // ---------- Ekspansi grup ashabah rasio (2:1 laki-laki:perempuan) ----------
   // Kelompok seperti anak/cucu/saudara laki-laki+perempuan sengaja ditahan sebagai SATU entri
-  // (bukan langsung dipecah jadi 2 pecahan) selama AM0 \u2192 'aul/radd \u2192 inkisar dihitung, supaya
+  // (bukan langsung dipecah jadi 2 pecahan) selama AM0 → 'aul/radd → inkisar dihitung, supaya
   // AM0 murni mencerminkan furudh dan inkisar (tashih) dihitung terpisah berdasarkan 'adad ru'us
   // (laki-laki dihitung 2 ru'us, perempuan 1 ru'us). Baru sekarang, setelah saham grup pasti bulat
   // dan habis dibagi total ru'us-nya, kelompok dipecah menjadi baris per jenis kelamin.
@@ -2497,7 +2543,7 @@ function computeFaraidh(){
   results.forEach(r=>{
     if(r.saham<=0) return;
     // Untuk grup >1 orang, pakai saham PER ORANG sebagai unit pembanding, bukan saham total
-    // \u2014 kalau dipakai saham total, penyederhanaan ini bisa membatalkan hasil inkisar
+    // — kalau dipakai saham total, penyederhanaan ini bisa membatalkan hasil inkisar
     // (mis. grup 2 orang dgn saham total 2 akan "disederhanakan" jadi 1, padahal artinya
     // saham per orang jadi pecahan 0,5, tidak bulat lagi).
     const unit = r.count>1 ? r.saham / r.count : r.saham;
@@ -2525,7 +2571,7 @@ function computeFaraidh(){
     akdariyyahEntries.kakek.saham = combinedScaled * 2 / 3;
     akdariyyahEntries.saudari.saham = combinedScaled / 3;
 
-    amDetail = (amDetail? amDetail+"<br><br>":"") + `Kasus <b>Akdariyyah</b>: setelah 'aul, bagian ${akdariyyahEntries.kakek.label.toLowerCase()} (${kakekSahamBefore}/${AM_beforeAkdariyyah}) dan ${akdariyyahEntries.saudari.label.toLowerCase()} (${saudariSahamBefore}/${AM_beforeAkdariyyah}) digabung, lalu dibagi ulang dengan rasio 2:1 antara keduanya \u2014 menghasilkan asal masalah akhir <b>${AM_final}</b>.`;
+    amDetail = (amDetail? amDetail+"<br><br>":"") + `Kasus <b>Akdariyyah</b>: setelah 'aul, bagian ${akdariyyahEntries.kakek.label.toLowerCase()} (${kakekSahamBefore}/${AM_beforeAkdariyyah}) dan ${akdariyyahEntries.saudari.label.toLowerCase()} (${saudariSahamBefore}/${AM_beforeAkdariyyah}) digabung, lalu dibagi ulang dengan rasio 2:1 antara keduanya — menghasilkan asal masalah akhir <b>${AM_final}</b>.`;
   }
 
   // Nilai pecahan tetap dihitung (direduksi) untuk akurasi persentase & rupiah,
@@ -2536,8 +2582,8 @@ function computeFaraidh(){
     const kakekLabelUsed = kakek? 'Kakek' : 'Buyut laki-laki';
     const toggleBox = `<label class="checkbox-pill" style="margin-top:8px;display:inline-flex;"><input type="checkbox" ${kakekMuqasamahOpt?'checked':''} onchange="toggleKakekMuqasamah(this.checked)"> Terapkan muqasamah/mu'addah/akdariyyah (Zaid bin Tsabit)</label>`;
     const khilafiyahNote = kakekMuqasamahOpt
-      ? `Kasus Anda mengandung <b>${kakekLabelUsed.toLowerCase()} bersama saudara/i kandung/seayah</b> \u2014 ini termasuk kasus yang diperselisihkan ulama. Anda memilih pendapat <b>Zaid bin Tsabit</b> (dipakai mayoritas mazhab termasuk Syafi'i): ${kakekLabelUsed.toLowerCase()} berbagi (muqasamah) dengan saudara/i, bukan menghalangi total, sebagaimana terlihat di hasil di bawah.<br><br>${toggleBox}`
-      : `Kasus Anda mengandung <b>${kakekLabelUsed.toLowerCase()} bersama saudara/i kandung/seayah</b> \u2014 ini termasuk kasus yang diperselisihkan ulama. Kalkulator ini secara <b>default mengikuti pendapat Abu Bakar ash-Shiddiq</b> (mazhab yang paling umum dipakai dalam praktik faraidh di Indonesia, meski tidak diatur secara eksplisit dalam pasal KHI): ${kakekLabelUsed.toLowerCase()} menghalangi total saudara/i, sehingga saudara/i di bawah tidak mendapat bagian. Sebagian ulama/mayoritas mazhab (termasuk Syafi'i) mengikuti pendapat <b>Zaid bin Tsabit</b>: ${kakekLabelUsed.toLowerCase()} dan saudara/i kandung/seayah <b>berbagi bersama</b> (muqasamah) dengan cara perhitungan berbeda. Centang di bawah bila ingin memakai pendapat tersebut.<br><br>${toggleBox}`;
+      ? `Kasus Anda mengandung <b>${kakekLabelUsed.toLowerCase()} bersama saudara/i kandung/seayah</b> — ini termasuk kasus yang diperselisihkan ulama. Anda memilih pendapat <b>Zaid bin Tsabit</b> (dipakai mayoritas mazhab termasuk Syafi'i): ${kakekLabelUsed.toLowerCase()} berbagi (muqasamah) dengan saudara/i, bukan menghalangi total, sebagaimana terlihat di hasil di bawah.<br><br>${toggleBox}`
+      : `Kasus Anda mengandung <b>${kakekLabelUsed.toLowerCase()} bersama saudara/i kandung/seayah</b> — ini termasuk kasus yang diperselisihkan ulama. Kalkulator ini secara <b>default mengikuti pendapat Abu Bakar ash-Shiddiq</b> (mazhab yang paling umum dipakai dalam praktik faraidh di Indonesia, meski tidak diatur secara eksplisit dalam pasal KHI): ${kakekLabelUsed.toLowerCase()} menghalangi total saudara/i, sehingga saudara/i di bawah tidak mendapat bagian. Sebagian ulama/mayoritas mazhab (termasuk Syafi'i) mengikuti pendapat <b>Zaid bin Tsabit</b>: ${kakekLabelUsed.toLowerCase()} dan saudara/i kandung/seayah <b>berbagi bersama</b> (muqasamah) dengan cara perhitungan berbeda. Centang di bawah bila ingin memakai pendapat tersebut.<br><br>${toggleBox}`;
     special = special ? (special + "<br><br>" + khilafiyahNote) : khilafiyahNote;
   }
   if(akdariyyahEntries){
@@ -2567,7 +2613,7 @@ function computeFaraidh(){
 // Janin (calon anak mayit, dari rahim istri) belum diketahui jenis kelamin & jumlahnya
 // (bisa laki-laki, perempuan, atau kembar). Dihitung 3 skenario representatif:
 // 1 anak laki-laki; 1 anak perempuan sendirian; 2 anak perempuan (mewakili kemungkinan
-// kembar/lebih \u2014 secara fardh hasilnya identik utk ahli waris lain berapa pun jumlahnya).
+// kembar/lebih — secara fardh hasilnya identik utk ahli waris lain berapa pun jumlahnya).
 //
 // Untuk tiap ahli waris LAIN (bukan janin), bagian yang diberikan SEKARANG ditentukan
 // oleh SIFAT bagiannya di tiap skenario (dicek lewat classifyBadge), BUKAN sekadar
@@ -2576,7 +2622,7 @@ function computeFaraidh(){
 //     (memang tidak terpengaruh kemungkinan janin sama sekali).
 //  2. Bila furudh murni tapi angkanya berbeda antar skenario -> berikan yang TERKECIL.
 //  3. Bila ada skenario di mana ia ASHABAH (murni, muqasamah, ta'shib, ashabah ma'al
-//     ghair) -> jangan diberi saham dulu (dianggap 0 utk itu) \u2014 KECUALI ayah/kakek/
+//     ghair) -> jangan diberi saham dulu (dianggap 0 utk itu) — KECUALI ayah/kakek/
 //     buyut laki-laki yang tetap dijamin minimal 1/6 (porsi furudh floor-nya saja,
 //     bukan potensi tambahan ashabah-nya).
 //  4. Bila ada skenario di mana ia mahjub (0) -> juga jangan diberi saham dulu.
@@ -2585,7 +2631,7 @@ function computeFaraidh(){
 function lcmTwo(a,b){ return a*b/gcd(a,b); }
 
 // Bagian yang PASTI/terjamin dari suatu entri hasil pada satu skenario (lihat aturan
-// 1\u20134 di atas), dinyatakan dalam satuan saham pada AM skenario tsb.
+// 1–4 di atas), dinyatakan dalam satuan saham pada AM skenario tsb.
 function guaranteedSaham(r){
   const badge = classifyBadge(r);
   if(badge.cls==='mahjub') return 0;
@@ -2595,7 +2641,7 @@ function guaranteedSaham(r){
 }
 
 function computeJaninMauquf(){
-  // Anak laki-laki/perempuan RIIL (dideklarasikan pengguna, di luar janin) \u2014 dibaca
+  // Anak laki-laki/perempuan RIIL (dideklarasikan pengguna, di luar janin) — dibaca
   // SEBELUM valOverrides diset supaya dapat nilai asli, bukan hasil skenario.
   const realAnakL = val('anakL');
   const realAnakP = val('anakP');
@@ -2660,7 +2706,7 @@ function computeJaninMauquf(){
   });
 
   // Cari skenario yang SEKALIGUS memberi hasil terjamin paling kecil untuk SEMUA
-  // kategori ahli waris lain (dominan) \u2014 bila ada, pakai AM skenario itu apa adanya
+  // kategori ahli waris lain (dominan) — bila ada, pakai AM skenario itu apa adanya
   // (angka lebih sederhana). Bila tidak ada satu skenario yang dominan utk semuanya,
   // gabungkan lewat KPK ashlul masalah supaya tetap benar walau angkanya lebih besar.
   function guaranteedFracOf(run, label){
@@ -2698,7 +2744,7 @@ function computeJaninMauquf(){
     }
   });
 
-  // Harta Mauquf ditampilkan sebagai baris TERSENDIRI (bukan "milik janin" semata) \u2014
+  // Harta Mauquf ditampilkan sebagai baris TERSENDIRI (bukan "milik janin" semata) —
   // mencakup gabungan potensi bagian janin DAN bagian ahli waris lain yang di atas
   // masih ditahan (saham 0), karena keduanya sama-sama belum bisa dipastikan sekarang.
   const mauqufSaham = Math.round((combinedAM - totalTaken)*1e6)/1e6;
@@ -2774,11 +2820,12 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
 
   const printDateEl = document.getElementById('printDate');
   if(printDateEl){
-    printDateEl.textContent = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+    printDateEl.textContent = new Date().toLocaleDateString(currentLang==='ar' ? 'ar' : 'id-ID', {day:'numeric', month:'long', year:'numeric'});
   }
 
   if(hartaInfo && hartaInfo.totalHartaRaw>0 && (hartaInfo.jenazahRaw>0 || hartaInfo.hutangRaw>0 || hartaInfo.wasiatRaw>0)){
-    const rp = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+    const currencyPrefix = currentLang==='ar' ? '' : 'Rp ';
+    const rp = n => currencyPrefix + Math.round(n).toLocaleString('id-ID');
     let rows = `<div class="harta-row"><span>${t('hartaKotorLabel')}</span><span>${rp(hartaInfo.totalHartaRaw)}</span></div>`;
     if(hartaInfo.jenazahRaw>0){
       rows += `<div class="harta-row"><span>&ndash; ${t('biayaJenazahRowLabel')}</span><span>${rp(hartaInfo.jenazahRaw)}</span></div>`;
@@ -2854,8 +2901,8 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
       const total = totalHarta * fToNum(r.share);
       const per = total / (r.count||1);
       rupiahCell = `<td class="num">
-          <div class="saham-main" style="font-size:13px;">Rp ${Math.round(total).toLocaleString('id-ID')}</div>
-          ${r.count>1? `<div class="saham-sub">@ Rp ${Math.round(per).toLocaleString('id-ID')} /orang</div>`:''}
+          <div class="saham-main" style="font-size:13px;">${currencyPrefix}${Math.round(total).toLocaleString('id-ID')}</div>
+          ${r.count>1? `<div class="saham-sub">${tn(`@ ${currencyPrefix}${Math.round(per).toLocaleString('id-ID')} /orang`, `${currencyPrefix}${Math.round(per).toLocaleString('id-ID')} / للشخص`)}</div>`:''}
         </td>`;
     } else {
       rupiahCell = `<td class="num" style="display:none;"></td>`;
@@ -2900,30 +2947,31 @@ function bagikanHasil(){
   if(!lastResultData){ return; }
   const { results, AM_final, totalHarta } = lastResultData;
 
-  let lines = ['*Hasil Pembagian Warisan (Kalkulator Faraidh)*', ''];
+  const shareCurrencyPrefix = currentLang==='ar' ? '' : 'Rp ';
+  let lines = [tn('*Hasil Pembagian Warisan (Kalkulator Faraidh)*', '*نتيجة توزيع التركة (حاسبة الفرائض)*'), ''];
   results.forEach(r=>{
     const pct = fToNum(r.share)*100;
-    let line = `- ${r.label}: ${r.saham}/${AM_final} (${pct.toFixed(2)}%)`;
+    let line = `- ${translateHeirLabel(r.label)}: ${r.saham}/${AM_final} (${pct.toFixed(2)}%)`;
     if(totalHarta>0){
       const total = Math.round(totalHarta * fToNum(r.share));
-      line += ` \u2192 Rp ${total.toLocaleString('id-ID')}`;
+      line += ` → ${shareCurrencyPrefix}${total.toLocaleString('id-ID')}`;
     }
     if(r.note){ line += ` [${r.note.replace(/<[^>]+>/g,'')}]`; }
     lines.push(line);
   });
-  lines.push('', 'Dibuat dengan Kalkulator Faraidh');
+  lines.push('', tn('Dibuat dengan Kalkulator Faraidh', 'أُنشئ بواسطة حاسبة الفرائض'));
   const text = lines.join('\n');
 
   if(navigator.share){
-    navigator.share({ title:'Hasil Pembagian Warisan', text }).catch(()=>{});
+    navigator.share({ title:tn('Hasil Pembagian Warisan', 'نتيجة توزيع التركة'), text }).catch(()=>{});
   } else if(navigator.clipboard){
     navigator.clipboard.writeText(text).then(()=>{
-      alert('Ringkasan hasil sudah disalin ke clipboard.');
+      alert(tn('Ringkasan hasil sudah disalin ke clipboard.', 'تم نسخ ملخص النتيجة إلى الحافظة.'));
     }).catch(()=>{
-      alert('Gagal menyalin otomatis. Silakan salin manual dari hasil di layar.');
+      alert(tn('Gagal menyalin otomatis. Silakan salin manual dari hasil di layar.', 'تعذر النسخ التلقائي. يرجى النسخ يدويًا من النتيجة المعروضة.'));
     });
   } else {
-    alert('Perangkat/browser ini tidak mendukung bagikan otomatis. Silakan screenshot atau cetak PDF.');
+    alert(tn('Perangkat/browser ini tidak mendukung bagikan otomatis. Silakan screenshot atau cetak PDF.', 'هذا الجهاز/المتصفح لا يدعم المشاركة التلقائية. يرجى أخذ لقطة شاشة أو الطباعة كملف PDF.'));
   }
 }
 
@@ -2972,7 +3020,7 @@ function cetakFitPage(){
 // membandingkan saham & asal masalah akhir dengan nilai yang sudah diketahui.
 const FARAIDH_TEST_CASES = [
   {
-    name: "Gharrawain (umariyatain) \u2014 Suami + Ayah + Ibu",
+    name: "Gharrawain (umariyatain) — Suami + Ayah + Ibu",
     gender: 'P',
     setup: { suami:true, ayah:true, ibu:true },
     expectAM: 6,
@@ -2983,7 +3031,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Gharrawain (umariyatain) \u2014 Istri + Ayah + Ibu",
+    name: "Gharrawain (umariyatain) — Istri + Ayah + Ibu",
     gender: 'L',
     setup: { istriCount:1, ayah:true, ibu:true },
     expectAM: 4,
@@ -2994,7 +3042,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Radd sederhana (tanpa pasangan) \u2014 Ibu + 1 anak perempuan",
+    name: "Radd sederhana (tanpa pasangan) — Ibu + 1 anak perempuan",
     setup: { ibu:true, anakP:1 },
     expectAM: 4,
     expect: [
@@ -3003,7 +3051,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Radd dengan pasangan \u2014 Suami + 2 anak perempuan",
+    name: "Radd dengan pasangan — Suami + 2 anak perempuan",
     gender:'P',
     setup: { suami:true, anakP:2 },
     expectAM: 8,
@@ -3013,7 +3061,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "'Aul \u2014 Suami + Ibu + 2 saudari kandung",
+    name: "'Aul — Suami + Ibu + 2 saudari kandung",
     gender:'P',
     setup: { suami:true, ibu:true, saudariK:2 },
     expectAM: 8,
@@ -3024,7 +3072,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Inkisar + radd \u2014 Istri + 5 anak perempuan",
+    name: "Inkisar + radd — Istri + 5 anak perempuan",
     setup: { istriCount:1, anakP:5 },
     expectAM: 40,
     expect: [
@@ -3033,7 +3081,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Ta'shib penyelamat lintas-generasi \u2014 2 anak perempuan + 1 cucu perempuan + 1 cicit laki-laki",
+    name: "Ta'shib penyelamat lintas-generasi — 2 anak perempuan + 1 cucu perempuan + 1 cicit laki-laki",
     setup: { anakP:2, cucuP:1, cicitL:1 },
     expectAM: 9,
     expect: [
@@ -3043,7 +3091,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Cucu TIDAK diselamatkan (sudah punya bagian tetap) \u2014 1 anak perempuan + 1 cucu perempuan + 1 cicit laki-laki",
+    name: "Cucu TIDAK diselamatkan (sudah punya bagian tetap) — 1 anak perempuan + 1 cucu perempuan + 1 cicit laki-laki",
     setup: { anakP:1, cucuP:1, cicitL:1 },
     expectAM: 6,
     expect: [
@@ -3053,7 +3101,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Musytarakah \u2014 default (saudara kandung mahjub) \u2014 Suami+Ibu+2 saudara seibu+1 saudara kandung",
+    name: "Musytarakah — default (saudara kandung mahjub) — Suami+Ibu+2 saudara seibu+1 saudara kandung",
     gender:'P',
     setup: { suami:true, ibu:true, saudaraIbu:2, saudaraK:1 },
     expectAM: 6,
@@ -3065,7 +3113,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Musytarakah \u2014 toggle aktif (saudara kandung ikut berbagi rata) \u2014 Suami+Ibu+2 saudara seibu+1 saudara kandung",
+    name: "Musytarakah — toggle aktif (saudara kandung ikut berbagi rata) — Suami+Ibu+2 saudara seibu+1 saudara kandung",
     gender:'P',
     setup: { suami:true, ibu:true, saudaraIbu:2, saudaraK:1, musytarakahOpt:true },
     expectAM: 18,
@@ -3077,7 +3125,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Kakek muqasamah menang \u2014 Kakek + 1 saudara kandung",
+    name: "Kakek muqasamah menang — Kakek + 1 saudara kandung",
     setup: { kakek:true, saudaraK:1, kakekMuqasamahOpt:true },
     expectAM: 2,
     expect: [
@@ -3086,7 +3134,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "1/3 sisa menang \u2014 Kakek + 3 saudara kandung",
+    name: "1/3 sisa menang — Kakek + 3 saudara kandung",
     setup: { kakek:true, saudaraK:3, kakekMuqasamahOpt:true },
     expectAM: 9,
     expect: [
@@ -3095,7 +3143,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Muqasamah = 1/3 sisa (tepat 2x lipat) \u2014 Kakek + 2 saudara kandung",
+    name: "Muqasamah = 1/3 sisa (tepat 2x lipat) — Kakek + 2 saudara kandung",
     setup: { kakek:true, saudaraK:2, kakekMuqasamahOpt:true },
     expectAM: 3,
     expect: [
@@ -3104,7 +3152,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Floor 1/6 kakek \u2014 Suami+Ibu+Kakek+4 saudara kandung",
+    name: "Floor 1/6 kakek — Suami+Ibu+Kakek+4 saudara kandung",
     gender:'P',
     setup: { suami:true, ibu:true, kakek:true, saudaraK:4, kakekMuqasamahOpt:true },
     expectAM: 24,
@@ -3116,7 +3164,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Kakek muqasamah \u2014 default (Abu Bakar, saudara mahjub) \u2014 Kakek + 1 saudara kandung",
+    name: "Kakek muqasamah — default (Abu Bakar, saudara mahjub) — Kakek + 1 saudara kandung",
     setup: { kakek:true, saudaraK:1 },
     expectAM: 1,
     expect: [
@@ -3124,7 +3172,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Akdariyyah \u2014 Suami+Ibu+Kakek+1 saudari kandung (harus 9:6:8:4 @ AM=27)",
+    name: "Akdariyyah — Suami+Ibu+Kakek+1 saudari kandung (harus 9:6:8:4 @ AM=27)",
     gender:'P',
     setup: { suami:true, ibu:true, kakek:true, saudariK:1, kakekMuqasamahOpt:true },
     expectAM: 27,
@@ -3136,7 +3184,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Al-Mu'addah aktif \u2014 Kakek + 1 saudara kandung + 1 saudara seayah",
+    name: "Al-Mu'addah aktif — Kakek + 1 saudara kandung + 1 saudara seayah",
     setup: { kakek:true, saudaraK:1, saudaraA:1, kakekMuqasamahOpt:true },
     expectAM: 3,
     expect: [
@@ -3146,7 +3194,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Al-Mu'addah TIDAK berpengaruh \u2014 Kakek + 3 saudara kandung + 2 saudara seayah",
+    name: "Al-Mu'addah TIDAK berpengaruh — Kakek + 3 saudara kandung + 2 saudara seayah",
     setup: { kakek:true, saudaraK:3, saudaraA:2, kakekMuqasamahOpt:true },
     expectAM: 9,
     expect: [
@@ -3155,7 +3203,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Warisan janin \u2014 Ayah+Ibu+Istri+Janin (harus 4:3:4:16 @ AM=27)",
+    name: "Warisan janin — Ayah+Ibu+Istri+Janin (harus 4:3:4:16 @ AM=27)",
     setup: { ayah:true, ibu:true, istriCount:1, janinIstri:true },
     expectAM: 27,
     expect: [
@@ -3166,7 +3214,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Warisan janin sederhana \u2014 Istri+Janin saja",
+    name: "Warisan janin sederhana — Istri+Janin saja",
     setup: { istriCount:1, janinIstri:true },
     expectAM: 8,
     expect: [
@@ -3175,7 +3223,7 @@ const FARAIDH_TEST_CASES = [
     ]
   },
   {
-    name: "Tanpa ahli waris \u2014 harus muncul pesan error",
+    name: "Tanpa ahli waris — harus muncul pesan error",
     setup: {},
     expectNoHeir: true
   }
