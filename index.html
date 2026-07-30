@@ -949,7 +949,7 @@
 
   <footer class="app-footer">
     <span data-i18n-html="footerCredit">Dibuat oleh <b>Danara Osa Raharsa</b> with Claude</span>
-    <div class="dev-test-link" onclick="runTestSuite()" data-i18n="devTestLink">Jalankan kasus uji internal (verifikasi perhitungan)</div>
+    <div class="dev-test-link" onclick="runTestSuite()" data-i18n="devTestLink" style="display:none">Jalankan kasus uji internal (verifikasi perhitungan)</div>
     <div id="testReportPanel" style="display:none"></div>
   </footer>
 
@@ -1217,7 +1217,7 @@ const I18N = {
     janinSpecialNote: "يوجد <b>حمل</b> لم يولد بعد. وفق مذهب الشافعية: يُعطى باقي الورثة أقل نصيب مؤكد، ويُوقف الباقي حتى الوضع ثم يُعاد توزيعه حسب الجنس والعدد الفعلي.",
 
     card3Title: "3. الوالدان والجد/الجدة",
-    card3Sub: "يُحسب الجد والجدة فقط إن لم يوجد الأب/الأم.",
+    card3Sub: "يُحسب الجد والجدة إن لم يوجد الأب أو الأم.",
     ayahLabel: "الأب",
     kakekLabel: "الجد (أبو الأب)",
     ibuLabel: "الأم",
@@ -1231,7 +1231,7 @@ const I18N = {
     buyutDariKakekLabel: "أم الجد <span class=\"hint\">(أم أبي الأب)</span>",
     buyutDariNenekAyahLabel: "أم جدة الأب <span class=\"hint\">(أم أم الأب)</span>",
     buyutDariNenekIbuLabel: "أم جدة الأم <span class=\"hint\">(أم أم الأم)</span>",
-    buyutPNote: "فقط الجدات الثلاث أعلاه صحيحات. الجدة الأعلى تُحسب فقط إن لم توجد الأم ولا الجدة.",
+    buyutPNote: "هذه الجدات الثلاث فقط هي المعتبرات؛ ويُحسب نصيب الجدة الأعلى إن لم توجد الأم ولا الجدة.",
 
     card4Title: "4. الأولاد والأحفاد",
     anakCucuNote: "الأحفاد هنا خاصة بذرية <b>الابن</b>. أولاد البنت ذوو أرحام، غير متوفرين هنا.",
@@ -1244,25 +1244,25 @@ const I18N = {
     toggleCicitHide: "− إخفاء",
     cicitLLabel: "ابن ابن الابن",
     cicitPLabel: "بنت ابن الابن",
-    cicitSub: "يُحجب أولاد ابن الابن فقط بوجود ابن أو ابن ابن.",
+    cicitSub: "يُحجب أولاد ابن الابن بوجود ابن أو ابن ابن.",
 
     card5Title: "5. الإخوة",
     card5Sub: "يُحجبون بوجود ابن، ابن ابن، أو الأب. وجود الجد فقط لا يحجبهم (خلاف في ذلك، انظر الملاحظة).",
-    saudaraNote: "أولاد الأخت ذوو أرحام. فقط أبناء الأخ وارثون.",
+    saudaraNote: "أولاد الأخت ذوو أرحام، وأبناء الأخ وحدهم هم الوارثون.",
     sectionKandung: "أشقاء",
     saudaraLLabel: "أخ",
     saudariPLabel: "أخت",
-    sectionSeayah: "لأب فقط",
-    sectionSeibu: "لأم فقط",
+    sectionSeayah: "لأب",
+    sectionSeibu: "لأم",
     saudaraIbuLabel: "إخوة/أخوات لأم (ذكور وإناث، نفس النصيب)",
 
     card6Title: "6. أبناء الأخ",
     card6Sub: "يُحجبون بوجود ابن/ابن ابن، الأب، الجد، أو الأخ.",
-    keponakanNote: "فقط أبناء الأخ الذكور وارثون.",
+    keponakanNote: "أبناء الأخ الذكور وحدهم هم الوارثون.",
     dariSaudaraKandung: "من الأخ الشقيق",
     dariSaudaraSeayah: "من الأخ لأب",
 
-    card7Title: "7. العم — من جهة الأب فقط",
+    card7Title: "7. العم — من جهة الأب",
     card7Sub: "يُحجب بوجود ابن/ابن ابن، الأب، الجد، الأخ، أو أبناء الأخ.",
     pamanNote: "<b>تنبيه:</b> هنا المقصود فقط <b>عم الميت من جهة الأب</b>، لأن عم الأم ذو أرحام وليس وارثاً.",
     pamanKLabel: "العم الشقيق ",
@@ -1270,9 +1270,9 @@ const I18N = {
     pamanALabel: "العم لأب ",
     pamanAHint: "أخ الأب لأب",
 
-    card8Title: "8. أبناء العم — من جهة الأب فقط",
+    card8Title: "8. أبناء العم — من جهة الأب",
     card8Sub: "يُحجبون بوجود أي من الورثة أعلاه.",
-    sepupuNote: "فقط أبناء العم من جهة الأب الذكور وارثون.",
+    sepupuNote: "أبناء العم من جهة الأب الذكور وحدهم هم الوارثون.",
     sepupuKLabel: "ابن العم الشقيق ",
     dariAyahHint: "من جهة الأب",
     sepupuALabel: "ابن العم لأب ",
