@@ -4,6 +4,7 @@
   "description": "Hitung pembagian warisan sesuai hukum faraidh (ilmu waris Islam) berdasarkan ahli waris yang ada.",
   "start_url": "./index.html",
   "scope": "./",
+  "id": "./index.html",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#FAF6EE",
