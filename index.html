@@ -2254,25 +2254,53 @@ function computeFaraidh(){
 
     results.push({label:kakekLabel, share:kakekShare, count:1, note:tn(`Pendapat Zaid bin Tsabit (muqasamah dgn saudara/i) — ${methodNote}`, `رأي زيد بن ثابت (المقاسمة مع الإخوة) — ${methodNoteAr}`)});
 
+    // Batas fardh maksimal: bila kelompok kandung yang aktif HANYA berisi saudari (tidak
+    // ada saudara kandung laki-laki), status mereka adalah fardh (bukan ashabah sejati),
+    // sehingga jatah mereka — walau sudah dibesarkan oleh mekanisme al-mu'addah — tidak
+    // boleh melebihi fardh maksimal yg bisa mereka dapat dalam kondisi normal (1/2 bila
+    // sendirian, 2/3 bila 2 atau lebih). Kelebihan di atas batas ini dikembalikan sbg
+    // ashabah kepada saudara/i seayah yang tadinya dihitung sbg "kepala" notional dalam
+    // al-mu'addah. Bila ada saudara kandung laki-laki (sL>0), mereka ashabah sejati tanpa
+    // batas atas, sehingga tidak di-cap.
+    const kandungFardhCap = sP>0 ? (sP===1? frac(1,2) : frac(2,3)) : null;
+    const capApplies = muaddahActive && sL===0 && kandungFardhCap!==null && fToNum(siblingsShare) > fToNum(kandungFardhCap);
+    const kandungShare = capApplies ? kandungFardhCap : siblingsShare;
+    const leftoverToSeayah = capApplies ? fsub(siblingsShare, kandungFardhCap) : frac(0,1);
+
     if(muaddahActive){
-      if(saudaraARawMuaddah>0) results.push({label:'Saudara seayah laki-laki', share:frac(0,1), count:saudaraARawMuaddah, note:tn(`Mahjub (dihalangi saudara kandung) — tetap dihitung sbg "kepala" dalam muqasamah (al-mu'addah) agar jatah ${kakekLabel.toLowerCase()} mengecil; jatah notionalnya dikembalikan ke saudara kandung`, `محجوب (بالإخوة الأشقاء) — يُحسب مع ذلك كـ"رأس" في المقاسمة (الإعداد) لتقليل نصيب ${kakekLabelAr}؛ ثم يُرَدّ نصيبه التقديري إلى الإخوة الأشقاء`)});
-      if(saudariARawMuaddah>0) results.push({label:'Saudari seayah perempuan', share:frac(0,1), count:saudariARawMuaddah, note:tn(`Mahjub (dihalangi saudara/i kandung) — tetap dihitung sbg "kepala" dalam muqasamah (al-mu'addah) agar jatah ${kakekLabel.toLowerCase()} mengecil; jatah notionalnya dikembalikan ke saudara kandung`, `محجوبة (بالإخوة والأخوات الأشقاء) — تُحسب مع ذلك كـ"رأس" في المقاسمة (الإعداد) لتقليل نصيب ${kakekLabelAr}؛ ثم يُرَدّ نصيبها التقديري إلى الإخوة الأشقاء`)});
+      if(fToNum(leftoverToSeayah) > 0){
+        const totalWeightA = saudaraARawMuaddah*2 + saudariARawMuaddah;
+        results.push({
+          isGroup:true,
+          share: leftoverToSeayah,
+          count: totalWeightA,
+          groupInfo:{
+            maleLabel:'Saudara seayah laki-laki', femaleLabel:'Saudari seayah perempuan',
+            maleCount:saudaraARawMuaddah, femaleCount:saudariARawMuaddah, maleWeight:2, femaleWeight:1,
+            maleNote: tn(`Tidak sepenuhnya mahjub — menerima sisa (ashabah) krn ${siblingLabel.f.toLowerCase()} (sbg fardh, tanpa saudara kandung laki-laki) tidak boleh melebihi fardh maksimalnya dlm al-mu'addah`, `غير محجوب بالكامل — يأخذ الباقي (تعصيبًا) لأن ${siblingLabel.f} (صاحبة فرض، لعدم وجود أخ شقيق) لا يجوز أن تتجاوز فرضها الأقصى في الإعداد`),
+            femaleNote: tn(`Tidak sepenuhnya mahjub — menerima sisa (ashabah) krn ${siblingLabel.f.toLowerCase()} (sbg fardh, tanpa saudara kandung laki-laki) tidak boleh melebihi fardh maksimalnya dlm al-mu'addah`, `غير محجوبة بالكامل — تأخذ الباقي (تعصيبًا) لأن ${siblingLabel.f} (صاحبة فرض، لعدم وجود أخ شقيق) لا يجوز أن تتجاوز فرضها الأقصى في الإعداد`)
+          }
+        });
+      } else {
+        if(saudaraARawMuaddah>0) results.push({label:'Saudara seayah laki-laki', share:frac(0,1), count:saudaraARawMuaddah, note:tn(`Mahjub (dihalangi saudara kandung) — tetap dihitung sbg "kepala" dalam muqasamah (al-mu'addah) agar jatah ${kakekLabel.toLowerCase()} mengecil; jatah notionalnya dikembalikan ke saudara kandung`, `محجوب (بالإخوة الأشقاء) — يُحسب مع ذلك كـ"رأس" في المقاسمة (الإعداد) لتقليل نصيب ${kakekLabelAr}؛ ثم يُرَدّ نصيبه التقديري إلى الإخوة الأشقاء`)});
+        if(saudariARawMuaddah>0) results.push({label:'Saudari seayah perempuan', share:frac(0,1), count:saudariARawMuaddah, note:tn(`Mahjub (dihalangi saudara/i kandung) — tetap dihitung sbg "kepala" dalam muqasamah (al-mu'addah) agar jatah ${kakekLabel.toLowerCase()} mengecil; jatah notionalnya dikembalikan ke saudara kandung`, `محجوبة (بالإخوة والأخوات الأشقاء) — تُحسب مع ذلك كـ"رأس" في المقاسمة (الإعداد) لتقليل نصيب ${kakekLabelAr}؛ ثم يُرَدّ نصيبها التقديري إلى الإخوة الأشقاء`)});
+      }
     }
 
-    if(fToNum(siblingsShare)<=0){
+    if(fToNum(kandungShare)<=0){
       results.push({label:siblingLabel.m, share:frac(0,1), count:sL, note:tn(`Mahjub — ${kakekLabel.toLowerCase()} sudah mengambil seluruh sisa (minimal 1/6), tidak ada sisa lagi`, `محجوب — أخذ ${kakekLabelAr} كامل الباقي (بحد أدنى السدس)، فلم يبقَ شيء`)});
       if(sP>0) results.push({label:siblingLabel.f, share:frac(0,1), count:sP, note:tn(`Mahjub — ${kakekLabel.toLowerCase()} sudah mengambil seluruh sisa (minimal 1/6), tidak ada sisa lagi`, `محجوبة — أخذ ${kakekLabelAr} كامل الباقي (بحد أدنى السدس)، فلم يبقَ شيء`)});
     } else {
       const totalWeightSib = sL*2+sP;
       results.push({
         isGroup:true,
-        share: siblingsShare,
+        share: kandungShare,
         count: totalWeightSib,
         groupInfo:{
           maleLabel:siblingLabel.m, femaleLabel:siblingLabel.f,
           maleCount:sL, femaleCount:sP, maleWeight:2, femaleWeight:1,
           maleNote: tn(muaddahActive? `Muqasamah bersama ${kakekLabel.toLowerCase()}, termasuk jatah notional dari al-mu'addah (2:1 dgn saudari)` : `Muqasamah bersama ${kakekLabel.toLowerCase()}, bagian 2:1 dgn saudari`, muaddahActive? `مقاسمة مع ${kakekLabelAr}، وتشمل النصيب التقديري من الإعداد (2:1 مع الأخت)` : `مقاسمة مع ${kakekLabelAr}، بنسبة 2:1 مع الأخت`),
-          femaleNote: tn(muaddahActive? `Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki, termasuk jatah notional dari al-mu'addah` : `Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki`, muaddahActive? `مقاسمة مع ${kakekLabelAr} والأخ، وتشمل النصيب التقديري من الإعداد` : `مقاسمة مع ${kakekLabelAr} والأخ`)
+          femaleNote: tn(capApplies ? `Muqasamah bersama ${kakekLabel.toLowerCase()}, dibatasi pada fardh maksimal (${sP===1?'1/2':'2/3'}) krn tanpa saudara kandung laki-laki — kelebihan dari al-mu'addah dikembalikan ke saudara/i seayah sbg ashabah` : (muaddahActive? `Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki, termasuk jatah notional dari al-mu'addah` : `Muqasamah bersama ${kakekLabel.toLowerCase()} &amp; saudara laki-laki`), capApplies ? `مقاسمة مع ${kakekLabelAr}، مقيدة بالفرض الأقصى (${sP===1?'النصف':'الثلثان'}) لعدم وجود أخ شقيق — يُرَدّ الفائض من الإعداد إلى الإخوة لأب تعصيبًا` : (muaddahActive? `مقاسمة مع ${kakekLabelAr} والأخ، وتشمل النصيب التقديري من الإعداد` : `مقاسمة مع ${kakekLabelAr} والأخ`))
         }
       });
     }
