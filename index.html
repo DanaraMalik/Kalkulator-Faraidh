@@ -454,7 +454,7 @@
   @page{size:A4;margin:12mm;}
   @media print{
     body{background:#fff;}
-    header, .card:not(#results), .btn-row, #error{display:none !important;}
+    header, .hero, .card:not(#results), .btn-row, #error, .preset-row, .app-footer, .support-link, .dev-test-link, #testReportPanel, .menu-btn, .main-menu-overlay, .main-menu-panel, .preset-label, .preset-chip{display:none !important;}
     #results{display:block !important;border:none;box-shadow:none;padding:0;margin-top:0;}
     .btn-print, .btn-group{display:none !important;}
     .print-only{display:block;margin-bottom:14px;}
@@ -1017,7 +1017,7 @@
     <div id="specialNote"></div>
 
     <div id="initialCaseWrap" style="display:none;">
-      <div class="case-title"><span data-i18n="kasusAwalTitle">Kasus Awal</span> <span class="case-badge" data-i18n="sebelumAulBadge">sebelum 'aul/radd/inkisar</span></div>
+      <div class="case-title"><span data-i18n="kasusAwalTitle">Pembagian Dasar</span> <span class="case-badge" data-i18n="sebelumAulBadge">sebelum 'aul/radd/inkisar</span></div>
       <div id="asalMasalah" class="am-box"></div>
       <div class="table-wrap">
         <table class="faraidh-table">
@@ -1231,7 +1231,7 @@ const I18N = {
     resultsTitle: "Hasil Pembagian",
     btnShare: "🔁 Bagikan Hasil",
     btnPrint: "🖨 Cetak / Simpan PDF",
-    kasusAwalTitle: "Kasus Awal",
+    kasusAwalTitle: "Pembagian Dasar",
     sebelumAulBadge: "sebelum 'aul/radd/inkisar",
     thAhliWaris: "Ahli Waris",
     thFurudh: "Furudh",
@@ -1412,7 +1412,7 @@ const I18N = {
     resultsTitle: "نتيجة التوزيع",
     btnShare: "🔁 مشاركة النتيجة",
     btnPrint: "🖨 طباعة / حفظ PDF",
-    kasusAwalTitle: "الحالة الأولى",
+    kasusAwalTitle: "القسمة الأصلية",
     sebelumAulBadge: "قبل العول/الرد/التصحيح",
     thAhliWaris: "الوارث",
     thFurudh: "الفرض",
