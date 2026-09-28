@@ -682,6 +682,41 @@
     background:var(--gold-soft);color:#5A431A;padding:3px 9px;border-radius:20px;
   }
 
+
+  /* ---------- Penekanan hasil akhir vs langkah perantara ---------- */
+  .final-wrap{
+    border:2px solid var(--emerald);
+    background:linear-gradient(180deg,#F1F7F4 0%,#fff 90px);
+    border-radius:14px;
+    padding:0 14px 14px;
+    margin-top:18px;
+    box-shadow:0 4px 14px rgba(31,75,63,.12);
+  }
+  .final-banner{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--emerald);color:#fff;
+    font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    margin:0 -14px 14px;padding:9px 12px;border-radius:11px 11px 0 0;text-align:center;
+  }
+  .final-banner-icon{font-size:14px;}
+  .final-wrap .case-title{font-size:19px;font-weight:700;}
+  .final-wrap .ledger{margin-bottom:16px;}
+  .initial-wrap{
+    opacity:.72;
+    border:1px dashed var(--border);
+    border-radius:12px;
+    padding:12px 12px 4px;
+    margin-bottom:6px;
+  }
+  .initial-wrap .am-box{background:#6F7F79;}
+  .initial-mute-note{font-size:12px;color:var(--muted);margin:0 0 10px;font-style:italic;}
+  @media print{
+    .final-wrap{border:1px solid #999;box-shadow:none;background:#fff;padding:0 10px 10px;}
+    .final-banner{background:#EDEDED !important;color:#000 !important;}
+    .initial-wrap{opacity:1;}
+    .initial-mute-note{display:none;}
+  }
+
   .disclaimer{
     font-size:12.5px;
     color:var(--muted);
@@ -1016,7 +1051,7 @@
     <div id="hartaBreakdown"></div>
     <div id="specialNote"></div>
 
-    <div id="initialCaseWrap" style="display:none;">
+    <div id="initialCaseWrap" class="initial-wrap" style="display:none;">
       <div class="case-title"><span data-i18n="kasusAwalTitle">Pembagian Dasar</span> <span class="case-badge" data-i18n="sebelumAulBadge">sebelum 'aul/radd/inkisar</span></div>
       <div id="asalMasalah" class="am-box"></div>
       <div class="table-wrap">
@@ -1027,6 +1062,8 @@
       </div>
     </div>
 
+    <div class="final-wrap" id="finalWrap">
+    <div class="final-banner"><span class="final-banner-icon">&#10004;</span><span data-i18n="finalBanner">HASIL AKHIR</span></div>
     <div class="case-title" id="finalCaseTitle" data-i18n="rincianSahamTitle">Rincian Saham</div>
     <div id="asalMasalahFinal" class="am-box"></div>
     <div class="ledger" id="ledger"></div>
@@ -1044,6 +1081,7 @@
         </thead>
         <tbody id="heirList"></tbody>
       </table>
+    </div>
     </div>
 
     <details id="amDetailBox" class="am-detail-box" style="display:none;">
@@ -1239,6 +1277,7 @@ const I18N = {
     rincianSahamTitle: "Rincian Saham",
     rincianAkhirTitle: "Rincian Akhir",
     setelahAulBadge: "setelah 'aul/radd/inkisar",
+    finalBanner: "HASIL AKHIR",
     ashlulMasalahLabel: "Ashlul Mas'alah",
     ashlulJamiahAkhirLabel: "Ashlul Jami'ah Akhir",
     thJml: "Jml",
@@ -1420,6 +1459,7 @@ const I18N = {
     rincianSahamTitle: "تفصيل السهام",
     rincianAkhirTitle: "التفصيل النهائي",
     setelahAulBadge: "بعد العول/الرد/التصحيح",
+    finalBanner: "النتيجة النهائية",
     ashlulMasalahLabel: "أصل المسألة",
     ashlulJamiahAkhirLabel: "الجامعة النهائية",
     thJml: "العدد",
@@ -3487,6 +3527,161 @@ const FARAIDH_TEST_CASES = [
     expect: [
       { label:'Istri', saham:1 },
       { label:'Harta Mauquf (belum dibagi)', saham:7 }
+    ]
+  },
+  // ---------- Tambahan: dasar-dasar furudh & ashabah ----------
+  {
+    name: "Dasar — Suami + 1 anak laki-laki (1/4 + ashabah)",
+    gender:'P',
+    setup: { suami:true, anakL:1 },
+    expectAM: 4,
+    expect: [ { label:'Suami', saham:1 }, { label:'Anak laki-laki', saham:3 } ]
+  },
+  {
+    name: "Dasar — Istri + 1 anak laki-laki (1/8 + ashabah)",
+    gender:'L',
+    setup: { istriCount:1, anakL:1 },
+    expectAM: 8,
+    expect: [ { label:'Istri', saham:1 }, { label:'Anak laki-laki', saham:7 } ]
+  },
+  {
+    name: "Inkisar istri — 2 istri berbagi 1/8 bersama anak (asal 8 → 16)",
+    gender:'L',
+    setup: { istriCount:2, anakL:1 },
+    expectAM: 16,
+    expect: [ { label:'Istri', saham:2 }, { label:'Anak laki-laki', saham:14 } ]
+  },
+  {
+    name: "Dasar — Ayah + Ibu tanpa keturunan (ibu 1/3, ayah ashabah)",
+    setup: { ayah:true, ibu:true },
+    expectAM: 3,
+    expect: [ { label:'Ibu', saham:1 }, { label:'Ayah', saham:2 } ]
+  },
+  {
+    name: "Ayah 1/6 + ashabah — Ayah + 1 anak perempuan (1/2 dan 1/6 + sisa 1/3 = 1/2)",
+    setup: { ayah:true, anakP:1 },
+    expectAM: 2,
+    expect: [ { label:'Anak perempuan', saham:1 }, { label:'Ayah', saham:1 } ]
+  },
+  {
+    name: "Ashabah bil-ghair — 1 anak laki-laki + 2 anak perempuan (2:1:1)",
+    setup: { anakL:1, anakP:2 },
+    expectAM: 4,
+    expect: [ { label:'Anak laki-laki', saham:2 }, { label:'Anak perempuan', saham:2 } ]
+  },
+  {
+    name: "Takmilah + radd — 1 anak perempuan + 1 cucu perempuan (1/2 + 1/6, sisa di-radd, asal 4)",
+    setup: { anakP:1, cucuP:1 },
+    expectAM: 4,
+    expect: [ { label:'Anak perempuan', saham:3 }, { label:'Cucu perempuan', saham:1 } ]
+  },
+  {
+    name: "Hajb — Ayah menghalangi saudara: Ayah + 2 saudara kandung (lewat kalkulator, saudara tak tersedia)",
+    setup: { ayah:true, saudaraK:2 },
+    expectAM: 1,
+    expect: [ { label:'Ayah', saham:1 } ]
+  },
+  {
+    name: "Kalalah + radd — 1 saudari kandung + 1 saudari seayah (1/2 + 1/6 takmilah, sisa di-radd, asal 4)",
+    setup: { saudariK:1, saudariA:1 },
+    expectAM: 4,
+    expect: [ { label:'Saudari kandung perempuan', saham:3 }, { label:'Saudari seayah perempuan', saham:1 } ]
+  },
+  {
+    name: "Kalalah + inkisar — 2 saudara seibu + 2 saudari kandung (1/3 dan 2/3, asal 3 → 6)",
+    setup: { saudaraIbu:2, saudariK:2 },
+    expectAM: 6,
+    expect: [ { label:'Saudara/i seibu', saham:2 }, { label:'Saudari kandung perempuan', saham:4 } ]
+  },
+  {
+    name: "Ashabah jauh — 1 keponakan (dari saudara kandung) mengambil semua",
+    setup: { keponakanKandung:1 },
+    expectAM: 1,
+    expect: [ { label:'Keponakan', saham:1 } ]
+  },
+  // ---------- Tambahan: 'aul klasik ----------
+  {
+    name: "'Aul — Suami + 2 saudari kandung (6→7)",
+    gender:'P',
+    setup: { suami:true, saudariK:2 },
+    expectAM: 7,
+    expect: [ { label:'Suami', saham:3 }, { label:'Saudari kandung perempuan', saham:4 } ]
+  },
+  {
+    name: "'Aul Minbariyyah — Istri + Ayah + Ibu + 2 anak perempuan (24→27)",
+    gender:'L',
+    setup: { istriCount:1, ayah:true, ibu:true, anakP:2 },
+    expectAM: 27,
+    expect: [
+      { label:'Istri', saham:3 },
+      { label:'Ayah', saham:4 },
+      { label:'Ibu', saham:4 },
+      { label:'Anak perempuan', saham:16 }
+    ]
+  },
+  // ---------- Tambahan: kakek & saudara ----------
+  {
+    name: "Kakek + 1 saudari kandung (muqasamah 2:1)",
+    setup: { kakek:true, saudariK:1, kakekMuqasamahOpt:true },
+    expectAM: 3,
+    expect: [ { label:'Kakek', saham:2 }, { label:'Saudari kandung perempuan', saham:1 } ]
+  },
+  {
+    name: "Kakek + 3 saudari kandung (muqasamah, asal 5)",
+    setup: { kakek:true, saudariK:3, kakekMuqasamahOpt:true },
+    expectAM: 5,
+    expect: [ { label:'Kakek', saham:2 }, { label:'Saudari kandung perempuan', saham:3 } ]
+  },
+  // ---------- Tambahan: Al-Mu'addah (cap fardh saudari kandung) ----------
+  {
+    name: "Al-'Ashariyyah — Kakek + 1 saudari kandung + 1 saudara seayah (4:5:1 @10)",
+    setup: { kakek:true, saudariK:1, saudaraA:1, kakekMuqasamahOpt:true },
+    expectAM: 10,
+    expect: [
+      { label:'Kakek', saham:4 },
+      { label:'Saudari kandung perempuan', saham:5 },
+      { label:'Saudara seayah laki-laki', saham:1 }
+    ]
+  },
+  {
+    name: "Al-'Isyriniyyah — Kakek + 1 saudari kandung + 2 saudari seayah (8:10:2 @20)",
+    setup: { kakek:true, saudariK:1, saudariA:2, kakekMuqasamahOpt:true },
+    expectAM: 20,
+    expect: [
+      { label:'Kakek', saham:8 },
+      { label:'Saudari kandung perempuan', saham:10 },
+      { label:'Saudari seayah perempuan', saham:2 }
+    ]
+  },
+  {
+    name: "Mu'addah — Kakek + 2 saudari kandung + 1 saudara seayah (seayah habis, asal 3)",
+    setup: { kakek:true, saudariK:2, saudaraA:1, kakekMuqasamahOpt:true },
+    expectAM: 3,
+    expect: [
+      { label:'Kakek', saham:1 },
+      { label:'Saudari kandung perempuan', saham:2 },
+      { label:'Saudara seayah laki-laki', saham:0 }
+    ]
+  },
+  {
+    name: "At-Tis'iniyyah (varian Zaid) — Ibu + Kakek + 1 saudari kandung + 5 saudari seayah (15:25:45:5 @90)",
+    setup: { ibu:true, kakek:true, saudariK:1, saudariA:5, kakekMuqasamahOpt:true },
+    expectAM: 90,
+    expect: [
+      { label:'Ibu', saham:15 },
+      { label:'Kakek', saham:25 },
+      { label:'Saudari kandung perempuan', saham:45 },
+      { label:'Saudari seayah perempuan', saham:5 }
+    ]
+  },
+  {
+    name: "Mu'addah — kakek ambil 1/3 sisa (bukan muqasamah) bila kepala seayah banyak — Kakek + 1 saudari kandung + 4 saudari seayah (1/3 : 1/2 : 1/6, inkisar → 24)",
+    setup: { kakek:true, saudariK:1, saudariA:4, kakekMuqasamahOpt:true },
+    expectAM: 24,
+    expect: [
+      { label:'Kakek', saham:8 },
+      { label:'Saudari kandung perempuan', saham:12 },
+      { label:'Saudari seayah perempuan', saham:4 }
     ]
   },
   {
