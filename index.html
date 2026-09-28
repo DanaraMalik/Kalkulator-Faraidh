@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kalkulator Faraidh</title>
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KPHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHJ4PSIyMiIgZmlsbD0iIzE1MzMyOCIvPgo8ZyBzdHJva2U9IiNCODg2MkYiIHN0cm9rZS13aWR0aD0iNSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGxpbmUgeDE9IjUwIiB5MT0iMTgiIHgyPSI1MCIgeTI9Ijc0Ii8+CjxsaW5lIHgxPSIyNiIgeTE9IjMwIiB4Mj0iNzQiIHkyPSIzMCIvPgo8cGF0aCBkPSJNMTQgMzAgQTEyIDE0IDAgMCAwIDM4IDMwIi8+CjxwYXRoIGQ9Ik02MiAzMCBBMTIgMTQgMCAwIDAgODYgMzAiLz4KPC9nPgo8Y2lyY2xlIGN4PSI1MCIgY3k9IjE4IiByPSI0LjUiIGZpbGw9IiNCODg2MkYiLz4KPHBhdGggZD0iTTM4IDc4IEw2MiA3OCBMNTcgODYgTDQzIDg2IFoiIGZpbGw9IiNCODg2MkYiLz4KPC9zdmc+">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
-<link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-title" content="Faraidh">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -187,6 +185,83 @@
     color:var(--muted);
   }
   .toggle button.active{background:var(--emerald);color:#fff;}
+
+  /* ---------- Kotak jenis kelamin mayit (dibuat menonjol, mudah terlewat sebelumnya) ---------- */
+  .mayit-gender-box{
+    background:linear-gradient(135deg,var(--gold-soft) 0%,#FFFDF7 100%);
+    border:2px solid var(--gold);
+    border-radius:14px;
+    padding:16px 18px;
+    margin:2px 0 18px;
+  }
+  .mayit-gender-box .gender-box-label{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+    font-size:15px;
+    font-weight:700;
+    color:var(--emerald-dark);
+    margin-bottom:12px;
+  }
+  .mayit-gender-box .toggle{
+    border:1px solid var(--gold);
+    border-radius:10px;
+  }
+  .mayit-gender-box .toggle button{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:14px 10px;
+    font-size:15.5px;
+  }
+  .mayit-gender-box .toggle button .gender-icon{font-size:21px;line-height:1;}
+  .mayit-gender-box .toggle button.active{background:var(--emerald);}
+
+  .badge-required{
+    display:inline-block;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:#fff;
+    background:var(--danger);
+    padding:2px 9px;
+    border-radius:999px;
+  }
+  .badge-optional{
+    display:inline-block;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:var(--muted);
+    background:#F1EDE2;
+    border:1px solid var(--border);
+    padding:1px 9px;
+    border-radius:999px;
+    margin-left:6px;
+  }
+  html[dir="rtl"] .badge-optional{margin-left:0;margin-right:6px;}
+
+  /* ---------- Notifikasi mahjub dinamis (hanya muncul ketika benar-benar terhalang) ---------- */
+  .mahjub-alert{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    background:#F7ECE7;
+    border:1px solid var(--danger);
+    color:var(--danger);
+    border-radius:10px;
+    padding:9px 13px;
+    font-size:13px;
+    font-weight:600;
+    margin:0 0 14px;
+    line-height:1.45;
+  }
+  .mahjub-alert::before{content:"\26D4";flex-shrink:0;font-size:13px;line-height:1.5;}
 
   /* ---------- Menu utama (hamburger: bahasa + glosarium) ---------- */
   .menu-btn{
@@ -369,6 +444,7 @@
   }
   .btn-print:hover{background:var(--emerald-dark);color:#fff;}
   .btn-group{display:flex;gap:8px;flex-wrap:wrap;}
+  .results-footer-actions{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);justify-content:flex-end;}
   .btn-share{background:var(--gold-soft);border-color:var(--gold);color:#6B4E13;}
   .btn-share:hover{background:var(--gold);color:#fff;}
 
@@ -774,27 +850,30 @@
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card1Title">1. Data Mayit</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
     <p class="sub" data-i18n="card1Sub">Jenis kelamin orang yang meninggal (mayit) menentukan jenis pasangan yang mewarisi.</p>
-    <div class="row">
-      <label data-i18n="genderLabel">Jenis kelamin mayit</label>
+    <div class="mayit-gender-box">
+      <div class="gender-box-label">
+        <span data-i18n="genderLabel">Jenis kelamin mayit</span>
+        <span class="badge-required" data-i18n="badgeWajib">Wajib dipilih</span>
+      </div>
       <div class="toggle" id="genderToggle">
-        <button type="button" data-val="L" class="active" data-i18n="genderL">Laki-laki</button>
-        <button type="button" data-val="P" data-i18n="genderP">Perempuan</button>
+        <button type="button" data-val="L" class="active"><span class="gender-icon" aria-hidden="true">&#9794;&#65039;</span><span data-i18n="genderL">Laki-laki</span></button>
+        <button type="button" data-val="P"><span class="gender-icon" aria-hidden="true">&#9792;&#65039;</span><span data-i18n="genderP">Perempuan</span></button>
       </div>
     </div>
     <div class="row">
-      <label data-i18n="totalHartaLabel">Total harta warisan (Rp) <span class="hint" data-i18n="totalHartaHint">opsional, untuk menghitung nominal</span></label>
+      <label><span data-i18n="totalHartaLabel">Total harta warisan (Rp)</span><span class="badge-optional" data-i18n="badgeOpsional">Opsional</span><span class="hint" data-i18n="totalHartaHint">untuk menghitung nominal Rupiah tiap ahli waris</span></label>
       <input class="rupiah-input" style="width:200px" id="totalHarta" type="text" inputmode="numeric" placeholder="cth. 500.000.000" data-i18n-placeholder="totalHartaPlaceholder">
     </div>
     <div class="row">
-      <label data-i18n="biayaJenazahLabel">Biaya pengurusan jenazah (Rp) <span class="hint" data-i18n="biayaJenazahHint">didahulukan sebelum hutang &amp; wasiat, opsional</span></label>
+      <label><span data-i18n="biayaJenazahLabel">Biaya pengurusan jenazah (Rp)</span><span class="badge-optional" data-i18n="badgeOpsional">Opsional</span><span class="hint" data-i18n="biayaJenazahHint">didahulukan sebelum hutang &amp; wasiat</span></label>
       <input class="rupiah-input" style="width:200px" id="biayaJenazah" type="text" inputmode="numeric" placeholder="0">
     </div>
     <div class="row">
-      <label data-i18n="hutangLabel">Hutang mayit (Rp) <span class="hint" data-i18n="hutangHint">dilunasi dulu sebelum dibagi waris, opsional</span></label>
+      <label><span data-i18n="hutangLabel">Hutang mayit (Rp)</span><span class="badge-optional" data-i18n="badgeOpsional">Opsional</span><span class="hint" data-i18n="hutangHint">dilunasi dulu sebelum dibagi waris</span></label>
       <input class="rupiah-input" style="width:200px" id="hutangPewaris" type="text" inputmode="numeric" placeholder="0">
     </div>
     <div class="row">
-      <label data-i18n="wasiatLabel">Wasiat untuk non-ahli waris (Rp) <span class="hint" data-i18n="wasiatHint">maks 1/3 dari harta setelah hutang, opsional</span></label>
+      <label><span data-i18n="wasiatLabel">Wasiat untuk non-ahli waris (Rp)</span><span class="badge-optional" data-i18n="badgeOpsional">Opsional</span><span class="hint" data-i18n="wasiatHint">maks 1/3 dari harta setelah hutang</span></label>
       <input class="rupiah-input" style="width:200px" id="wasiatPewaris" type="text" inputmode="numeric" placeholder="0">
     </div>
     </div>
@@ -863,7 +942,7 @@
     <div id="cicitSection" style="display:none">
       <div class="row" id="rowCicitL"><label data-i18n="cicitLLabel">Cicit laki-laki (dari cucu laki-laki)<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="cicitL" min="0" value="0"></div>
       <div class="row" id="rowCicitP"><label data-i18n="cicitPLabel">Cicit perempuan (dari cucu laki-laki)<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="cicitP" min="0" value="0"></div>
-      <p class="sub" data-i18n-html="cicitSub">Cicit terhalang total hanya bila ada anak laki-laki atau cucu laki-laki. Bila hanya ada cucu perempuan (tanpa cucu laki-laki) yang sudah punya bagian tetap (takmilah/pengganti anak), cicit laki-laki hanya mengambil sisanya sendiri. Khusus bila cucu perempuan itu <b>mahjub</b> (misal karena 2+ anak perempuan sudah mengambil 2/3), cicit laki-laki bisa menyelamatkannya dengan meng-ashabah-kan (ta'shib) bersama.</p>
+      <p class="mahjub-alert" id="noteCicit" style="display:none;"></p>
     </div>
     </div>
   </div>
@@ -872,8 +951,8 @@
   <div class="card">
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card5Title">5. Saudara/i</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub" data-i18n="card5Sub">Otomatis terhalang (hajb) bila ada anak laki-laki, cucu laki-laki, atau ayah. Bila hanya ada kakek, kartu ini tetap aktif karena kasus kakek bersama saudara/i kandung/seayah termasuk yang diperselisihkan ulama (lihat catatan di hasil).</p>
     <div class="dzawil-note" data-i18n-html="saudaraNote">Anak dari saudara <b>perempuan</b> (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.</div>
+    <p class="mahjub-alert" id="noteSaudaraKS" style="display:none;"></p>
     <div class="section-label" data-i18n="sectionKandung">Kandung (seayah-seibu)</div>
     <div class="row" id="rowSaudaraK"><label data-i18n="saudaraLLabel">Saudara laki-laki</label><input type="number" id="saudaraK" min="0" value="0"></div>
     <div class="row" id="rowSaudariK"><label data-i18n="saudariPLabel">Saudari perempuan</label><input type="number" id="saudariK" min="0" value="0"></div>
@@ -881,6 +960,7 @@
     <div class="row" id="rowSaudaraA"><label data-i18n="saudaraLLabel">Saudara laki-laki</label><input type="number" id="saudaraA" min="0" value="0"></div>
     <div class="row" id="rowSaudariA"><label data-i18n="saudariPLabel">Saudari perempuan</label><input type="number" id="saudariA" min="0" value="0"></div>
     <div class="section-label" data-i18n="sectionSeibu">Seibu saja</div>
+    <p class="mahjub-alert" id="noteSaudaraIbu" style="display:none;"></p>
     <div class="row" id="rowSaudaraIbu"><label data-i18n="saudaraIbuLabel">Saudara/i (laki-laki &amp; perempuan, bagian sama)</label><input type="number" id="saudaraIbu" min="0" value="0"></div>
 
     <input type="checkbox" id="musytarakahOpt" style="display:none">
@@ -890,30 +970,33 @@
   <div class="card collapsed" data-default-collapsed="true">
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card6Title">6. Keponakan (anak saudara laki-laki)</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub" data-i18n="card6Sub">Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, atau saudara laki-laki (kandung/seayah). Keponakan kandung menghalangi keponakan seayah.</p>
     <div class="dzawil-note" data-i18n-html="keponakanNote">Keponakan <b>perempuan</b> berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini. Hanya anak laki-laki dari saudara laki-laki yang berstatus ahli waris.</div>
+    <p class="mahjub-alert" id="noteKeponakan" style="display:none;"></p>
     <div class="row" id="rowKeponakanK"><label data-i18n="dariSaudaraKandung">Dari saudara kandung</label><input type="number" id="keponakanKandung" min="0" value="0"></div>
     <div class="row" id="rowKeponakanA"><label data-i18n="dariSaudaraSeayah">Dari saudara seayah</label><input type="number" id="keponakanSeayah" min="0" value="0"></div>
+    <p class="mahjub-alert" id="noteKeponakanSeayah" style="display:none;"></p>
     </div>
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card7Title">7. Paman &mdash; khusus saudara ayah</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub" data-i18n="card7Sub">Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, saudara laki-laki, atau keponakan (di atas). Paman kandung menghalangi paman seayah.</p>
     <div class="dzawil-note" data-i18n-html="pamanNote"><b>Perhatian:</b> dalam bahasa sehari-hari "paman" bisa berarti saudara laki-laki ayah <i>maupun</i> ibu. Di kalkulator ini, "paman" HANYA berarti <b>saudara laki-laki ayah</b> mayit &mdash; karena hanya jalur itu yang berstatus ahli waris. Paman dari pihak <b>ibu</b> (saudara laki-laki ibu), serta bibi dari pihak manapun, berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
+    <p class="mahjub-alert" id="notePaman" style="display:none;"></p>
     <div class="row" id="rowPamanK"><label data-i18n="pamanKLabel">Paman kandung <span class="hint" data-i18n="pamanKHint">saudara kandung ayah</span></label><input type="number" id="pamanKandung" min="0" value="0"></div>
     <div class="row" id="rowPamanA"><label data-i18n="pamanALabel">Paman seayah <span class="hint" data-i18n="pamanAHint">saudara seayah dari ayah</span></label><input type="number" id="pamanSeayah" min="0" value="0"></div>
+    <p class="mahjub-alert" id="notePamanSeayah" style="display:none;"></p>
     </div>
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card8Title">8. Sepupu &mdash; khusus anak paman dari ayah</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <p class="sub" data-i18n="card8Sub">Terhalang total bila ada ahli waris di atas (sampai dengan paman). Anak dari paman kandung menghalangi anak dari paman seayah.</p>
     <div class="dzawil-note" data-i18n-html="sepupuNote"><b>Perhatian:</b> "sepupu" di sini HANYA berarti anak laki-laki dari <b>paman pihak ayah</b> (saudara laki-laki ayah mayit) di atas, bukan sepupu secara umum. Sepupu <b>perempuan</b>, serta sepupu dari jalur <b>ibu</b> (anak dari saudara ibu, baik laki-laki maupun perempuan bibi/paman ibu), berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
+    <p class="mahjub-alert" id="noteSepupu" style="display:none;"></p>
     <div class="row" id="rowSepupuK"><label data-i18n="sepupuKLabel">Anak paman kandung <span class="hint" data-i18n="dariAyahHint">dari ayah</span></label><input type="number" id="sepupuKandung" min="0" value="0"></div>
     <div class="row" id="rowSepupuA"><label data-i18n="sepupuALabel">Anak paman seayah <span class="hint" data-i18n="dariAyahHint">dari ayah</span></label><input type="number" id="sepupuSeayah" min="0" value="0"></div>
+    <p class="mahjub-alert" id="noteSepupuSeayah" style="display:none;"></p>
     </div>
   </div>
 
@@ -929,12 +1012,7 @@
     </div>
     <div class="results-header">
       <h2 data-i18n="resultsTitle">Hasil Pembagian</h2>
-      <div class="btn-group">
-        <button class="btn-print btn-share" onclick="bagikanHasil()" type="button" data-i18n="btnShare">&#128257; Bagikan Hasil</button>
-        <button class="btn-print" onclick="cetakFitPage()" type="button" data-i18n="btnPrint">&#128424; Cetak / Simpan PDF</button>
-      </div>
     </div>
-    <div class="dzawil-note" data-i18n-html="mahjubGeneralNote">Ahli waris yang Anda isi jumlahnya tetapi <b>tidak muncul</b> di tabel hasil di bawah berarti <b>mahjub (terhalang)</b> oleh ahli waris lain yang lebih berhak, sehingga tidak mendapat bagian warisan sama sekali.</div>
     <div id="hartaBreakdown"></div>
     <div id="specialNote"></div>
 
@@ -973,6 +1051,10 @@
       <div id="amDetailContent"></div>
     </details>
     <p class="disclaimer" data-i18n="finalDisclaimer">Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama yang berlaku umum di Indonesia. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.</p>
+    <div class="btn-group results-footer-actions">
+      <button class="btn-print btn-share" onclick="bagikanHasil()" type="button" data-i18n="btnShare">&#128257; Bagikan Hasil</button>
+      <button class="btn-print" onclick="cetakFitPage()" type="button" data-i18n="btnPrint">&#128424; Cetak / Simpan PDF</button>
+    </div>
   </div>
 
   <footer class="app-footer">
@@ -1053,15 +1135,17 @@ const I18N = {
     genderLabel: "Jenis kelamin mayit",
     genderL: "Laki-laki",
     genderP: "Perempuan",
-    totalHartaLabel: "Total harta warisan (Rp) ",
+    badgeWajib: "Wajib dipilih",
+    badgeOpsional: "Opsional",
+    totalHartaLabel: "Total harta warisan (Rp)",
     totalHartaPlaceholder: "cth. 500.000.000",
-    totalHartaHint: "opsional, untuk menghitung nominal",
-    biayaJenazahLabel: "Biaya pengurusan jenazah (Rp) ",
-    biayaJenazahHint: "didahulukan sebelum hutang & wasiat, opsional",
-    hutangLabel: "Hutang mayit (Rp) ",
-    hutangHint: "dilunasi dulu sebelum dibagi waris, opsional",
-    wasiatLabel: "Wasiat untuk non-ahli waris (Rp) ",
-    wasiatHint: "maks 1/3 dari harta setelah hutang, opsional",
+    totalHartaHint: "untuk menghitung nominal Rupiah tiap ahli waris",
+    biayaJenazahLabel: "Biaya pengurusan jenazah (Rp)",
+    biayaJenazahHint: "didahulukan sebelum hutang & wasiat",
+    hutangLabel: "Hutang mayit (Rp)",
+    hutangHint: "dilunasi dulu sebelum dibagi waris",
+    wasiatLabel: "Wasiat untuk non-ahli waris (Rp)",
+    wasiatHint: "maks 1/3 dari harta setelah hutang",
 
     card2Title: "2. Pasangan",
     istriFieldLabel: "Istri",
@@ -1147,7 +1231,6 @@ const I18N = {
     resultsTitle: "Hasil Pembagian",
     btnShare: "🔁 Bagikan Hasil",
     btnPrint: "🖨 Cetak / Simpan PDF",
-    mahjubGeneralNote: "Ahli waris yang Anda isi jumlahnya tetapi <b>tidak muncul</b> di tabel hasil di bawah berarti <b>mahjub (terhalang)</b> oleh ahli waris lain yang lebih berhak, sehingga tidak mendapat bagian warisan sama sekali.",
     kasusAwalTitle: "Kasus Awal",
     sebelumAulBadge: "sebelum 'aul/radd/inkisar",
     thAhliWaris: "Ahli Waris",
@@ -1233,15 +1316,17 @@ const I18N = {
     genderLabel: "جنس الميت",
     genderL: "ذكر",
     genderP: "أنثى",
-    totalHartaLabel: "إجمالي التركة ",
+    badgeWajib: "إلزامي",
+    badgeOpsional: "اختياري",
+    totalHartaLabel: "إجمالي التركة",
     totalHartaPlaceholder: "مثال: 500,000,000",
-    totalHartaHint: "اختياري، لحساب المبلغ",
-    biayaJenazahLabel: "تكاليف الجنازة ",
-    biayaJenazahHint: "تُقدّم قبل الدين والوصية، اختياري",
-    hutangLabel: "دين الميت ",
-    hutangHint: "يُسدّد قبل قسمة الميراث، اختياري",
-    wasiatLabel: "وصية لغير الورثة ",
-    wasiatHint: "حد أقصى 1/3 من التركة بعد الدين، اختياري",
+    totalHartaHint: "لحساب المبلغ بالروبية لكل وارث",
+    biayaJenazahLabel: "تكاليف الجنازة",
+    biayaJenazahHint: "تُقدّم قبل الدين والوصية",
+    hutangLabel: "دين الميت",
+    hutangHint: "يُسدّد قبل قسمة الميراث",
+    wasiatLabel: "وصية لغير الورثة",
+    wasiatHint: "حد أقصى 1/3 من التركة بعد الدين",
 
     card2Title: "2. الزوج",
     istriFieldLabel: "الزوجة",
@@ -1327,7 +1412,6 @@ const I18N = {
     resultsTitle: "نتيجة التوزيع",
     btnShare: "🔁 مشاركة النتيجة",
     btnPrint: "🖨 طباعة / حفظ PDF",
-    mahjubGeneralNote: "أي وارث أدخلت عدده ولم يظهر في الجدول أدناه يعني أنه <b>محجوب</b>.",
     kasusAwalTitle: "الحالة الأولى",
     sebelumAulBadge: "قبل العول/الرد/التصحيح",
     thAhliWaris: "الوارث",
@@ -1417,7 +1501,19 @@ function refreshAdvancedToggleLabel(btnId, sectionId, showKey, hideKey){
 function applyI18n(){
   document.title = t('pageTitle');
   document.querySelectorAll('[data-i18n]').forEach(el=>{
-    el.textContent = t(el.getAttribute('data-i18n'));
+    const translated = t(el.getAttribute('data-i18n'));
+    // PENTING: sejumlah label (mis. "Total harta warisan" + <span class="hint">opsional</span>)
+    // punya elemen anak (span hint) yang JUGA punya data-i18n sendiri. Bila kita timpa
+    // langsung dgn el.textContent, seluruh anak tsb ikut terhapus (itulah sebabnya teks
+    // "opsional" pada beberapa field sempat hilang). Jadi: kalau elemen ini punya anak
+    // elemen, cukup ganti node teks LANGSUNG pertama saja & biarkan anak-anaknya utuh.
+    if(el.children.length > 0){
+      const textNode = [...el.childNodes].find(n=>n.nodeType===Node.TEXT_NODE);
+      if(textNode) textNode.textContent = translated;
+      else el.insertBefore(document.createTextNode(translated), el.firstChild);
+    } else {
+      el.textContent = translated;
+    }
   });
   document.querySelectorAll('[data-i18n-html]').forEach(el=>{
     el.innerHTML = t(el.getAttribute('data-i18n-html'));
@@ -1455,6 +1551,7 @@ function setLanguage(lang){
     if(newJaninIstriEl && savedJaninChecked!==null) newJaninIstriEl.checked = savedJaninChecked;
   }
   if(typeof lastResultData !== 'undefined' && lastResultData){ hitungFaraidh(); }
+  if(typeof syncDependentRows === 'function') syncDependentRows();
 }
 
 // ---------- Menu utama (hamburger: bahasa + glosarium) ----------
@@ -1630,6 +1727,25 @@ function renderSpouseSection(){
 renderSpouseSection();
 
 // enable/disable dependent rows
+// Bangun & tampilkan/sembunyikan notifikasi mahjub secara dinamis: hanya tampil ketika
+// field tsb BENAR-BENAR terhalang pada kasus yang sedang diisi user saat ini, dengan
+// menyebutkan ahli waris spesifik penyebabnya — bukan penjelasan umum kaidah hajb yang
+// selalu tampil terlepas dari kasusnya (sesuai masukan: terlalu ramai bila selalu tampil).
+function setMahjubAlert(elId, active, reasons){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  if(active && reasons.length>0){
+    el.style.display='';
+    el.textContent = tn('Terhalang (mahjub) karena ada ', 'محجوب لوجود ') + reasons.join(tn(', ',', ')) + '.';
+  } else if(active){
+    el.style.display='';
+    el.textContent = tn('Terhalang (mahjub) oleh ahli waris lain yang lebih dekat.', 'محجوب بوارث آخر أقرب.');
+  } else {
+    el.style.display='none';
+    el.textContent='';
+  }
+}
+
 function syncDependentRows(){
   const ayah = document.getElementById('ayah').checked;
   const ibu = document.getElementById('ibu').checked;
@@ -1679,6 +1795,12 @@ function syncDependentRows(){
   document.getElementById('cicitL').disabled = blockCicit;
   document.getElementById('cicitP').disabled = blockCicit;
   if(blockCicit){document.getElementById('cicitL').value=0; document.getElementById('cicitP').value=0;}
+  {
+    const r=[];
+    if(anakL>0) r.push(tn(`${anakL} anak laki-laki`, `${anakL} ابن`));
+    if(cucuLval>0) r.push(tn(`${cucuLval} cucu laki-laki`, `${cucuLval} حفيد`));
+    setMahjubAlert('noteCicit', blockCicit, r);
+  }
 
   // Saudara/i kandung & seayah: terhalang total bila ada anak laki-laki, cucu laki-laki, atau
   // ayah. TIDAK terhalang (kartu tetap aktif) hanya karena kakek/buyut laki-laki, karena kakek
@@ -1694,6 +1816,13 @@ function syncDependentRows(){
     el.disabled = blockSaudaraKandungSeayah;
     if(blockSaudaraKandungSeayah) el.value = 0;
   });
+  {
+    const r=[];
+    if(ayah) r.push(tn('ayah','الأب'));
+    if(anakL>0) r.push(tn(`${anakL} anak laki-laki`, `${anakL} ابن`));
+    if(cucuLforSaudara>0) r.push(tn(`${cucuLforSaudara} cucu laki-laki`, `${cucuLforSaudara} حفيد`));
+    setMahjubAlert('noteSaudaraKS', blockSaudaraKandungSeayah, r);
+  }
 
   // Saudara/i seibu: terhalang total bila ada anak/cucu (laki-laki ATAU perempuan) atau ayah,
   // kakek, ATAU buyut laki-laki — ini TIDAK diperselisihkan, jadi tetap menghalangi (berbeda
@@ -1703,6 +1832,17 @@ function syncDependentRows(){
   document.getElementById('rowSaudaraIbu').classList.toggle('disabled', blockSaudaraIbu);
   document.getElementById('saudaraIbu').disabled = blockSaudaraIbu;
   if(blockSaudaraIbu) document.getElementById('saudaraIbu').value = 0;
+  {
+    const r=[];
+    if(ayah) r.push(tn('ayah','الأب'));
+    if(kakekBox.checked) r.push(tn('kakek','الجد'));
+    else if(buyutLBox.checked) r.push(tn('buyut laki-laki (ayah dari kakek)','والد الجد'));
+    if(anakL>0) r.push(tn(`${anakL} anak laki-laki`, `${anakL} ابن`));
+    if(anakP>0) r.push(tn(`${anakP} anak perempuan`, `${anakP} بنت`));
+    if(cucuLforSaudara>0) r.push(tn(`${cucuLforSaudara} cucu laki-laki`, `${cucuLforSaudara} حفيد`));
+    if(cucuP>0) r.push(tn(`${cucuP} cucu perempuan`, `${cucuP} حفيدة`));
+    setMahjubAlert('noteSaudaraIbu', blockSaudaraIbu, r);
+  }
 
   // Keponakan & paman: terhalang total bila ada anak/cucu laki-laki, ayah, kakek/buyut laki-laki,
   // atau saudara laki-laki (kandung/seayah). Kandung juga menghalangi seayah pada tingkat yang
@@ -1736,6 +1876,31 @@ function syncDependentRows(){
   document.getElementById('rowPamanA').classList.toggle('disabled', blockPamanSeayah);
   pA.disabled = blockPamanSeayah; if(blockPamanSeayah) pA.value=0;
 
+  // Alasan umum (dipakai bersama oleh keponakan/paman/sepupu bila mahjub krn far'/ushul/saudara laki-laki)
+  const commonAsobahReasons = ()=>{
+    const r=[];
+    if(anakL>0) r.push(tn(`${anakL} anak laki-laki`, `${anakL} ابن`));
+    else if(noAnakLaki && cucuL>0) r.push(tn(`${cucuL} cucu laki-laki`, `${cucuL} حفيد`));
+    if(ayah) r.push(tn('ayah','الأب'));
+    if(kakekBox.checked) r.push(tn('kakek','الجد'));
+    else if(buyutLBox.checked) r.push(tn('buyut laki-laki','والد الجد'));
+    if(saudaraK>0) r.push(tn(`${saudaraK} saudara kandung laki-laki`, `${saudaraK} أخ شقيق`));
+    if(saudaraA>0) r.push(tn(`${saudaraA} saudara seayah laki-laki`, `${saudaraA} أخ لأب`));
+    return r;
+  };
+  setMahjubAlert('noteKeponakan', blocked, commonAsobahReasons());
+  setMahjubAlert('noteKeponakanSeayah', !blocked && kKval>0, kKval>0 ? [tn(`${kKval} keponakan dari saudara kandung`, `${kKval} ابن أخ شقيق`)] : []);
+
+  {
+    const r = blocked ? commonAsobahReasons() : [];
+    if(!blocked){
+      if(kKval>0) r.push(tn(`${kKval} keponakan dari saudara kandung`, `${kKval} ابن أخ شقيق`));
+      if(kAval>0) r.push(tn(`${kAval} keponakan dari saudara seayah`, `${kAval} ابن أخ لأب`));
+    }
+    setMahjubAlert('notePaman', blockPaman, r);
+  }
+  setMahjubAlert('notePamanSeayah', !blockPaman && pKval>0, pKval>0 ? [tn(`${pKval} paman kandung`, `${pKval} عم شقيق`)] : []);
+
   // Sepupu (anak paman): terhalang total bila ada keponakan ATAU paman (kandung/seayah mana pun),
   // selain semua yang sudah menghalangi keponakan & paman di atas. Sepupu dari anak paman kandung
   // menghalangi sepupu dari anak paman seayah.
@@ -1751,6 +1916,18 @@ function syncDependentRows(){
   const blockSepupuSeayah = blockSepupu || sKval>0;
   document.getElementById('rowSepupuA').classList.toggle('disabled', blockSepupuSeayah);
   sA.disabled = blockSepupuSeayah; if(blockSepupuSeayah) sA.value=0;
+
+  {
+    const r = blocked ? commonAsobahReasons() : [];
+    if(!blocked){
+      if(kKval>0) r.push(tn(`${kKval} keponakan dari saudara kandung`, `${kKval} ابن أخ شقيق`));
+      if(kAval>0) r.push(tn(`${kAval} keponakan dari saudara seayah`, `${kAval} ابن أخ لأب`));
+      if(pKval>0) r.push(tn(`${pKval} paman kandung`, `${pKval} عم شقيق`));
+      if(pAval>0) r.push(tn(`${pAval} paman seayah`, `${pAval} عم لأب`));
+    }
+    setMahjubAlert('noteSepupu', blockSepupu, r);
+  }
+  setMahjubAlert('noteSepupuSeayah', !blockSepupu && sKval>0, sKval>0 ? [tn(`${sKval} sepupu dari paman kandung`, `${sKval} ابن عم شقيق`)] : []);
 }
 ['ayah','ibu','anakL','anakP','kakek','buyutL','cucuL','cucuP','cicitL','cicitP','saudaraK','saudaraA','keponakanKandung','keponakanSeayah','pamanKandung','pamanSeayah','sepupuKandung'].forEach(id=>document.getElementById(id).addEventListener('input', syncDependentRows));
 document.getElementById('ayah').addEventListener('change', syncDependentRows);
@@ -2212,9 +2389,24 @@ function computeFaraidh(){
     const muaddahActive = seayahRawExists && method==='muqasamah';
 
     let kakekShare;
+    // Bila al-mu'addah aktif, "kepala" notional dari seayah ditambahkan ke total bobot muqasamah
+    // (memperkecil jatah kakek dibanding muqasamah kandung-saja) — TAPI kakek tetap berhak
+    // memilih 1/3 sisa bila itu lebih besar drpd hasil muqasamah-dengan-mu'addah tsb (kakek
+    // tidak pernah menerima kurang dari 1/3 sisa selama itu opsi yang tersedia baginya).
+    // Ini penting krn banyaknya "kepala" notional dari seayah (mis. 5 saudari seayah) bisa
+    // membuat muqasamah jadi LEBIH KECIL drpd 1/3 sisa, meski kandung sendiri (tanpa seayah)
+    // tadinya lebih memilih muqasamah.
+    let muaddahMethodFinal = null; // 'muqasamah' | 'sepertiga' — metode akhir yg benar2 dipakai saat mu'addah aktif
     if(muaddahActive){
       const totalWeightWithSeayah = totalWeightMuqBase + saudaraARawMuaddah*2 + saudariARawMuaddah;
-      kakekShare = fmul(remainderBeforeSplit, frac(2, totalWeightWithSeayah));
+      const muqasamahShareWithSeayah = fmul(remainderBeforeSplit, frac(2, totalWeightWithSeayah));
+      if(fToNum(muqasamahShareWithSeayah) >= fToNum(thirdShare)){
+        kakekShare = muqasamahShareWithSeayah;
+        muaddahMethodFinal = 'muqasamah';
+      } else {
+        kakekShare = thirdShare;
+        muaddahMethodFinal = 'sepertiga';
+      }
     } else if(method==='sepertiga'){
       kakekShare = thirdShare;
     } else {
@@ -2235,7 +2427,9 @@ function computeFaraidh(){
     const methodNote = floorApplied
       ? `mendapat batas bawah 1/6 dari total harta (hasil muqasamah/sepertiga sisa lebih kecil dari 1/6)`
       : muaddahActive
-        ? `muqasamah dgn al-mu'addah — saudara/i seayah (yang seharusnya mahjub) tetap dihitung sbg kepala tambahan agar jatah ${kakekLabel.toLowerCase()} mengecil, lalu jatah notionalnya dikembalikan ke saudara/i kandung`
+        ? (muaddahMethodFinal==='muqasamah'
+            ? `muqasamah dgn al-mu'addah — saudara/i seayah (yang seharusnya mahjub) tetap dihitung sbg kepala tambahan agar jatah ${kakekLabel.toLowerCase()} mengecil, lalu jatah notionalnya dikembalikan ke saudara/i kandung`
+            : `1/3 dari sisa harta — walau dihitung dgn al-mu'addah (saudara/i seayah ikut sbg kepala notional), 1/3 sisa tetap lebih besar drpd hasil muqasamahnya`)
         : (method==='muqasamah'
             ? `muqasamah — ikut berbagi seperti seorang saudara bersama ${sL+sP} saudara/i, lebih besar drpd 1/3 sisa`
             : (method==='sepertiga'
@@ -2245,7 +2439,9 @@ function computeFaraidh(){
     const methodNoteAr = floorApplied
       ? `يأخذ الحد الأدنى وهو السدس من كامل التركة (لأن نصيبه بالمقاسمة أو ثلث الباقي أقل من السدس)`
       : muaddahActive
-        ? `مقاسمة مع الإعداد — يُحسب الإخوة لأب (وهم محجوبون أصلاً) كرؤوس إضافية لتقليل نصيب ${kakekLabelAr}، ثم يُرَدّ نصيبهم التقديري إلى الإخوة الأشقاء`
+        ? (muaddahMethodFinal==='muqasamah'
+            ? `مقاسمة مع الإعداد — يُحسب الإخوة لأب (وهم محجوبون أصلاً) كرؤوس إضافية لتقليل نصيب ${kakekLabelAr}، ثم يُرَدّ نصيبهم التقديري إلى الإخوة الأشقاء`
+            : `ثلث الباقي — رغم احتساب الإخوة لأب كرؤوس تقديرية ضمن الإعداد، يبقى ثلث الباقي أكبر من نصيب المقاسمة`)
         : (method==='muqasamah'
             ? `مقاسمة — يشارك كأحد الإخوة مع ${sL+sP} من الإخوة والأخوات، وهو أكبر من ثلث الباقي`
             : (method==='sepertiga'
@@ -3420,13 +3616,6 @@ function renderTestReport(report){
   panel.innerHTML = `<div class="test-summary" style="color:${allPass? '#1F4B3F':'#8A3B34'}">${passCount}/${report.length} kasus uji lolos</div>${rows}`;
   panel.style.display = 'block';
   panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
-}
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW gagal daftar:', err));
-  });
 }
 </script>
 </body>
