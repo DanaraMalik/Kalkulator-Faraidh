@@ -129,6 +129,19 @@
     border-radius:6px;
   }
   .card.collapsed .chevron{transform:rotate(-90deg);}
+  .card-fill-badge{
+    display:none;
+    flex-shrink:0;
+    font-size:11px;
+    font-weight:700;
+    color:#fff;
+    background:var(--emerald);
+    padding:2px 8px;
+    border-radius:999px;
+    margin-left:8px;
+  }
+  html[dir="rtl"] .card-fill-badge{margin-left:0;margin-right:8px;}
+  .card-fill-badge.show{display:inline-block;}
   .card-body{
     overflow:hidden;
     max-height:2000px;
@@ -284,6 +297,19 @@
   }
   html[dir="rtl"] .menu-btn{left:auto;right:16px;}
 
+  /* Bilah pelindung tetap di atas: memastikan judul/teks yang ter-scroll tidak
+     "ketiban" tombol menu bundar, karena sebelumnya teks bisa terpotong tepat di
+     balik tombol saat halaman digulir. */
+  .top-scrim{
+    position:fixed;
+    top:0;left:0;right:0;
+    height:70px;
+    background:linear-gradient(180deg,var(--paper) 55%,rgba(250,246,238,0));
+    z-index:70;
+    pointer-events:none;
+  }
+  @media print{ .top-scrim{display:none;} }
+
   .main-menu-overlay{
     position:fixed;
     inset:0;
@@ -342,6 +368,32 @@
     color:var(--emerald-dark);
     margin-bottom:10px;
   }
+  /* Bagian menu yang bisa dilipat (Istilah & Tentang Aplikasi) supaya menu terasa
+     ringkas — tertutup secara default, dibuka hanya bila pengguna butuh detailnya. */
+  .menu-accordion{margin-bottom:14px;}
+  button.menu-accordion-toggle{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    background:none;
+    border:none;
+    padding:2px 0;
+    margin-bottom:0;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Amiri',serif;
+  }
+  html[dir="rtl"] button.menu-accordion-toggle{text-align:right;}
+  .menu-accordion-chevron{
+    font-size:12px;
+    color:var(--muted);
+    transition:transform .15s ease;
+    flex-shrink:0;
+  }
+  .menu-accordion-toggle[aria-expanded="true"] .menu-accordion-chevron{transform:rotate(180deg);}
+  .menu-accordion-body{margin-top:12px;}
 
   .lang-switch{
     display:flex;
@@ -531,6 +583,23 @@
     margin:0 0 18px;
   }
   .preset-label{font-size:12.5px;color:var(--muted);margin-right:2px;}
+  .preset-row-collapsed-toggle{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:none;
+    border:none;
+    color:var(--muted);
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    padding:4px 2px;
+    margin:0 0 18px;
+    cursor:pointer;
+  }
+  .preset-row-collapsed-toggle:hover{color:var(--emerald-dark);}
+  .preset-row-collapsed-toggle .arrow-down{font-size:10px;}
+  html[dir="rtl"] .preset-row-collapsed-toggle{margin-right:0;}
   .preset-chip{
     font-family:'Inter',sans-serif;
     font-size:12.5px;
@@ -649,7 +718,32 @@
   .am-detail-box[open] summary{margin-bottom:10px;}
   .am-detail-text{color:var(--muted);line-height:1.55;}
 
-  .table-wrap{overflow-x:auto;margin:6px 0 18px;border:1px solid var(--border);border-radius:12px;}
+  .table-wrap{overflow-x:auto;margin:6px 0 18px;border:1px solid var(--border);border-radius:12px;position:relative;-webkit-overflow-scrolling:touch;}
+  .table-wrap.scrollable::after{
+    content:"";
+    position:sticky;
+    top:0;right:0;
+    float:right;
+    height:100%;
+    width:22px;
+    margin-right:-22px;
+    background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.9));
+    pointer-events:none;
+  }
+  .table-scroll-hint{
+    display:none;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    font-size:11.5px;
+    color:var(--muted);
+    font-weight:600;
+    padding:6px 0 2px;
+  }
+  .table-scroll-hint.show{display:flex;}
+  .table-scroll-hint .arrow{display:inline-block;animation:nudge 1.4s ease-in-out infinite;}
+  @keyframes nudge{0%,100%{transform:translateX(0);}50%{transform:translateX(4px);}}
+  @media print{ .table-scroll-hint{display:none !important;} }
   table.faraidh-table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);}
   table.faraidh-table th{
     background:var(--emerald-dark);color:#F4EFDF;text-align:left;
@@ -810,6 +904,7 @@
   <button type="button" class="menu-btn" id="menuBtn" onclick="toggleMainMenu()" aria-label="Menu" aria-expanded="false" aria-controls="mainMenuPanel">
     <span class="menu-btn-icon">&#9776;</span>
   </button>
+  <div class="top-scrim" aria-hidden="true"></div>
   <div class="main-menu-overlay" id="mainMenuOverlay" onclick="closeMainMenu()"></div>
   <div class="main-menu-panel" id="mainMenuPanel" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="main-menu-header">
@@ -825,8 +920,12 @@
       </div>
     </div>
 
-    <div class="menu-section">
-      <div class="menu-section-title" data-i18n="glossaryTitle">&#128214; Istilah dalam Kalkulator Ini</div>
+    <div class="menu-section menu-accordion">
+      <button type="button" class="menu-section-title menu-accordion-toggle" onclick="toggleMenuAccordion(this)" aria-expanded="false">
+        <span data-i18n="glossaryTitle">&#128214; Istilah dalam Kalkulator Ini</span>
+        <span class="menu-accordion-chevron" aria-hidden="true">&#9662;</span>
+      </button>
+      <div class="menu-accordion-body" hidden>
       <p class="sub" data-i18n="glossaryIntro">Ringkasan istilah faraidh yang dipakai di kalkulator ini, untuk yang belum familiar.</p>
       <dl class="glossary">
         <dt data-i18n="gAshabulFurudhT">Ashabul Furudh</dt>
@@ -848,15 +947,21 @@
         <dt data-i18n="gMuqasamahT">Muqasamah / Musyarakah</dt>
         <dd data-i18n-html="gMuqasamahD">Pembagian bersama antara dua kelompok ahli waris yang berbeda jenis (mis. kakek &amp; saudara/i, menurut pendapat Umar bin Khattab), dihitung seolah satu kelompok yang sama derajat.</dd>
       </dl>
+      </div>
     </div>
 
-    <div class="menu-section">
-      <div class="menu-section-title" data-i18n="aboutTitle">&#8505;&#65039; Tentang Aplikasi</div>
+    <div class="menu-section menu-accordion">
+      <button type="button" class="menu-section-title menu-accordion-toggle" onclick="toggleMenuAccordion(this)" aria-expanded="false">
+        <span data-i18n="aboutTitle">&#8505;&#65039; Tentang Aplikasi</span>
+        <span class="menu-accordion-chevron" aria-hidden="true">&#9662;</span>
+      </button>
+      <div class="menu-accordion-body" hidden>
       <p class="sub" data-i18n="aboutText">Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama yang umum digunakan di Indonesia. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda &mdash; tidak ada data yang dikirim atau disimpan ke server mana pun.</p>
-      <p class="sub" data-i18n-html="aboutVersion">Versi 1.0.0 &middot; Dibuat oleh <b>Danara Osa Raharsa</b></p>
+      <p class="sub" data-i18n-html="aboutVersion">Versi 1.1.0 &middot; Dibuat oleh <b>Danara Osa Raharsa</b></p>
       <a class="support-link" href="https://saweria.co/DanaraOsaRaharsa" target="_blank" rel="noopener noreferrer" style="margin:6px 0 4px;">
         <span class="heart">&#9825;</span><span data-i18n="supportUsLabel">Dukung Kami</span>
       </a>
+      </div>
     </div>
   </div>
 
@@ -868,7 +973,7 @@
 
   <div id="error"></div>
 
-  <div class="preset-row">
+  <div class="preset-row" id="presetRow">
     <span class="preset-label" data-i18n="presetLabel">Coba contoh:</span>
     <button type="button" class="preset-chip" data-i18n="presetIstriAnak" onclick="applyPreset('istriAnak')">Istri + 2 anak</button>
     <button type="button" class="preset-chip" data-i18n="presetAyahIbu" onclick="applyPreset('ayahIbu')">Ayah + Ibu saja</button>
@@ -880,6 +985,9 @@
     <button type="button" class="preset-chip" data-i18n="presetMuaddah" onclick="applyPreset('muaddahContoh')">Al-Mu'addah</button>
     <button type="button" class="preset-chip" data-i18n="presetAkdariyyah" onclick="applyPreset('akdariyyahContoh')">Al-Akdariyyah</button>
   </div>
+  <button type="button" class="preset-row-collapsed-toggle" id="presetRowToggle" onclick="expandPresetRow()" style="display:none;">
+    <span data-i18n="presetShowLabel">Lihat contoh kasus</span><span class="arrow-down">&#9662;</span>
+  </button>
 
   <div class="card">
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card1Title">1. Data Mayit</span><span class="chevron">&#9662;</span></h2>
@@ -1003,7 +1111,7 @@
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
-    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card6Title">6. Keponakan (anak saudara laki-laki)</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card6Title">6. Keponakan (anak saudara laki-laki)</span><span class="card-fill-badge" id="badgeCard6"></span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
     <div class="dzawil-note" data-i18n-html="keponakanNote">Keponakan <b>perempuan</b> berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini. Hanya anak laki-laki dari saudara laki-laki yang berstatus ahli waris.</div>
     <p class="mahjub-alert" id="noteKeponakan" style="display:none;"></p>
@@ -1014,7 +1122,7 @@
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
-    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card7Title">7. Paman &mdash; khusus saudara ayah</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card7Title">7. Paman &mdash; khusus saudara ayah</span><span class="card-fill-badge" id="badgeCard7"></span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
     <div class="dzawil-note" data-i18n-html="pamanNote"><b>Perhatian:</b> dalam bahasa sehari-hari "paman" bisa berarti saudara laki-laki ayah <i>maupun</i> ibu. Di kalkulator ini, "paman" HANYA berarti <b>saudara laki-laki ayah</b> mayit &mdash; karena hanya jalur itu yang berstatus ahli waris. Paman dari pihak <b>ibu</b> (saudara laki-laki ibu), serta bibi dari pihak manapun, berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
     <p class="mahjub-alert" id="notePaman" style="display:none;"></p>
@@ -1025,7 +1133,7 @@
   </div>
 
   <div class="card collapsed" data-default-collapsed="true">
-    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card8Title">8. Sepupu &mdash; khusus anak paman dari ayah</span><span class="chevron">&#9662;</span></h2>
+    <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card8Title">8. Sepupu &mdash; khusus anak paman dari ayah</span><span class="card-fill-badge" id="badgeCard8"></span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
     <div class="dzawil-note" data-i18n-html="sepupuNote"><b>Perhatian:</b> "sepupu" di sini HANYA berarti anak laki-laki dari <b>paman pihak ayah</b> (saudara laki-laki ayah mayit) di atas, bukan sepupu secara umum. Sepupu <b>perempuan</b>, serta sepupu dari jalur <b>ibu</b> (anak dari saudara ibu, baik laki-laki maupun perempuan bibi/paman ibu), berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
     <p class="mahjub-alert" id="noteSepupu" style="display:none;"></p>
@@ -1054,7 +1162,7 @@
     <div id="initialCaseWrap" class="initial-wrap" style="display:none;">
       <div class="case-title"><span data-i18n="kasusAwalTitle">Pembagian Dasar</span> <span class="case-badge" data-i18n="sebelumAulBadge">sebelum 'aul/radd/inkisar</span></div>
       <div id="asalMasalah" class="am-box"></div>
-      <div class="table-wrap">
+      <div class="table-wrap" id="initialTableWrap">
         <table class="faraidh-table">
           <thead><tr><th data-i18n="thAhliWaris">Ahli Waris</th><th class="num" data-i18n="thFurudh">Furudh</th><th class="num" data-i18n="thSaham">Saham</th></tr></thead>
           <tbody id="initialTableBody"></tbody>
@@ -1067,7 +1175,7 @@
     <div class="case-title" id="finalCaseTitle" data-i18n="rincianSahamTitle">Rincian Saham</div>
     <div id="asalMasalahFinal" class="am-box"></div>
     <div class="ledger" id="ledger"></div>
-    <div class="table-wrap">
+    <div class="table-wrap" id="finalTableWrap">
       <table class="faraidh-table">
         <thead>
           <tr>
@@ -1082,6 +1190,7 @@
         <tbody id="heirList"></tbody>
       </table>
     </div>
+    <p class="table-scroll-hint" id="finalScrollHint"><span data-i18n="scrollHintText">Geser tabel untuk lihat kolom lainnya</span><span class="arrow">&#8594;</span></p>
     </div>
 
     <details id="amDetailBox" class="am-detail-box" style="display:none;">
@@ -1133,6 +1242,7 @@ const I18N = {
     menuTitle: "Menu",
     menuLanguageLabel: "Bahasa",
     presetLabel: "Coba contoh:",
+    presetShowLabel: "Lihat contoh kasus",
     presetIstriAnak: "Istri + 2 anak",
     presetAyahIbu: "Ayah + Ibu saja",
     presetAul: "Suami + Ibu + 2 saudari",
@@ -1166,7 +1276,7 @@ const I18N = {
 
     aboutTitle: "ℹ️ Tentang Aplikasi",
     aboutText: "Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama yang umum digunakan di Indonesia. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda — tidak ada data yang dikirim atau disimpan ke server mana pun.",
-    aboutVersion: "Versi 1.0.0 &middot; Dibuat oleh <b>Danara Osa Raharsa</b>",
+    aboutVersion: "Versi 1.1.0 &middot; Dibuat oleh <b>Danara Osa Raharsa</b>",
 
     card1Title: "1. Data Mayit",
     card1Sub: "Jenis kelamin orang yang meninggal (mayit) menentukan jenis pasangan yang mewarisi.",
@@ -1282,6 +1392,7 @@ const I18N = {
     ashlulJamiahAkhirLabel: "Ashlul Jami'ah Akhir",
     thJml: "Jml",
     thSahamOrang: "Saham/Orang",
+    scrollHintText: "Geser tabel untuk lihat kolom lainnya",
     thPersen: "%",
     thNominal: "Nominal",
     amDetailSummary: "Detail teknis: penyesuaian ashlul mas'alah ('aul / radd / inkisar)",
@@ -1315,6 +1426,7 @@ const I18N = {
     menuTitle: "القائمة",
     menuLanguageLabel: "اللغة",
     presetLabel: "جرّب مثالاً:",
+    presetShowLabel: "عرض أمثلة",
     presetIstriAnak: "زوجة + ابنان",
     presetAyahIbu: "أب + أم فقط",
     presetAul: "زوج + أم + أختان",
@@ -1348,7 +1460,7 @@ const I18N = {
 
     aboutTitle: "ℹ️ عن التطبيق",
     aboutText: "تساعد حاسبة الفرائض في حساب توزيع التركة وفق علم الفرائض (أحكام الميراث الإسلامي)، متبعةً رأي جمهور العلماء المعتمد عادةً في إندونيسيا. هذا التطبيق مجاني، وتتم جميع الحسابات مباشرة على جهازك — لا تُرسل أو تُخزَّن أي بيانات على أي خادم.",
-    aboutVersion: "الإصدار 1.0.0 &middot; صنعه <b>Danara Osa Raharsa</b>",
+    aboutVersion: "الإصدار 1.1.0 &middot; صنعه <b>Danara Osa Raharsa</b>",
 
     card1Title: "1. بيانات الميت",
     card1Sub: "جنس المتوفى يحدد نوع الزوج الوارث.",
@@ -1464,6 +1576,7 @@ const I18N = {
     ashlulJamiahAkhirLabel: "الجامعة النهائية",
     thJml: "العدد",
     thSahamOrang: "السهم/للفرد",
+    scrollHintText: "مرر الجدول لرؤية باقي الأعمدة",
     thPersen: "%",
     thNominal: "المبلغ",
     amDetailSummary: "تفاصيل تقنية: تعديل أصل المسألة (عول/رد/تصحيح)",
@@ -1611,6 +1724,12 @@ function closeMainMenu(){
   document.getElementById('mainMenuPanel').setAttribute('aria-hidden','true');
   document.getElementById('menuBtn').setAttribute('aria-expanded','false');
 }
+function toggleMenuAccordion(btn){
+  const body = btn.nextElementSibling;
+  const expanded = btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+  if(body) body.hidden = expanded;
+}
 
 // ---------- Fraction helpers ----------
 function gcd(a,b){a=Math.abs(a);b=Math.abs(b);return b?gcd(b,a%b):(a||1);}
@@ -1685,6 +1804,7 @@ const PRESETS = {
 function applyPreset(name){
   const preset = PRESETS[name];
   if(!preset) return;
+  markCalculatorUsed();
   resetForm();
   if(preset.gender !== pewarisGender){
     pewarisGender = preset.gender;
@@ -1765,6 +1885,31 @@ function renderSpouseSection(){
   }
 }
 renderSpouseSection();
+
+// Baris "Coba contoh" (7 chip) cukup makan tempat di paling atas halaman. Setelah
+// pengguna pernah benar-benar memakai kalkulator (klik salah satu contoh, atau
+// berhasil menghitung hasil), pada kunjungan BERIKUTNYA baris itu otomatis
+// diciutkan jadi satu tautan kecil "Lihat contoh kasus" saja — tetap bisa dibuka
+// kapan pun, tapi tidak lagi menyita tempat tiap buka halaman.
+function markCalculatorUsed(){
+  try{ localStorage.setItem('faraidhCalculatorUsed','1'); }catch(e){}
+}
+function expandPresetRow(){
+  const row = document.getElementById('presetRow');
+  const toggle = document.getElementById('presetRowToggle');
+  if(row) row.style.display='';
+  if(toggle) toggle.style.display='none';
+}
+(function initPresetRowVisibility(){
+  let used = false;
+  try{ used = localStorage.getItem('faraidhCalculatorUsed')==='1'; }catch(e){}
+  if(used){
+    const row = document.getElementById('presetRow');
+    const toggle = document.getElementById('presetRowToggle');
+    if(row) row.style.display='none';
+    if(toggle) toggle.style.display='flex';
+  }
+})();
 
 // enable/disable dependent rows
 // Bangun & tampilkan/sembunyikan notifikasi mahjub secara dinamis: hanya tampil ketika
@@ -1968,6 +2113,25 @@ function syncDependentRows(){
     setMahjubAlert('noteSepupu', blockSepupu, r);
   }
   setMahjubAlert('noteSepupuSeayah', !blockSepupu && sKval>0, sKval>0 ? [tn(`${sKval} sepupu dari paman kandung`, `${sKval} ابن عم شقيق`)] : []);
+
+  updateCardFillBadge('badgeCard6', kKval + kAval);
+  updateCardFillBadge('badgeCard7', pKval + pAval);
+  updateCardFillBadge('badgeCard8', sKval + (+sA.value || 0));
+}
+
+// Tampilkan lencana kecil pada judul kartu 6/7/8 (yang defaultnya collapsed) bila
+// sudah ada data terisi di dalamnya — supaya saat kartu ditutup, pengguna tetap
+// tahu datanya masih tersimpan (bukan terlihat "kosong").
+function updateCardFillBadge(elId, total){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  if(total>0){
+    el.textContent = tn(`${total} diisi`, `${total} مدخل`);
+    el.classList.add('show');
+  } else {
+    el.textContent='';
+    el.classList.remove('show');
+  }
 }
 ['ayah','ibu','anakL','anakP','kakek','buyutL','cucuL','cucuP','cicitL','cicitP','saudaraK','saudaraA','keponakanKandung','keponakanSeayah','pamanKandung','pamanSeayah','sepupuKandung'].forEach(id=>document.getElementById(id).addEventListener('input', syncDependentRows));
 document.getElementById('ayah').addEventListener('change', syncDependentRows);
@@ -3094,6 +3258,7 @@ function hitungFaraidh(){
     data = computeFaraidh();
     if(!data) return;
   }
+  markCalculatorUsed();
   renderResults(data.results, data.special, data.totalHartaBersih, data.AM0, data.AM_final, data.amDetail, data.initialSnapshot, data.hartaInfo);
 }
 
@@ -3245,7 +3410,26 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
   box.scrollIntoView({behavior:'smooth', block:'start'});
 
   lastResultData = { results, AM_final, totalHarta, hartaInfo };
+  updateTableScrollHint();
 }
+
+// Deteksi apakah tabel hasil akhir lebih lebar dari kontainernya (butuh digeser
+// horizontal di layar sempit) — bila ya, tampilkan petunjuk "geser" agar kolom
+// seperti Saham/Orang tidak terlewat pengguna (sebelumnya bisa terpotong diam-diam).
+function updateTableScrollHint(){
+  const wrap = document.getElementById('finalTableWrap');
+  const hint = document.getElementById('finalScrollHint');
+  if(!wrap || !hint) return;
+  const table = wrap.querySelector('table');
+  const isOverflowing = table && table.scrollWidth > wrap.clientWidth + 1;
+  wrap.classList.toggle('scrollable', isOverflowing);
+  hint.classList.toggle('show', isOverflowing);
+  if(isOverflowing){
+    // sembunyikan otomatis begitu pengguna sudah menggeser tabelnya sendiri
+    wrap.onscroll = () => { if(wrap.scrollLeft > 8) hint.classList.remove('show'); };
+  }
+}
+window.addEventListener('resize', ()=>{ if(typeof lastResultData!=='undefined' && lastResultData) updateTableScrollHint(); });
 
 // Susun ringkasan hasil sebagai teks polos, lalu bagikan via Web Share API
 // (di HP akan muncul menu bagikan ke WhatsApp dkk), atau disalin ke clipboard
