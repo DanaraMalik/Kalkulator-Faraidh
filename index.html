@@ -888,12 +888,19 @@
 
   legend-title{display:block;}
   .section-label{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    letter-spacing:.1em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.05em;
     text-transform:uppercase;
-    color:var(--gold);
-    margin:18px 0 4px;
+    color:var(--emerald-dark);
+    padding-bottom:5px;
+    border-bottom:2px solid var(--gold-soft);
+    margin:22px 0 10px;
+    width:fit-content;
   }
   .section-label:first-child{margin-top:0;}
 </style>
@@ -962,7 +969,7 @@
       </button>
       <div class="menu-accordion-body" hidden>
       <p class="sub" data-i18n="aboutText">Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda &mdash; tidak ada data yang dikirim atau disimpan ke server mana pun.</p>
-      <p class="sub" data-i18n-html="aboutVersion">Versi 1.1.0 &middot; Dibuat oleh <b>Danara Osa Raharsa</b></p>
+      <p class="sub" data-i18n-html="aboutVersion">Versi 1.2.0 &middot; Dibuat oleh <b>Abu Malik</b></p>
       <a class="support-link" href="https://saweria.co/DanaraOsaRaharsa" target="_blank" rel="noopener noreferrer" style="margin:6px 0 4px;">
         <span class="heart">&#9825;</span><span data-i18n="supportUsLabel">Dukung Kami</span>
       </a>
@@ -1053,7 +1060,7 @@
     <div class="row" id="rowNenekAyah">
       <label class="checkbox-pill"><input type="checkbox" id="nenekAyah"> <span data-i18n="nenekAyahLabel">Nenek dari pihak ayah (ibunya ayah)</span></label>
     </div>
-    <div class="dzawil-note" data-i18n-html="nenekNote">Kalkulator ini mengikuti pendapat bahwa <b>nenek (baik dari pihak ibu maupun ayah) hanya mahjub karena ibu</b>, sehingga nenek dari pihak ayah tetap mendapat bagian meskipun ayah masih hidup. Sebagian ulama/rujukan mawaris berpendapat nenek dari pihak ayah juga terhalang oleh ayah (selain ibu) &mdash; bila mazhab/lembaga faraidh yang Anda ikuti memakai pendapat itu, hasil terkait nenek dari pihak ayah sebaiknya diverifikasi ulang.</div>
+    <div class="dzawil-note" data-i18n-html="nenekNote">Dipakai: <b>nenek (dari pihak manapun) hanya terhalang oleh ibu</b>, bukan oleh ayah.</div>
 
     <div class="advanced-toggle" id="toggleBuyutBtn" data-show-label="+ Tampilkan buyut (kakek/nenek dari kakek/nenek)" data-hide-label="&minus; Sembunyikan buyut" onclick="toggleAdvanced('buyutSection','toggleBuyutBtn')">+ Tampilkan buyut (kakek/nenek dari kakek/nenek)</div>
     <div id="buyutSection" style="display:none">
@@ -1061,7 +1068,7 @@
         <label class="checkbox-pill"><input type="checkbox" id="buyutL"> <span data-i18n="buyutLLabel">Buyut laki-laki (ayahnya ayahnya ayah)</span></label>
       <input type="checkbox" id="kakekMuqasamahOpt" style="display:none">
       </div>
-      <div class="dzawil-note" data-i18n-html="buyutLNote">Kakek &amp; buyut laki-laki di atas khusus jalur ayah-ke-ayah yang tidak putus (ashabah). Kakek/buyut dari pihak ibu, atau garis mana pun yang melalui <b>ayah dari ibu</b>, berstatus <b>dzawil arham</b> &mdash; tidak disediakan. Buyut laki-laki hanya dihitung bila ayah &amp; kakek sudah tiada.</div>
+      <div class="dzawil-note" data-i18n-html="buyutLNote">Khusus jalur ayah-ke-ayah (ashabah). Jalur manapun yang melewati <b>ayah dari ibu</b> berstatus <b>dzawil arham</b> &mdash; tidak disediakan.</div>
       <div class="row" id="rowBuyutDariKakek">
         <label class="checkbox-pill"><input type="checkbox" id="buyutDariKakek"> <span data-i18n-html="buyutDariKakekLabel">Ibunya ayahnya ayah <span class="hint">(ibu dari kakek)</span></span></label>
       </div>
@@ -1071,7 +1078,7 @@
       <div class="row" id="rowBuyutDariNenekIbu">
         <label class="checkbox-pill"><input type="checkbox" id="buyutDariNenekIbu"> <span data-i18n-html="buyutDariNenekIbuLabel">Ibunya ibunya ibu <span class="hint">(ibu dari nenek pihak ibu)</span></span></label>
       </div>
-      <div class="dzawil-note" data-i18n-html="buyutPNote">Hanya 3 jalur buyut perempuan di atas yang berstatus <b>shahihah</b> (ahli waris). Jalur lain yang melewati <b>ayah dari ibu / kakek dari ibu</b> di mana pun posisinya (misalnya "ibunya ayahnya ibu") berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga sengaja tidak disediakan agar tidak salah pilih. Buyut perempuan (jalur mana pun) hanya dihitung bila <b>ibu dan nenek (dari sisi manapun) semuanya tidak ada</b> &mdash; nenek yang lebih dekat menghalangi buyut yang lebih jauh, dari sisi manapun.</div>
+      <div class="dzawil-note" data-i18n-html="buyutPNote">Hanya 3 jalur ini yang berstatus <b>shahihah</b> (ahli waris). Jalur lain yang melewati <b>ayah dari ibu</b> berstatus <b>dzawil arham</b> &mdash; tidak disediakan.</div>
     </div>
     </div>
   </div>
@@ -1080,7 +1087,7 @@
   <div class="card">
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card4Title">4. Anak &amp; Cucu</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <div class="dzawil-note" data-i18n-html="anakCucuNote">Cucu &amp; cicit di sini khusus jalur <b>anak laki-laki</b> (cucu) dan <b>cucu laki-laki dari anak laki-laki</b> (cicit). Keturunan lewat anak perempuan (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
+    <div class="dzawil-note" data-i18n-html="anakCucuNote">Cucu &amp; cicit di sini khusus dari <b>anak laki-laki</b>. Keturunan dari anak perempuan berstatus <b>dzawil arham</b> &mdash; tidak disediakan.</div>
     <div class="row"><label data-i18n="anakLLabel">Anak laki-laki<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="anakL" min="0" value="0"></div>
     <div class="row"><label data-i18n="anakPLabel">Anak perempuan<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="anakP" min="0" value="0"></div>
     <div class="row" id="rowCucuL"><label data-i18n="cucuLLabel">Cucu laki-laki (dari anak laki-laki)<span class="hint" data-i18n="jumlahHint">jumlah</span></label><input type="number" id="cucuL" min="0" value="0"></div>
@@ -1099,7 +1106,7 @@
   <div class="card">
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card5Title">5. Saudara/i</span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <div class="dzawil-note" data-i18n-html="saudaraNote">Anak dari saudara <b>perempuan</b> (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.</div>
+    <div class="dzawil-note" data-i18n-html="saudaraNote">Anak dari saudara <b>perempuan</b> berstatus <b>dzawil arham</b>. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.</div>
     <p class="mahjub-alert" id="noteSaudaraKS" style="display:none;"></p>
     <div class="section-label" data-i18n="sectionKandung">Kandung (seayah-seibu)</div>
     <div class="row" id="rowSaudaraK"><label data-i18n="saudaraLLabel">Saudara laki-laki</label><input type="number" id="saudaraK" min="0" value="0"></div>
@@ -1118,7 +1125,7 @@
   <div class="card collapsed" data-default-collapsed="true">
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card6Title">6. Keponakan (anak saudara laki-laki)</span><span class="card-fill-badge" id="badgeCard6"></span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <div class="dzawil-note" data-i18n-html="keponakanNote">Keponakan <b>perempuan</b> berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini. Hanya anak laki-laki dari saudara laki-laki yang berstatus ahli waris.</div>
+    <div class="dzawil-note" data-i18n-html="keponakanNote">Keponakan <b>perempuan</b> berstatus <b>dzawil arham</b> &mdash; tidak disediakan. Hanya keponakan laki-laki yang berstatus ahli waris.</div>
     <p class="mahjub-alert" id="noteKeponakan" style="display:none;"></p>
     <div class="row" id="rowKeponakanK"><label data-i18n="dariSaudaraKandung">Dari saudara kandung</label><input type="number" id="keponakanKandung" min="0" value="0"></div>
     <div class="row" id="rowKeponakanA"><label data-i18n="dariSaudaraSeayah">Dari saudara seayah</label><input type="number" id="keponakanSeayah" min="0" value="0"></div>
@@ -1129,7 +1136,7 @@
   <div class="card collapsed" data-default-collapsed="true">
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card7Title">7. Paman &mdash; khusus saudara ayah</span><span class="card-fill-badge" id="badgeCard7"></span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <div class="dzawil-note" data-i18n-html="pamanNote"><b>Perhatian:</b> dalam bahasa sehari-hari "paman" bisa berarti saudara laki-laki ayah <i>maupun</i> ibu. Di kalkulator ini, "paman" HANYA berarti <b>saudara laki-laki ayah</b> mayit &mdash; karena hanya jalur itu yang berstatus ahli waris. Paman dari pihak <b>ibu</b> (saudara laki-laki ibu), serta bibi dari pihak manapun, berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
+    <div class="dzawil-note" data-i18n-html="pamanNote"><b>"Paman"</b> di sini khusus <b>saudara laki-laki ayah</b> mayit. Paman dari pihak ibu &amp; bibi dari pihak manapun berstatus <b>dzawil arham</b> &mdash; tidak disediakan.</div>
     <p class="mahjub-alert" id="notePaman" style="display:none;"></p>
     <div class="row" id="rowPamanK"><label data-i18n="pamanKLabel">Paman kandung <span class="hint" data-i18n="pamanKHint">saudara kandung ayah</span></label><input type="number" id="pamanKandung" min="0" value="0"></div>
     <div class="row" id="rowPamanA"><label data-i18n="pamanALabel">Paman seayah <span class="hint" data-i18n="pamanAHint">saudara seayah dari ayah</span></label><input type="number" id="pamanSeayah" min="0" value="0"></div>
@@ -1140,7 +1147,7 @@
   <div class="card collapsed" data-default-collapsed="true">
     <h2 class="card-header" onclick="toggleCard(this)"><span data-i18n="card8Title">8. Sepupu &mdash; khusus anak paman dari ayah</span><span class="card-fill-badge" id="badgeCard8"></span><span class="chevron">&#9662;</span></h2>
     <div class="card-body">
-    <div class="dzawil-note" data-i18n-html="sepupuNote"><b>Perhatian:</b> "sepupu" di sini HANYA berarti anak laki-laki dari <b>paman pihak ayah</b> (saudara laki-laki ayah mayit) di atas, bukan sepupu secara umum. Sepupu <b>perempuan</b>, serta sepupu dari jalur <b>ibu</b> (anak dari saudara ibu, baik laki-laki maupun perempuan bibi/paman ibu), berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.</div>
+    <div class="dzawil-note" data-i18n-html="sepupuNote"><b>"Sepupu"</b> di sini khusus anak laki-laki dari <b>paman pihak ayah</b> di atas. Sepupu perempuan &amp; sepupu dari jalur ibu berstatus <b>dzawil arham</b> &mdash; tidak disediakan.</div>
     <p class="mahjub-alert" id="noteSepupu" style="display:none;"></p>
     <div class="row" id="rowSepupuK"><label data-i18n="sepupuKLabel">Anak paman kandung <span class="hint" data-i18n="dariAyahHint">dari ayah</span></label><input type="number" id="sepupuKandung" min="0" value="0"></div>
     <div class="row" id="rowSepupuA"><label data-i18n="sepupuALabel">Anak paman seayah <span class="hint" data-i18n="dariAyahHint">dari ayah</span></label><input type="number" id="sepupuSeayah" min="0" value="0"></div>
@@ -1210,7 +1217,7 @@
   </div>
 
   <footer class="app-footer">
-    <span data-i18n-html="footerCredit">Dibuat oleh <b>Danara Osa Raharsa</b> with Claude</span>
+    <span data-i18n-html="footerCredit">Dibuat oleh <b>Abu Malik</b> with Claude</span>
     <div>
       <a class="support-link" href="https://saweria.co/DanaraOsaRaharsa" target="_blank" rel="noopener noreferrer">
         <span class="heart">&#9825;</span><span data-i18n="supportUsLabel">Dukung Kami</span>
@@ -1281,7 +1288,7 @@ const I18N = {
 
     aboutTitle: "ℹ️ Tentang Aplikasi",
     aboutText: "Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda — tidak ada data yang dikirim atau disimpan ke server mana pun.",
-    aboutVersion: "Versi 1.1.0 &middot; Dibuat oleh <b>Danara Osa Raharsa</b>",
+    aboutVersion: "Versi 1.2.0 &middot; Dibuat oleh <b>Abu Malik</b>",
 
     card1Title: "1. Data Mayit",
     card1Sub: "Jenis kelamin orang yang meninggal (mayit) menentukan jenis pasangan yang mewarisi.",
@@ -1306,14 +1313,14 @@ const I18N = {
     istriWarningText: "Maksimal 4 istri menurut syariat — jumlah otomatis dibatasi ke 4.",
     suamiFieldLabel: "Suami",
     janinIstriLabel: "Istri sedang hamil / ada janin (calon anak mayit)?",
-    janinIstriNote: "Bila dicentang, janin dianggap sebagai calon ahli waris yang belum diketahui jenis kelamin &amp; jumlahnya (bisa laki-laki, perempuan, atau kembar). Kalkulator akan memberi ahli waris lain bagian <b>paling kecil</b> yang pasti mereka dapatkan di semua kemungkinan tersebut (termasuk memperhitungkan bila terjadi 'aul), dan menahan (mauquf) sisanya sampai janin lahir.",
+    janinIstriNote: "Bila dicentang, janin dianggap calon ahli waris yang jenis kelamin &amp; jumlahnya belum diketahui. Ahli waris lain diberi bagian <b>paling kecil</b> yang pasti didapat di semua kemungkinan tersebut; sisanya ditahan (mauquf) sampai janin lahir.",
     hartaMauqufLabel: "Harta Mauquf (belum dibagi)",
     janinBagianTerjaminNote: "Bagian yang terjamin/pasti (memperhitungkan kemungkinan janin)",
     janinWithheldAshabah: "Ditahan (mauquf) bersama janin &mdash; ada kemungkinan ia menjadi ashabah (sisa), sehingga besarannya belum bisa dipastikan sebelum janin lahir.",
     janinWithheldMahjub: "Ditahan (mauquf) bersama janin &mdash; ada kemungkinan ia mahjub (terhalang total), tergantung jenis kelamin &amp; jumlah janin.",
     janinWithheldBoth: "Ditahan (mauquf) bersama janin &mdash; ada kemungkinan ia menjadi ashabah (belum pasti besarannya) maupun mahjub total, tergantung jenis kelamin &amp; jumlah janin.",
     janinMauqufNote: "Bagian ini ditahan (mauquf) &mdash; mencakup kemungkinan bagian janin dan/atau bagian ahli waris lain yang belum bisa dipastikan (lihat catatan masing-masing di atas), sampai janin lahir dan status ahli waris lain dapat dipastikan.",
-    janinSpecialNote: "Terdapat <b>janin</b> yang belum lahir. Mengikuti metode Syafi'iyyah: ahli waris lain diberikan bagian paling kecil yang pasti mereka dapatkan di antara kemungkinan janin (1 anak laki-laki, 1 anak perempuan, atau 2+ anak perempuan/kembar) &mdash; termasuk memperhitungkan kemungkinan 'aul. Sisanya ditahan (mauquf) sampai janin lahir, baru dibagi ulang sesuai jenis kelamin &amp; jumlah anak yang sebenarnya.",
+    janinSpecialNote: "Terdapat <b>janin</b> yang belum lahir. Mengikuti metode Syafi'iyyah: ahli waris lain diberikan bagian paling kecil yang pasti mereka dapatkan di antara segala kemungkinan janin, sisanya ditahan (mauquf). <b>Setelah janin lahir, hitung ulang kalkulator ini</b> dengan jenis kelamin &amp; jumlah anak yang sebenarnya untuk pembagian final.",
 
     card3Title: "3. Orang Tua & Kakek/Nenek",
     card3Sub: "Kakek & nenek hanya dihitung bila ayah/ibu sudah tiada.",
@@ -1322,18 +1329,18 @@ const I18N = {
     ibuLabel: "Ibu",
     nenekIbuLabel: "Nenek dari pihak ibu (ibunya ibu)",
     nenekAyahLabel: "Nenek dari pihak ayah (ibunya ayah)",
-    nenekNote: "Kalkulator ini mengikuti pendapat bahwa <b>nenek (baik dari pihak ibu maupun ayah) hanya mahjub karena ibu</b>, sehingga nenek dari pihak ayah tetap mendapat bagian meskipun ayah masih hidup. Sebagian ulama/rujukan mawaris berpendapat nenek dari pihak ayah juga terhalang oleh ayah (selain ibu) — bila mazhab/lembaga faraidh yang Anda ikuti memakai pendapat itu, hasil terkait nenek dari pihak ayah sebaiknya diverifikasi ulang.",
+    nenekNote: "Dipakai: <b>nenek (dari pihak manapun) hanya terhalang oleh ibu</b>, bukan oleh ayah.",
     toggleBuyutShow: "+ Tampilkan buyut (kakek/nenek dari kakek/nenek)",
     toggleBuyutHide: "− Sembunyikan buyut",
     buyutLLabel: "Buyut laki-laki (ayahnya ayahnya ayah)",
-    buyutLNote: "Kakek & buyut laki-laki di atas khusus jalur ayah-ke-ayah yang tidak putus (ashabah). Kakek/buyut dari pihak ibu, atau garis mana pun yang melalui <b>ayah dari ibu</b>, berstatus <b>dzawil arham</b> — tidak disediakan. Buyut laki-laki hanya dihitung bila ayah & kakek sudah tiada.",
+    buyutLNote: "Khusus jalur ayah-ke-ayah (ashabah). Jalur manapun yang melewati <b>ayah dari ibu</b> berstatus <b>dzawil arham</b> — tidak disediakan.",
     buyutDariKakekLabel: "Ibunya ayahnya ayah <span class=\"hint\">(ibu dari kakek)</span>",
     buyutDariNenekAyahLabel: "Ibunya ibunya ayah <span class=\"hint\">(ibu dari nenek pihak ayah)</span>",
     buyutDariNenekIbuLabel: "Ibunya ibunya ibu <span class=\"hint\">(ibu dari nenek pihak ibu)</span>",
-    buyutPNote: "Hanya 3 jalur buyut perempuan di atas yang berstatus <b>shahihah</b> (ahli waris). Jalur lain yang melewati <b>ayah dari ibu / kakek dari ibu</b> di mana pun posisinya (misalnya \"ibunya ayahnya ibu\") berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga sengaja tidak disediakan agar tidak salah pilih. Buyut perempuan (jalur mana pun) hanya dihitung bila <b>ibu dan nenek (dari sisi manapun) semuanya tidak ada</b> — nenek yang lebih dekat menghalangi buyut yang lebih jauh, dari sisi manapun.",
+    buyutPNote: "Hanya 3 jalur ini yang berstatus <b>shahihah</b> (ahli waris). Jalur lain yang melewati <b>ayah dari ibu</b> berstatus <b>dzawil arham</b> — tidak disediakan.",
 
     card4Title: "4. Anak & Cucu",
-    anakCucuNote: "Cucu & cicit di sini khusus jalur <b>anak laki-laki</b> (cucu) dan <b>cucu laki-laki dari anak laki-laki</b> (cicit). Keturunan lewat anak perempuan (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.",
+    anakCucuNote: "Cucu & cicit di sini khusus dari <b>anak laki-laki</b>. Keturunan dari anak perempuan berstatus <b>dzawil arham</b> — tidak disediakan.",
     anakLLabel: "Anak laki-laki",
     anakPLabel: "Anak perempuan",
     jumlahHint: "jumlah",
@@ -1347,7 +1354,7 @@ const I18N = {
 
     card5Title: "5. Saudara/i",
     card5Sub: "Otomatis terhalang (hajb) bila ada anak laki-laki, cucu laki-laki, atau ayah. Bila hanya ada kakek, kartu ini tetap aktif karena kasus kakek bersama saudara/i kandung/seayah termasuk yang diperselisihkan ulama (lihat catatan di hasil).",
-    saudaraNote: "Anak dari saudara <b>perempuan</b> (baik laki-laki maupun perempuan) berstatus <b>dzawil arham</b>, bukan ahli waris. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.",
+    saudaraNote: "Anak dari saudara <b>perempuan</b> berstatus <b>dzawil arham</b>. Hanya anak laki-laki dari saudara <b>laki-laki</b> (keponakan, lihat card 6) yang berstatus ahli waris.",
     sectionKandung: "Kandung (seayah-seibu)",
     saudaraLLabel: "Saudara laki-laki",
     saudariPLabel: "Saudari perempuan",
@@ -1357,13 +1364,13 @@ const I18N = {
 
     card6Title: "6. Keponakan (anak saudara laki-laki)",
     card6Sub: "Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, atau saudara laki-laki (kandung/seayah). Keponakan kandung menghalangi keponakan seayah.",
-    keponakanNote: "Keponakan <b>perempuan</b> berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini. Hanya anak laki-laki dari saudara laki-laki yang berstatus ahli waris.",
+    keponakanNote: "Keponakan <b>perempuan</b> berstatus <b>dzawil arham</b> &mdash; tidak disediakan. Hanya keponakan laki-laki yang berstatus ahli waris.",
     dariSaudaraKandung: "Dari saudara kandung",
     dariSaudaraSeayah: "Dari saudara seayah",
 
     card7Title: "7. Paman — khusus saudara ayah",
     card7Sub: "Terhalang total bila ada anak/cucu laki-laki, ayah, kakek, saudara laki-laki, atau keponakan (di atas). Paman kandung menghalangi paman seayah.",
-    pamanNote: "<b>Perhatian:</b> dalam bahasa sehari-hari \"paman\" bisa berarti saudara laki-laki ayah <i>maupun</i> ibu. Di kalkulator ini, \"paman\" HANYA berarti <b>saudara laki-laki ayah</b> mayit — karena hanya jalur itu yang berstatus ahli waris. Paman dari pihak <b>ibu</b> (saudara laki-laki ibu), serta bibi dari pihak manapun, berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.",
+    pamanNote: "<b>\"Paman\"</b> di sini khusus <b>saudara laki-laki ayah</b> mayit. Paman dari pihak ibu & bibi dari pihak manapun berstatus <b>dzawil arham</b> — tidak disediakan.",
     pamanKLabel: "Paman kandung ",
     pamanKHint: "saudara kandung ayah",
     pamanALabel: "Paman seayah ",
@@ -1371,7 +1378,7 @@ const I18N = {
 
     card8Title: "8. Sepupu — khusus anak paman dari ayah",
     card8Sub: "Terhalang total bila ada ahli waris di atas (sampai dengan paman). Anak dari paman kandung menghalangi anak dari paman seayah.",
-    sepupuNote: "<b>Perhatian:</b> \"sepupu\" di sini HANYA berarti anak laki-laki dari <b>paman pihak ayah</b> (saudara laki-laki ayah mayit) di atas, bukan sepupu secara umum. Sepupu <b>perempuan</b>, serta sepupu dari jalur <b>ibu</b> (anak dari saudara ibu, baik laki-laki maupun perempuan bibi/paman ibu), berstatus <b>dzawil arham</b>, bukan ahli waris, sehingga tidak disediakan di kalkulator ini.",
+    sepupuNote: "<b>\"Sepupu\"</b> di sini khusus anak laki-laki dari <b>paman pihak ayah</b> di atas. Sepupu perempuan & sepupu dari jalur ibu berstatus <b>dzawil arham</b> — tidak disediakan.",
     sepupuKLabel: "Anak paman kandung ",
     dariAyahHint: "dari ayah",
     sepupuALabel: "Anak paman seayah ",
@@ -1402,7 +1409,7 @@ const I18N = {
     thNominal: "Nominal",
     amDetailSummary: "Detail teknis: penyesuaian ashlul mas'alah ('aul / radd / inkisar)",
     finalDisclaimer: "Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.",
-    footerCredit: "Dibuat oleh <b>Danara Osa Raharsa</b> with Claude",
+    footerCredit: "Dibuat oleh <b>Abu Malik</b> with Claude",
     supportUsLabel: "Dukung Kami",
     devTestLink: "Jalankan kasus uji internal (verifikasi perhitungan)",
     errorNoHeir: "Masukkan minimal satu ahli waris terlebih dahulu.",
@@ -1465,7 +1472,7 @@ const I18N = {
 
     aboutTitle: "ℹ️ عن التطبيق",
     aboutText: "تساعد حاسبة الفرائض في حساب توزيع التركة وفق علم الفرائض (أحكام الميراث الإسلامي)، متبعةً رأي جمهور العلماء المعتمد عادةً في إندونيسيا. هذا التطبيق مجاني، وتتم جميع الحسابات مباشرة على جهازك — لا تُرسل أو تُخزَّن أي بيانات على أي خادم.",
-    aboutVersion: "الإصدار 1.1.0 &middot; صنعه <b>Danara Osa Raharsa</b>",
+    aboutVersion: "الإصدار 1.2.0 &middot; صنعه <b>Abu Malik</b>",
 
     card1Title: "1. بيانات الميت",
     card1Sub: "جنس المتوفى يحدد نوع الزوج الوارث.",
@@ -1497,7 +1504,7 @@ const I18N = {
     janinWithheldMahjub: "موقوف مع الحمل — يحتمل أن يكون محجوباً كلياً حسب جنس وعدد الحمل.",
     janinWithheldBoth: "موقوف مع الحمل — يحتمل أن يكون عاصباً أو محجوباً حسب جنس وعدد الحمل.",
     janinMauqufNote: "يُوقف هذا النصيب (موقوف) — يشمل نصيب الحمل و/أو نصيب ورثة آخرين غير مؤكدة بعد، حتى وضع الحمل وتأكد حالة باقي الورثة.",
-    janinSpecialNote: "يوجد <b>حمل</b> لم يولد بعد. وفق مذهب الشافعية: يُعطى باقي الورثة أقل نصيب مؤكد، ويُوقف الباقي حتى الوضع ثم يُعاد توزيعه حسب الجنس والعدد الفعلي.",
+    janinSpecialNote: "يوجد <b>حمل</b> لم يولد بعد. وفق مذهب الشافعية: يُعطى باقي الورثة أقل نصيب مؤكد، ويُوقف الباقي حتى الوضع. <b>بعد الولادة، أعد الحساب في هذه الحاسبة</b> بجنس وعدد المولود الفعلي.",
 
     card3Title: "3. الوالدان والجد/الجدة",
     card3Sub: "يُحسب الجد والجدة إن لم يوجد الأب أو الأم.",
@@ -1586,7 +1593,7 @@ const I18N = {
     thNominal: "المبلغ",
     amDetailSummary: "تفاصيل تقنية: تعديل أصل المسألة (عول/رد/تصحيح)",
     finalDisclaimer: "تحسب هذه الأداة الحالات الشائعة وفق رأي الجمهور. للحالات النادرة جداً، يُنصح بمراجعة أهل العلم.",
-    footerCredit: "أنشأها <b>Danara Osa Raharsa</b> بمساعدة Claude",
+    footerCredit: "أنشأها <b>Abu Malik</b> بمساعدة Claude",
     supportUsLabel: "ادعمنا",
     devTestLink: "تشغيل اختبارات التحقق الداخلية",
     errorNoHeir: "يُرجى إدخال وارث واحد على الأقل.",
@@ -3350,9 +3357,13 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
     printDateEl.textContent = new Date().toLocaleDateString(currentLang==='ar' ? 'ar' : 'id-ID', {day:'numeric', month:'long', year:'numeric'});
   }
 
+  // Dideklarasikan di scope fungsi (bukan di dalam blok if di bawah) krn dipakai lagi di
+  // tabel hasil akhir (rupiahCell) — sebelumnya di-scope ke blok if saja, menyebabkan
+  // ReferenceError begitu totalHarta diisi (tombol hitung berhenti total karena error ini).
+  const currencyPrefix = currentLang==='ar' ? '' : 'Rp ';
+  const rp = n => currencyPrefix + Math.round(n).toLocaleString('id-ID');
+
   if(hartaInfo && hartaInfo.totalHartaRaw>0 && (hartaInfo.jenazahRaw>0 || hartaInfo.hutangRaw>0 || hartaInfo.wasiatRaw>0)){
-    const currencyPrefix = currentLang==='ar' ? '' : 'Rp ';
-    const rp = n => currencyPrefix + Math.round(n).toLocaleString('id-ID');
     let rows = `<div class="harta-row"><span>${t('hartaKotorLabel')}</span><span>${rp(hartaInfo.totalHartaRaw)}</span></div>`;
     if(hartaInfo.jenazahRaw>0){
       rows += `<div class="harta-row"><span>&ndash; ${t('biayaJenazahRowLabel')}</span><span>${rp(hartaInfo.jenazahRaw)}</span></div>`;
