@@ -961,7 +961,7 @@
         <span class="menu-accordion-chevron" aria-hidden="true">&#9662;</span>
       </button>
       <div class="menu-accordion-body" hidden>
-      <p class="sub" data-i18n="aboutText">Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama yang umum digunakan di Indonesia. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda &mdash; tidak ada data yang dikirim atau disimpan ke server mana pun.</p>
+      <p class="sub" data-i18n="aboutText">Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda &mdash; tidak ada data yang dikirim atau disimpan ke server mana pun.</p>
       <p class="sub" data-i18n-html="aboutVersion">Versi 1.1.0 &middot; Dibuat oleh <b>Danara Osa Raharsa</b></p>
       <a class="support-link" href="https://saweria.co/DanaraOsaRaharsa" target="_blank" rel="noopener noreferrer" style="margin:6px 0 4px;">
         <span class="heart">&#9825;</span><span data-i18n="supportUsLabel">Dukung Kami</span>
@@ -1202,7 +1202,7 @@
       <summary data-i18n="amDetailSummary">Detail teknis: penyesuaian ashlul mas'alah ('aul / radd / inkisar)</summary>
       <div id="amDetailContent"></div>
     </details>
-    <p class="disclaimer" data-i18n="finalDisclaimer">Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama yang berlaku umum di Indonesia. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.</p>
+    <p class="disclaimer" data-i18n="finalDisclaimer">Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.</p>
     <div class="btn-group results-footer-actions">
       <button class="btn-print btn-share" onclick="bagikanHasil()" type="button" data-i18n="btnShare">&#128257; Bagikan Hasil</button>
       <button class="btn-print" onclick="cetakFitPage()" type="button" data-i18n="btnPrint">&#128424; Cetak / Simpan PDF</button>
@@ -1280,7 +1280,7 @@ const I18N = {
     gMuqasamahD: "Pembagian bersama antara dua kelompok ahli waris yang berbeda jenis (mis. kakek &amp; saudara/i, menurut pendapat Umar bin Khattab), dihitung seolah satu kelompok yang sama derajat.",
 
     aboutTitle: "ℹ️ Tentang Aplikasi",
-    aboutText: "Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama yang umum digunakan di Indonesia. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda — tidak ada data yang dikirim atau disimpan ke server mana pun.",
+    aboutText: "Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda — tidak ada data yang dikirim atau disimpan ke server mana pun.",
     aboutVersion: "Versi 1.1.0 &middot; Dibuat oleh <b>Danara Osa Raharsa</b>",
 
     card1Title: "1. Data Mayit",
@@ -1401,7 +1401,7 @@ const I18N = {
     thPersen: "%",
     thNominal: "Nominal",
     amDetailSummary: "Detail teknis: penyesuaian ashlul mas'alah ('aul / radd / inkisar)",
-    finalDisclaimer: "Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama yang berlaku umum di Indonesia. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.",
+    finalDisclaimer: "Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.",
     footerCredit: "Dibuat oleh <b>Danara Osa Raharsa</b> with Claude",
     supportUsLabel: "Dukung Kami",
     devTestLink: "Jalankan kasus uji internal (verifikasi perhitungan)",
@@ -2285,6 +2285,14 @@ function computeFaraidh(){
   // kakek/buyut laki-laki (tidak diperselisihkan) sekalipun muqasamah dipakai untuk kandung/seayah.
   const blockAllSiblings = hasFarWarisMudzakkar || ayah || kakek || buyutL;
   const blockSeibuOnly = !blockAllSiblings && hasFarWaris;
+  // Simpan jumlah asli SEBELUM di-nol-kan: khusus saat kandung/seayah terhalang krn pendapat
+  // default kakek (bukan krn ayah/anak yg memang tidak diperselisihkan) dan opsi muqasamah/
+  // mu'addah sedang TIDAK dipakai, mereka tetap ditampilkan eksplisit sbg "Mahjub" di tabel
+  // hasil (bukan hilang diam-diam), supaya pengguna tahu datanya terbaca tapi terhalang.
+  const showKandungSeayahAsMahjub = kakekSaudaraKhilafiyah && !ayah && !hasFarWarisMudzakkar &&
+    !kakekMuqasamahOpt && (saudaraK+saudariK+saudaraA+saudariA) > 0;
+  const mahjubKandungSeayahCounts = showKandungSeayahAsMahjub
+    ? { saudaraK, saudariK, saudaraA, saudariA } : null;
   if(blockAllSiblings && !kakekMuqasamahActive){ saudaraK=0;saudariK=0;saudaraA=0;saudariA=0;saudaraIbu=0; }
   else if(blockAllSiblings && kakekMuqasamahActive){ saudaraIbu=0; }
   else if(blockSeibuOnly){ saudaraIbu=0; }
@@ -2292,6 +2300,8 @@ function computeFaraidh(){
   let remainder = frac(1,1);
   let results = []; // {label, share (fraction, group total), count, note}
   let special = null;
+
+
 
   // Spouse
   let spouseGiven = false;
@@ -2368,6 +2378,38 @@ function computeFaraidh(){
       const entry = {label, share:null, count:1, note:tn('Ashabah — mengambil sisa harta (kasus gharrawain)', 'عصبة — يأخذ الباقي من التركة (حالة الغراوين)')};
       results.push(entry);
       ayahAshabahEntry = entry;
+    }
+  }
+
+  // Tampilkan saudara/i kandung/seayah yang terhalang krn pendapat default kakek (bukan krn
+  // ayah/anak yg memang tidak diperselisihkan) secara EKSPLISIT sbg "Mahjub" di tabel hasil,
+  // bukan hilang diam-diam — berlaku saat opsi muqasamah/mu'addah (Zaid bin Tsabit) TIDAK dipakai.
+  if(mahjubKandungSeayahCounts){
+    const kakekLabelLower = kakek ? tn('kakek','الجد') : tn('buyut laki-laki','والد الجد');
+    const mahjubNote = tn(
+      `Mahjub — mengikuti pendapat default (${kakekLabelLower} menghalangi total saudara/i). Centang opsi muqasamah/mu'addah bila ingin memakai pendapat Zaid bin Tsabit`,
+      `محجوب — حسب الرأي الافتراضي (${kakekLabelLower} يحجب الإخوة كليًا). فعّل خيار المقاسمة/الإعداد لاعتماد رأي زيد بن ثابت`
+    );
+    const {saudaraK:mK, saudariK:mSK, saudaraA:mA, saudariA:mSA} = mahjubKandungSeayahCounts;
+    if(mK>0 || mSK>0){
+      results.push({
+        isGroup:true, share:frac(0,1), count:(mK*2+mSK),
+        groupInfo:{
+          maleLabel:'Saudara kandung laki-laki', femaleLabel:'Saudari kandung perempuan',
+          maleCount:mK, femaleCount:mSK, maleWeight:2, femaleWeight:1,
+          maleNote: mahjubNote, femaleNote: mahjubNote
+        }
+      });
+    }
+    if(mA>0 || mSA>0){
+      results.push({
+        isGroup:true, share:frac(0,1), count:(mA*2+mSA),
+        groupInfo:{
+          maleLabel:'Saudara seayah laki-laki', femaleLabel:'Saudari seayah perempuan',
+          maleCount:mA, femaleCount:mSA, maleWeight:2, femaleWeight:1,
+          maleNote: mahjubNote, femaleNote: mahjubNote
+        }
+      });
     }
   }
 
@@ -3066,8 +3108,8 @@ function computeFaraidh(){
     const kakekLabelUsed = kakek? 'Kakek' : 'Buyut laki-laki';
     const toggleBox = `<label class="checkbox-pill" style="margin-top:8px;display:inline-flex;"><input type="checkbox" ${kakekMuqasamahOpt?'checked':''} onchange="toggleKakekMuqasamah(this.checked)"> Terapkan muqasamah/mu'addah/akdariyyah (Zaid bin Tsabit)</label>`;
     const khilafiyahNote = kakekMuqasamahOpt
-      ? `Kasus Anda mengandung <b>${kakekLabelUsed.toLowerCase()} bersama saudara/i kandung/seayah</b> — ini termasuk kasus yang diperselisihkan ulama. Anda memilih pendapat <b>Zaid bin Tsabit</b> (dipakai mayoritas mazhab termasuk Syafi'i): ${kakekLabelUsed.toLowerCase()} berbagi (muqasamah) dengan saudara/i, bukan menghalangi total, sebagaimana terlihat di hasil di bawah.<br><br>${toggleBox}`
-      : `Kasus Anda mengandung <b>${kakekLabelUsed.toLowerCase()} bersama saudara/i kandung/seayah</b> — ini termasuk kasus yang diperselisihkan ulama. Kalkulator ini secara <b>default mengikuti pendapat Abu Bakar ash-Shiddiq</b> (mazhab yang paling umum dipakai dalam praktik faraidh di Indonesia, meski tidak diatur secara eksplisit dalam pasal KHI): ${kakekLabelUsed.toLowerCase()} menghalangi total saudara/i, sehingga saudara/i di bawah tidak mendapat bagian. Sebagian ulama/mayoritas mazhab (termasuk Syafi'i) mengikuti pendapat <b>Zaid bin Tsabit</b>: ${kakekLabelUsed.toLowerCase()} dan saudara/i kandung/seayah <b>berbagi bersama</b> (muqasamah) dengan cara perhitungan berbeda. Centang di bawah bila ingin memakai pendapat tersebut.<br><br>${toggleBox}`;
+      ? `<b>${kakekLabelUsed} bersama saudara/i</b> — kasus yang diperselisihkan ulama.<br><br>Pendapat yang dipakai saat ini: <b>Zaid bin Tsabit</b> &mdash; berbagi (muqasamah), bukan menghalangi total.<br><br>${toggleBox}`
+      : `<b>${kakekLabelUsed} bersama saudara/i</b> — kasus yang diperselisihkan ulama.<br><br>Pendapat yang dipakai saat ini (default): <b>Abu Bakar ash-Shiddiq</b> &mdash; ${kakekLabelUsed.toLowerCase()} menghalangi total saudara/i.<br><br>Centang di bawah untuk memakai pendapat <b>Zaid bin Tsabit</b> (berbagi/muqasamah) sebagai gantinya.<br><br>${toggleBox}`;
     special = special ? (special + "<br><br>" + khilafiyahNote) : khilafiyahNote;
   }
   if(akdariyyahEntries){
