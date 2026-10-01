@@ -27,7 +27,7 @@
     margin:0;
     background:var(--paper);
     color:var(--ink);
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     line-height:1.5;
   }
   .wrap{max-width:880px;margin:0 auto;padding:32px 20px 80px;}
@@ -51,7 +51,7 @@
   }
   .eyebrow{
     position:relative;
-    font-family:'JetBrains Mono',monospace;
+    font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     font-size:12px;
     letter-spacing:.14em;
     text-transform:uppercase;
@@ -61,7 +61,7 @@
   }
   h1{
     position:relative;
-    font-family:'Amiri',serif;
+    font-family:'Amiri','Traditional Arabic',Georgia,'Times New Roman',serif;
     font-weight:700;
     font-size:clamp(28px,4vw,38px);
     margin:0 0 8px;
@@ -102,7 +102,7 @@
     #results.result-highlight{ animation: none; }
   }
   .card h2{
-    font-family:'Amiri',serif;
+    font-family:'Amiri','Traditional Arabic',Georgia,'Times New Roman',serif;
     font-size:20px;
     margin:0 0 4px;
     color:var(--emerald-dark);
@@ -173,7 +173,7 @@
     padding:7px 9px;
     border:1px solid var(--border);
     border-radius:8px;
-    font-family:'JetBrains Mono',monospace;
+    font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     font-size:14px;
     text-align:center;
     background:#FDFBF6;
@@ -193,7 +193,7 @@
     background:#FDFBF6;
     padding:7px 14px;
     cursor:pointer;
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     font-weight:600;
     color:var(--muted);
   }
@@ -343,7 +343,7 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    font-family:'Amiri',serif;
+    font-family:'Amiri','Traditional Arabic',Georgia,'Times New Roman',serif;
     font-size:19px;
     font-weight:700;
     color:var(--emerald-dark);
@@ -362,7 +362,7 @@
   }
   .menu-section{margin-bottom:26px;}
   .menu-section-title{
-    font-family:'Amiri',serif;
+    font-family:'Amiri','Traditional Arabic',Georgia,'Times New Roman',serif;
     font-size:15.5px;
     font-weight:700;
     color:var(--emerald-dark);
@@ -383,7 +383,7 @@
     margin-bottom:0;
     cursor:pointer;
     text-align:left;
-    font-family:'Amiri',serif;
+    font-family:'Amiri','Traditional Arabic',Georgia,'Times New Roman',serif;
   }
   html[dir="rtl"] button.menu-accordion-toggle{text-align:right;}
   .menu-accordion-chevron{
@@ -403,7 +403,7 @@
     border:1px solid var(--border);
     background:#FDFBF6;
     color:var(--muted);
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     font-weight:600;
     font-size:12.5px;
     padding:6px 14px;
@@ -411,10 +411,10 @@
     cursor:pointer;
   }
   .lang-btn.active{background:var(--emerald);color:#fff;border-color:var(--emerald);}
-  .lang-btn[data-lang="ar"]{font-family:'Amiri',serif;font-size:14px;}
+  .lang-btn[data-lang="ar"]{font-family:'Amiri','Traditional Arabic',Georgia,'Times New Roman',serif;font-size:14px;}
 
   /* ---------- Penyesuaian RTL (mode Arab) ---------- */
-  html[dir="rtl"] body{font-family:'Amiri','Inter',sans-serif;}
+  html[dir="rtl"] body{font-family:'Amiri','Traditional Arabic','Inter',system-ui,sans-serif;}
   html[dir="rtl"] label .hint{margin-right:6px;margin-left:0;}
   html[dir="rtl"] .dzawil-note b{unicode-bidi:isolate;}
   html[dir="rtl"] table.faraidh-table th, html[dir="rtl"] table.faraidh-table td{text-align:right;}
@@ -431,7 +431,7 @@
     padding:10px 12px;
     border:1px solid var(--border);
     border-radius:9px;
-    font-family:'JetBrains Mono',monospace;
+    font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     font-size:15px;
     background:#FDFBF6;
   }
@@ -444,7 +444,7 @@
     border-radius:11px;
     background:var(--gold);
     color:#2B2013;
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     font-weight:700;
     font-size:15.5px;
     letter-spacing:.02em;
@@ -472,7 +472,7 @@
     border-radius:11px;
     background:var(--card);
     color:var(--ink);
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     font-weight:600;
     font-size:14.5px;
     cursor:pointer;
@@ -487,7 +487,7 @@
     border-radius:9px;
     background:var(--card);
     color:var(--emerald-dark);
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     font-weight:600;
     font-size:13px;
     cursor:pointer;
@@ -510,7 +510,7 @@
     #results{display:block !important;border:none;box-shadow:none;padding:0;margin-top:0;}
     .btn-print, .btn-group{display:none !important;}
     .print-only{display:block;margin-bottom:14px;}
-    .print-only h1{font-family:'Amiri',serif;font-size:22px;color:#1F4B3F;margin:0 0 4px;}
+    .print-only h1{font-family:'Amiri','Traditional Arabic',Georgia,'Times New Roman',serif;font-size:22px;color:#1F4B3F;margin:0 0 4px;}
     .print-only p{font-size:11.5px;color:#555;margin:0;}
     .am-box{border:1px solid #999;background:#fff !important;}
     .note-box, .dzawil-note, .harta-box{background:#fff !important;border:1px solid #999;}
@@ -542,7 +542,7 @@
   .ledger .seg{
     height:100%;
     display:flex;align-items:center;justify-content:center;
-    font-family:'JetBrains Mono',monospace;
+    font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     font-size:11px;
     color:#fff;
     min-width:2px;
@@ -590,7 +590,7 @@
     background:none;
     border:none;
     color:var(--muted);
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     font-size:12.5px;
     font-weight:600;
     padding:4px 2px;
@@ -601,7 +601,7 @@
   .preset-row-collapsed-toggle .arrow-down{font-size:10px;}
   html[dir="rtl"] .preset-row-collapsed-toggle{margin-right:0;}
   .preset-chip{
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     font-size:12.5px;
     font-weight:600;
     color:var(--emerald-dark);
@@ -659,7 +659,7 @@
 
   .glossary{margin:0;}
   .glossary dt{
-    font-family:'Amiri',serif;
+    font-family:'Amiri','Traditional Arabic',Georgia,'Times New Roman',serif;
     font-size:15px;
     color:var(--emerald-dark);
     font-weight:700;
@@ -683,10 +683,10 @@
     border-radius:10px;
     padding:12px 16px;
     margin-bottom:14px;
-    font-family:'JetBrains Mono',monospace;
+    font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   }
   .am-box .am-label{
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     font-size:12px;
     letter-spacing:.06em;
     text-transform:uppercase;
@@ -695,7 +695,7 @@
     margin-right:2px;
   }
   .am-box .am-value{font-size:20px;font-weight:700;color:#fff;}
-  .am-box .am-arrow{font-family:'Inter',sans-serif;font-size:12.5px;color:#E7E0CC;}
+  .am-box .am-arrow{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:12.5px;color:#E7E0CC;}
 
   .am-detail-box{
     background:#F5F0E4;
@@ -708,7 +708,7 @@
   }
   .am-detail-box summary{
     cursor:pointer;
-    font-family:'JetBrains Mono',monospace;
+    font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     font-size:12px;
     letter-spacing:.03em;
     font-weight:600;
@@ -747,7 +747,7 @@
   table.faraidh-table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);}
   table.faraidh-table th{
     background:var(--emerald-dark);color:#F4EFDF;text-align:left;
-    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+    font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
     padding:10px 12px;font-weight:600;white-space:nowrap;
   }
   table.faraidh-table th.num, table.faraidh-table td.num{text-align:right;}
@@ -755,8 +755,8 @@
   table.faraidh-table tbody tr:hover{background:#FBF8F0;}
   table.faraidh-table .heir-name{font-weight:600;font-size:14px;color:var(--ink);}
   table.faraidh-table .heir-note{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4;}
-  table.faraidh-table .saham-main{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--emerald-dark);font-size:14.5px;white-space:nowrap;}
-  table.faraidh-table .saham-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;}
+  table.faraidh-table .saham-main{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:700;color:var(--emerald-dark);font-size:14.5px;white-space:nowrap;}
+  table.faraidh-table .saham-sub{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;}
   .bagian-badge{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;}
   .bagian-badge.furudh{background:#E7EFEA;color:#1F4B3F;}
   .bagian-badge.ashabah{background:#F5EAD2;color:#8C5E2A;}
@@ -764,15 +764,15 @@
   .bagian-badge.mahjub{background:#F3E3E1;color:#8A3B34;}
   .bagian-badge.muqasamah{background:#DCE6EF;color:#2B4C63;}
   .bagian-badge.mauquf{background:#EDE9DD;color:#5C5340;}
-  table.faraidh-table tfoot td{border-top:2px solid var(--border);font-weight:700;font-family:'JetBrains Mono',monospace;}
+  table.faraidh-table tfoot td{border-top:2px solid var(--border);font-weight:700;font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}
   .am-box.am-box-sm{padding:9px 14px;margin-bottom:10px;font-size:13px;}
   .am-box.am-box-sm .am-value{font-size:16px;}
   .case-title{
-    font-family:'Amiri',serif;font-size:16px;color:var(--emerald-dark);margin:0 0 8px;
+    font-family:'Amiri','Traditional Arabic',Georgia,'Times New Roman',serif;font-size:16px;color:var(--emerald-dark);margin:0 0 8px;
     display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;
   }
   .case-title .case-badge{
-    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.05em;
+    font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.05em;
     background:var(--gold-soft);color:#5A431A;padding:3px 9px;border-radius:20px;
   }
 
@@ -836,7 +836,7 @@
     background:var(--gold);
     color:#fff !important;
     border-radius:999px;
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     font-weight:600;
     font-size:13px;
     text-decoration:none;
@@ -891,7 +891,7 @@
     display:flex;
     align-items:center;
     gap:8px;
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
     font-size:12px;
     font-weight:700;
     letter-spacing:.05em;
@@ -903,6 +903,45 @@
     width:fit-content;
   }
   .section-label:first-child{margin-top:0;}
+
+  /* ---------- Penyempurnaan kenyamanan ---------- */
+  .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  #error{scroll-margin-top:90px;}
+  #finalWrap{scroll-margin-top:72px;}
+  .stepper{display:inline-flex;align-items:stretch;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#FDFBF6;flex-shrink:0;}
+  .stepper input[type=number]{border:none;border-radius:0;width:52px;padding:10px 2px;-moz-appearance:textfield;appearance:textfield;}
+  .stepper input[type=number]::-webkit-inner-spin-button,.stepper input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+  .stepper button{width:42px;min-height:42px;border:none;background:#F5F0E4;color:var(--emerald-dark);font-size:20px;line-height:1;font-family:inherit;cursor:pointer;touch-action:manipulation;}
+  .stepper button:hover{background:var(--gold-soft);}
+  .stepper button:active{filter:brightness(.95);}
+  .stepper:has(input:disabled) button{opacity:.4;pointer-events:none;}
+  .stepper input:focus-visible,.stepper button:focus-visible{outline:2px solid var(--emerald-dark);outline-offset:-2px;}
+  .card-summary{flex:1;min-width:0;text-align:right;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;color:var(--emerald);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  html[dir="rtl"] .card-summary{text-align:left;}
+  .card:not(.collapsed) .card-summary{display:none;}
+  .toast{position:fixed;left:50%;bottom:84px;transform:translate(-50%,12px);z-index:120;display:flex;align-items:center;gap:14px;max-width:min(92vw,440px);padding:11px 16px;border-radius:12px;background:var(--emerald-dark);color:#F4EFDF;font-size:13.5px;box-shadow:0 8px 24px rgba(21,51,40,.3);opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;}
+  .toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto;}
+  .toast button{border:none;background:none;color:var(--gold-soft);font-weight:700;font-size:13.5px;cursor:pointer;padding:4px 2px;text-decoration:underline;white-space:nowrap;}
+  .to-top-btn{position:fixed;bottom:24px;left:50%;z-index:80;width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--card);box-shadow:0 2px 10px rgba(43,38,32,.12);color:var(--emerald-dark);font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translate(-50%,8px);transition:opacity .2s ease,transform .2s ease,visibility .2s;}
+  .to-top-btn.show{opacity:1;visibility:visible;transform:translate(-50%,0);}
+  @media (max-width:640px){
+    .toast{bottom:calc(148px + env(safe-area-inset-bottom,0px));}
+    .to-top-btn{bottom:calc(92px + env(safe-area-inset-bottom,0px));}
+    .preset-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-left:-20px;margin-right:-20px;padding:2px 20px 6px;}
+    .preset-row::-webkit-scrollbar{display:none;}
+    .preset-row .preset-chip,.preset-row .preset-label{flex:0 0 auto;white-space:nowrap;}
+  }
+  @media (prefers-reduced-motion:reduce){.toast,.to-top-btn{transition:none;}}
+  @media print{.toast,.to-top-btn{display:none !important;}}
+  .note-print-short{display:none;}
+  @media print{.note-screen{display:none !important;}.note-print-short{display:inline !important;}}
+  .g-group-title{margin:18px 0 2px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);}
+  .glossary dt{margin:14px 0 3px;font-size:14px;font-weight:700;color:var(--emerald-dark);}
+  .glossary dd{margin:0;font-size:13.5px;line-height:1.6;}
+  .glossary dd .g-ex{display:block;margin-top:6px;padding:4px 0 4px 10px;border-left:3px solid var(--gold-soft);font-size:12.5px;line-height:1.55;color:var(--muted);}
+  html[dir="rtl"] .glossary dd .g-ex{padding:4px 10px 4px 0;border-left:none;border-right:3px solid var(--gold-soft);}
+  .menu-accordion-body > p.g-intro{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0 0 4px;}
+  .glossary dt{font-size:15.5px;}
 </style>
 </head>
 <body>
@@ -938,26 +977,49 @@
         <span class="menu-accordion-chevron" aria-hidden="true">&#9662;</span>
       </button>
       <div class="menu-accordion-body" hidden>
-      <p class="sub" data-i18n="glossaryIntro">Ringkasan istilah faraidh yang dipakai di kalkulator ini, untuk yang belum familiar.</p>
+      <p class="sub g-intro" data-i18n="glossaryIntro">Ringkasan istilah faraidh yang dipakai di kalkulator ini, untuk yang belum familiar.</p>
+      <p class="g-group-title" data-i18n="gGroupDasar">Dasar</p>
       <dl class="glossary">
+        <dt data-i18n="gTirkahT">Tirkah (Harta Peninggalan)</dt>
+        <dd data-i18n-html="gTirkahD">Seluruh harta yang ditinggalkan mayit, <b>sebelum</b> dikurangi apa pun. Dari tirkah ini dikeluarkan berurutan: <b>biaya jenazah</b>, <b>hutang</b>, lalu <b>wasiat</b> (maksimal 1/3 dari sisa, bukan untuk ahli waris). Sisanya, yaitu <b>harta bersih</b>, itulah yang dibagi ke ahli waris.<span class="g-ex"><b>Contoh:</b> Tirkah 300 juta, hutang 30 juta: sisa 270 juta. Wasiat paling banyak 1/3 dari 270 juta, dan sisa setelah wasiat dibagi ke ahli waris.</span></dd>
         <dt data-i18n="gAshabulFurudhT">Ashabul Furudh</dt>
-        <dd data-i18n="gAshabulFurudhD">Ahli waris dengan bagian pasti sesuai Al-Qur'an, misalnya 1/2, 1/4, 1/8, 1/3, 2/3, atau 1/6.</dd>
-        <dt data-i18n="gAshabahT">Ashabah</dt>
-        <dd data-i18n-html="gAshabahD">Ahli waris yang mendapat <i>sisa</i> harta setelah ashabul furudh dibagi &mdash; atau seluruh harta bila tidak ada ashabul furudh lain.</dd>
-        <dt data-i18n="gHajbT">Hajb / Mahjub</dt>
-        <dd data-i18n="gHajbD">Terhalangnya seseorang dari mendapat warisan (total) atau berkurangnya bagian (sebagian), karena ada ahli waris lain yang berkedudukan lebih dekat/lebih kuat.</dd>
-        <dt data-i18n="gAulT">'Aul</dt>
-        <dd data-i18n="gAulD">Kondisi total bagian ashabul furudh melebihi seluruh harta (&gt;100%), sehingga ashlul mas'alah dinaikkan dan semua bagian berkurang secara proporsional.</dd>
-        <dt data-i18n="gRaddT">Radd</dt>
-        <dd data-i18n="gRaddD">Kondisi total bagian ashabul furudh kurang dari seluruh harta dan tidak ada ashabah, sehingga sisanya dikembalikan secara proporsional (di luar suami/istri, menurut pendapat yang dipakai kalkulator ini).</dd>
-        <dt data-i18n="gDzawilArhamT">Dzawil Arham</dt>
-        <dd data-i18n-html="gDzawilArhamD">Kerabat yang bukan ashabul furudh maupun ashabah (umumnya dari jalur perempuan, mis. cucu dari anak perempuan, kakek/paman dari pihak ibu). Statusnya diperselisihkan ulama dan <b>tidak dihitung</b> oleh kalkulator ini.</dd>
-        <dt data-i18n="gAshlulT">Ashlul Mas'alah / Ashlul Jami'ah</dt>
-        <dd data-i18n="gAshlulD">Angka penyebut bersama (KPK) yang dipakai supaya bagian semua ahli waris bisa dinyatakan dalam saham bulat. "Ashlul Jami'ah" adalah sebutan untuk asal masalah setelah disesuaikan ('aul/radd/inkisar).</dd>
+        <dd data-i18n-html="gAshabulFurudhD">Ahli waris yang bagiannya sudah <b>ditentukan</b> dalam Al-Qur'an: 1/2, 1/4, 1/8, 1/3, 2/3, atau 1/6.<span class="g-ex"><b>Contoh:</b> Suami mendapat 1/2 bila pewaris tidak punya anak.</span></dd>
         <dt data-i18n="gTakmilahT">Takmilah</dt>
-        <dd data-i18n="gTakmilahD">Bagian "penyempurna", misalnya cucu perempuan mendapat 1/6 agar total bagian anak dan cucu perempuan mencapai 2/3.</dd>
-        <dt data-i18n="gMuqasamahT">Muqasamah / Musyarakah</dt>
-        <dd data-i18n-html="gMuqasamahD">Pembagian bersama antara dua kelompok ahli waris yang berbeda jenis (mis. kakek &amp; saudara/i, menurut pendapat Umar bin Khattab), dihitung seolah satu kelompok yang sama derajat.</dd>
+        <dd data-i18n-html="gTakmilahD">Bagian <b>penyempurna</b> 2/3 untuk anak perempuan dan cucu perempuan dari anak laki-laki.<span class="g-ex"><b>Contoh:</b> Anak perempuan sudah 1/2, maka cucu perempuan mendapat 1/6 agar totalnya 2/3.</span></dd>
+        <dt data-i18n="gAshabahT">Ashabah</dt>
+        <dd data-i18n-html="gAshabahD">Ahli waris yang menerima <b>sisa</b> harta setelah ashabul furudh. Bila tidak ada ashabul furudh, ia mengambil seluruh harta.<span class="g-ex"><b>Contoh:</b> Anak laki-laki mengambil sisa setelah ibu dan istri mendapat bagiannya.</span></dd>
+        <dt data-i18n="gHajbT">Hajb / Mahjub</dt>
+        <dd data-i18n-html="gHajbD">Terhalangnya ahli waris oleh ahli waris lain yang lebih dekat. <b>Mahjub</b> = yang terhalang. Bisa <b>total</b> (tidak dapat apa pun) atau <b>sebagian</b> (bagian berkurang).<span class="g-ex"><b>Contoh:</b> Cucu laki-laki terhalang total oleh anak laki-laki. Bagian ibu turun dari 1/3 menjadi 1/6 bila ada anak.</span></dd>
+        <dt data-i18n="gDzawilArhamT">Dzawil Arham</dt>
+        <dd data-i18n-html="gDzawilArhamD">Kerabat yang <b>bukan</b> ashabul furudh dan bukan ashabah, umumnya dari jalur perempuan. Ulama berbeda pendapat tentang hak mereka, dan kalkulator ini <b>tidak menghitungnya</b>.<span class="g-ex"><b>Contoh:</b> Cucu dari anak perempuan, paman dari pihak ibu.</span></dd>
+      </dl>
+      <p class="g-group-title" data-i18n="gGroupPenyesuaian">Penyesuaian Bagian</p>
+      <dl class="glossary">
+        <dt data-i18n="gAshlulT">Ashlul Mas'alah / Ashlul Jami'ah</dt>
+        <dd data-i18n-html="gAshlulD">Angka penyebut bersama (KPK) supaya semua bagian bisa ditulis dalam <b>saham</b> bulat. Setelah disesuaikan ('aul, radd, atau inkisar) disebut <b>Ashlul Jami'ah</b>.<span class="g-ex"><b>Contoh:</b> Bagian 1/2 dan 1/3 memakai ashlul mas'alah 6.</span></dd>
+        <dt data-i18n="gSahamT">Saham</dt>
+        <dd data-i18n-html="gSahamD">Satuan bagian bulat dari ashlul mas'alah. Bagian tiap orang = sahamnya dibagi ashlul mas'alah.<span class="g-ex"><b>Contoh:</b> Ashlul mas'alah 6, ibu 1 saham berarti 1/6 harta.</span></dd>
+        <dt data-i18n="gAulT">'Aul</dt>
+        <dd data-i18n-html="gAulD">Total bagian ashabul furudh <b>melebihi 100%</b> harta. Penyebut dinaikkan sehingga semua bagian mengecil secara proporsional.<span class="g-ex"><b>Contoh:</b> Suami 1/2 + dua saudari kandung 2/3 = 7/6, maka ashlul mas'alah naik dari 6 menjadi 7.</span></dd>
+        <dt data-i18n="gRaddT">Radd</dt>
+        <dd data-i18n-html="gRaddD">Total bagian <b>kurang dari 100%</b> dan tidak ada ashabah, sehingga sisa dikembalikan ke ahli waris secara proporsional. Suami/istri tidak ikut menerima radd (pendapat yang dipakai kalkulator ini).<span class="g-ex"><b>Contoh:</b> Ibu 1/6 + satu anak perempuan 1/2 = 2/3. Sisa 1/3 dibagi lagi: ibu jadi 1/4, anak perempuan 3/4.</span></dd>
+        <dt data-i18n="gInkisarT">Inkisar</dt>
+        <dd data-i18n-html="gInkisarD">Saham suatu kelompok <b>tidak habis dibagi</b> jumlah orangnya, sehingga seluruh saham dikalikan angka tertentu.<span class="g-ex"><b>Contoh:</b> 3 saham untuk 2 orang tidak habis dibagi. Semua saham dikalikan 2, jadi tiap orang mendapat 3 saham.</span></dd>
+      </dl>
+      <p class="g-group-title" data-i18n="gGroupKhusus">Kasus Khusus</p>
+      <dl class="glossary">
+        <dt data-i18n="gJaddT">Kakek bersama Saudara/i</dt>
+        <dd data-i18n-html="gJaddD">Kasus yang <b>diperselisihkan</b> ulama. Menurut <b>Abu Bakar ash-Shiddiq</b> (pilihan bawaan), kakek menghalangi saudara/i seperti ayah. Menurut <b>Zaid bin Tsabit</b>, kakek berbagi dengan mereka.<span class="g-ex"><b>Contoh:</b> Kakek + 1 saudara kandung: Abu Bakar, kakek mengambil semua. Zaid, dibagi sama rata.</span></dd>
+        <dt data-i18n="gMuqasamahT">Muqasamah</dt>
+        <dd data-i18n-html="gMuqasamahD">Cara berbagi dalam pendapat Zaid: kakek dihitung seperti satu saudara laki-laki (laki-laki 2 : perempuan 1). Kakek mengambil yang <b>paling menguntungkannya</b>: berbagi, 1/3 sisa, atau 1/6 harta.<span class="g-ex"><b>Contoh:</b> Kakek + 3 saudara kandung: berbagi hanya 1/4, maka kakek memilih 1/3 sisa.</span></dd>
+        <dt data-i18n="gMuaddahT">Al-Mu'addah</dt>
+        <dd data-i18n-html="gMuaddahD">Saudara seayah tetap <b>dihitung</b> saat berbagi dengan kakek (agar bagian kakek berkurang), tetapi bagiannya lalu <b>diambil saudara kandung</b>.<span class="g-ex"><b>Contoh:</b> Kakek + 1 saudara kandung + 1 saudara seayah: dibagi 3 sama rata, bagian seayah pindah ke kandung. Kakek 1, kandung 2.</span></dd>
+        <dt data-i18n="gAkdariyyahT">Al-Akdariyyah</dt>
+        <dd data-i18n-html="gAkdariyyahD">Kasus khusus pendapat Zaid: suami + ibu + kakek + <b>satu</b> saudari (kandung/seayah). Bagian tetap diberikan dulu sehingga terjadi 'aul ke 9, lalu bagian kakek dan saudari digabung dan dibagi 2 : 1.<span class="g-ex"><b>Contoh:</b> Hasil akhir: suami 9/27, ibu 6/27, kakek 8/27, saudari 4/27.</span></dd>
+        <dt data-i18n="gMusytarakahT">Musytarakah (Al-Himariyyah)</dt>
+        <dd data-i18n-html="gMusytarakahD">Suami + ibu/nenek + 2 atau lebih saudara/i seibu + saudara kandung. Harta habis, sehingga menurut <b>jumhur</b> (pilihan bawaan) saudara kandung tidak dapat bagian. Menurut <b>Umar bin Khattab</b>, ia ikut berbagi rata dengan saudara/i seibu.<span class="g-ex"><b>Contoh:</b> Suami 1/2, ibu 1/6, 2 saudara seibu 1/3 = habis. Pada pendapat Umar, saudara kandung ikut berbagi bagian 1/3.</span></dd>
+        <dt data-i18n="gMauqufT">Janin &amp; Mauquf</dt>
+        <dd data-i18n-html="gMauqufD">Janin dalam kandungan adalah calon ahli waris. Dengan metode Syafi'iyyah, ahli waris lain menerima <b>bagian terjamin</b> (pasti diterima apa pun hasil kelahirannya), dan sisanya <b>ditahan (mauquf)</b> sampai janin lahir.<span class="g-ex"><b>Contoh:</b> Selisih bagian antara skenario terkecil dan terbesar ditahan sampai kelahiran.</span></dd>
       </dl>
       </div>
     </div>
@@ -969,7 +1031,7 @@
       </button>
       <div class="menu-accordion-body" hidden>
       <p class="sub" data-i18n="aboutText">Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda &mdash; tidak ada data yang dikirim atau disimpan ke server mana pun.</p>
-      <p class="sub" data-i18n-html="aboutVersion">Versi 1.2.0 &middot; Dibuat oleh <b>Abu Malik</b></p>
+      <p class="sub" data-i18n-html="aboutVersion">Versi 1.3.0 &middot; Dibuat oleh <b>Abu Malik</b></p>
       <a class="support-link" href="https://saweria.co/DanaraOsaRaharsa" target="_blank" rel="noopener noreferrer" style="margin:6px 0 4px;">
         <span class="heart">&#9825;</span><span data-i18n="supportUsLabel">Dukung Kami</span>
       </a>
@@ -983,7 +1045,8 @@
     <p data-i18n="appIntro">Hitung pembagian warisan sesuai hukum faraidh berdasarkan ahli waris yang ada. Isi data di bawah, sistem akan menentukan siapa yang terhalang (hajb), berapa bagian masing-masing, dan menyesuaikan bila terjadi 'aul atau radd.</p>
   </header>
 
-  <div id="error"></div>
+  <div id="liveStatus" class="sr-only" role="status" aria-live="polite"></div>
+  <div id="error" role="alert" tabindex="-1"></div>
 
   <div class="preset-row" id="presetRow">
     <span class="preset-label" data-i18n="presetLabel">Coba contoh:</span>
@@ -1016,7 +1079,7 @@
       </div>
     </div>
     <div class="row">
-      <label><span data-i18n="totalHartaLabel">Total harta warisan (Rp)</span><span class="badge-optional" data-i18n="badgeOpsional">Opsional</span><span class="hint" data-i18n="totalHartaHint">untuk menghitung nominal Rupiah tiap ahli waris</span></label>
+      <label><span data-i18n="totalHartaLabel">Total harta peninggalan (Rp)</span><span class="badge-optional" data-i18n="badgeOpsional">Opsional</span><span class="hint" data-i18n="totalHartaHint">untuk menghitung nominal Rupiah tiap ahli waris</span></label>
       <input class="rupiah-input" style="width:200px" id="totalHarta" type="text" inputmode="numeric" placeholder="cth. 500.000.000" data-i18n-placeholder="totalHartaPlaceholder">
     </div>
     <div class="row">
@@ -1157,7 +1220,7 @@
 
   <div class="btn-row">
     <button class="btn-hitung" onclick="hitungFaraidh()" data-i18n="btnHitung">Hitung Pembagian Warisan</button>
-    <button class="btn-reset" onclick="resetForm()" type="button" data-i18n="btnReset">Reset</button>
+    <button class="btn-reset" onclick="resetFormWithUndo()" type="button" data-i18n="btnReset">Reset</button>
   </div>
 
   <div id="results" class="card" style="margin-top:22px;">
@@ -1266,29 +1329,48 @@ const I18N = {
     presetAkdariyyah: "Al-Akdariyyah",
 
     glossaryTitle: "📖 Istilah dalam Kalkulator Ini",
-    glossaryIntro: "Ringkasan istilah faraidh yang dipakai di kalkulator ini, untuk yang belum familiar.",
+    glossaryIntro: "Istilah faraidh yang muncul di kalkulator ini, masing-masing dengan contoh singkat.",
+    gGroupDasar: "Dasar",
     gAshabulFurudhT: "Ashabul Furudh",
-    gAshabulFurudhD: "Ahli waris dengan bagian pasti sesuai Al-Qur'an, misalnya 1/2, 1/4, 1/8, 1/3, 2/3, atau 1/6.",
+    gAshabulFurudhD: "Ahli waris yang bagiannya sudah <b>ditentukan</b> dalam Al-Qur'an: 1/2, 1/4, 1/8, 1/3, 2/3, atau 1/6.<span class=\"g-ex\"><b>Contoh:</b> Suami mendapat 1/2 bila pewaris tidak punya anak.</span>",
     gAshabahT: "Ashabah",
-    gAshabahD: "Ahli waris yang mendapat <i>sisa</i> harta setelah ashabul furudh dibagi — atau seluruh harta bila tidak ada ashabul furudh lain.",
+    gAshabahD: "Ahli waris yang menerima <b>sisa</b> harta setelah ashabul furudh. Bila tidak ada ashabul furudh, ia mengambil seluruh harta.<span class=\"g-ex\"><b>Contoh:</b> Anak laki-laki mengambil sisa setelah ibu dan istri mendapat bagiannya.</span>",
     gHajbT: "Hajb / Mahjub",
-    gHajbD: "Terhalangnya seseorang dari mendapat warisan (total) atau berkurangnya bagian (sebagian), karena ada ahli waris lain yang berkedudukan lebih dekat/lebih kuat.",
-    gAulT: "'Aul",
-    gAulD: "Kondisi total bagian ashabul furudh melebihi seluruh harta (>100%), sehingga ashlul mas'alah dinaikkan dan semua bagian berkurang secara proporsional.",
-    gRaddT: "Radd",
-    gRaddD: "Kondisi total bagian ashabul furudh kurang dari seluruh harta dan tidak ada ashabah, sehingga sisanya dikembalikan secara proporsional (di luar suami/istri, menurut pendapat yang dipakai kalkulator ini).",
+    gHajbD: "Terhalangnya ahli waris oleh ahli waris lain yang lebih dekat. <b>Mahjub</b> = yang terhalang. Bisa <b>total</b> (tidak dapat apa pun) atau <b>sebagian</b> (bagian berkurang).<span class=\"g-ex\"><b>Contoh:</b> Cucu laki-laki terhalang total oleh anak laki-laki. Bagian ibu turun dari 1/3 menjadi 1/6 bila ada anak.</span>",
     gDzawilArhamT: "Dzawil Arham",
-    gDzawilArhamD: "Kerabat yang bukan ashabul furudh maupun ashabah (umumnya dari jalur perempuan, mis. cucu dari anak perempuan, kakek/paman dari pihak ibu). Statusnya diperselisihkan ulama dan <b>tidak dihitung</b> oleh kalkulator ini.",
+    gDzawilArhamD: "Kerabat yang <b>bukan</b> ashabul furudh dan bukan ashabah, umumnya dari jalur perempuan. Ulama berbeda pendapat tentang hak mereka, dan kalkulator ini <b>tidak menghitungnya</b>.<span class=\"g-ex\"><b>Contoh:</b> Cucu dari anak perempuan, paman dari pihak ibu.</span>",
+    gTirkahT: "Tirkah (Harta Peninggalan)",
+    gTirkahD: "Seluruh harta yang ditinggalkan mayit, <b>sebelum</b> dikurangi apa pun. Dari tirkah ini dikeluarkan berurutan: <b>biaya jenazah</b>, <b>hutang</b>, lalu <b>wasiat</b> (maksimal 1/3 dari sisa, bukan untuk ahli waris). Sisanya, yaitu <b>harta bersih</b>, itulah yang dibagi ke ahli waris.<span class=\"g-ex\"><b>Contoh:</b> Tirkah 300 juta, hutang 30 juta: sisa 270 juta. Wasiat paling banyak 1/3 dari 270 juta, dan sisa setelah wasiat dibagi ke ahli waris.</span>",
+    gGroupPenyesuaian: "Penyesuaian Bagian",
     gAshlulT: "Ashlul Mas'alah / Ashlul Jami'ah",
-    gAshlulD: "Angka penyebut bersama (KPK) yang dipakai supaya bagian semua ahli waris bisa dinyatakan dalam saham bulat. \"Ashlul Jami'ah\" adalah sebutan untuk asal masalah setelah disesuaikan ('aul/radd/inkisar).",
+    gAshlulD: "Angka penyebut bersama (KPK) supaya semua bagian bisa ditulis dalam <b>saham</b> bulat. Setelah disesuaikan ('aul, radd, atau inkisar) disebut <b>Ashlul Jami'ah</b>.<span class=\"g-ex\"><b>Contoh:</b> Bagian 1/2 dan 1/3 memakai ashlul mas'alah 6.</span>",
+    gSahamT: "Saham",
+    gSahamD: "Satuan bagian bulat dari ashlul mas'alah. Bagian tiap orang = sahamnya dibagi ashlul mas'alah.<span class=\"g-ex\"><b>Contoh:</b> Ashlul mas'alah 6, ibu 1 saham berarti 1/6 harta.</span>",
+    gAulT: "'Aul",
+    gAulD: "Total bagian ashabul furudh <b>melebihi 100%</b> harta. Penyebut dinaikkan sehingga semua bagian mengecil secara proporsional.<span class=\"g-ex\"><b>Contoh:</b> Suami 1/2 + dua saudari kandung 2/3 = 7/6, maka ashlul mas'alah naik dari 6 menjadi 7.</span>",
+    gRaddT: "Radd",
+    gRaddD: "Total bagian <b>kurang dari 100%</b> dan tidak ada ashabah, sehingga sisa dikembalikan ke ahli waris secara proporsional. Suami/istri tidak ikut menerima radd (pendapat yang dipakai kalkulator ini).<span class=\"g-ex\"><b>Contoh:</b> Ibu 1/6 + satu anak perempuan 1/2 = 2/3. Sisa 1/3 dibagi lagi: ibu jadi 1/4, anak perempuan 3/4.</span>",
+    gInkisarT: "Inkisar",
+    gInkisarD: "Saham suatu kelompok <b>tidak habis dibagi</b> jumlah orangnya, sehingga seluruh saham dikalikan angka tertentu.<span class=\"g-ex\"><b>Contoh:</b> 3 saham untuk 2 orang tidak habis dibagi. Semua saham dikalikan 2, jadi tiap orang mendapat 3 saham.</span>",
     gTakmilahT: "Takmilah",
-    gTakmilahD: "Bagian \"penyempurna\", misalnya cucu perempuan mendapat 1/6 agar total bagian anak dan cucu perempuan mencapai 2/3.",
-    gMuqasamahT: "Muqasamah / Musyarakah",
-    gMuqasamahD: "Pembagian bersama antara dua kelompok ahli waris yang berbeda jenis (mis. kakek &amp; saudara/i, menurut pendapat Umar bin Khattab), dihitung seolah satu kelompok yang sama derajat.",
+    gTakmilahD: "Bagian <b>penyempurna</b> 2/3 untuk anak perempuan dan cucu perempuan dari anak laki-laki.<span class=\"g-ex\"><b>Contoh:</b> Anak perempuan sudah 1/2, maka cucu perempuan mendapat 1/6 agar totalnya 2/3.</span>",
+    gGroupKhusus: "Kasus Khusus",
+    gJaddT: "Kakek bersama Saudara/i",
+    gJaddD: "Kasus yang <b>diperselisihkan</b> ulama. Menurut <b>Abu Bakar ash-Shiddiq</b> (pilihan bawaan), kakek menghalangi saudara/i seperti ayah. Menurut <b>Zaid bin Tsabit</b>, kakek berbagi dengan mereka.<span class=\"g-ex\"><b>Contoh:</b> Kakek + 1 saudara kandung: Abu Bakar, kakek mengambil semua. Zaid, dibagi sama rata.</span>",
+    gMuqasamahT: "Muqasamah",
+    gMuqasamahD: "Cara berbagi dalam pendapat Zaid: kakek dihitung seperti satu saudara laki-laki (laki-laki 2 : perempuan 1). Kakek mengambil yang <b>paling menguntungkannya</b>: berbagi, 1/3 sisa, atau 1/6 harta.<span class=\"g-ex\"><b>Contoh:</b> Kakek + 3 saudara kandung: berbagi hanya 1/4, maka kakek memilih 1/3 sisa.</span>",
+    gMuaddahT: "Al-Mu'addah",
+    gMuaddahD: "Saudara seayah tetap <b>dihitung</b> saat berbagi dengan kakek (agar bagian kakek berkurang), tetapi bagiannya lalu <b>diambil saudara kandung</b>.<span class=\"g-ex\"><b>Contoh:</b> Kakek + 1 saudara kandung + 1 saudara seayah: dibagi 3 sama rata, bagian seayah pindah ke kandung. Kakek 1, kandung 2.</span>",
+    gAkdariyyahT: "Al-Akdariyyah",
+    gAkdariyyahD: "Kasus khusus pendapat Zaid: suami + ibu + kakek + <b>satu</b> saudari (kandung/seayah). Bagian tetap diberikan dulu sehingga terjadi 'aul ke 9, lalu bagian kakek dan saudari digabung dan dibagi 2 : 1.<span class=\"g-ex\"><b>Contoh:</b> Hasil akhir: suami 9/27, ibu 6/27, kakek 8/27, saudari 4/27.</span>",
+    gMusytarakahT: "Musytarakah (Al-Himariyyah)",
+    gMusytarakahD: "Suami + ibu/nenek + 2 atau lebih saudara/i seibu + saudara kandung. Harta habis, sehingga menurut <b>jumhur</b> (pilihan bawaan) saudara kandung tidak dapat bagian. Menurut <b>Umar bin Khattab</b>, ia ikut berbagi rata dengan saudara/i seibu.<span class=\"g-ex\"><b>Contoh:</b> Suami 1/2, ibu 1/6, 2 saudara seibu 1/3 = habis. Pada pendapat Umar, saudara kandung ikut berbagi bagian 1/3.</span>",
+    gMauqufT: "Janin & Mauquf",
+    gMauqufD: "Janin dalam kandungan adalah calon ahli waris. Dengan metode Syafi'iyyah, ahli waris lain menerima <b>bagian terjamin</b> (pasti diterima apa pun hasil kelahirannya), dan sisanya <b>ditahan (mauquf)</b> sampai janin lahir.<span class=\"g-ex\"><b>Contoh:</b> Selisih bagian antara skenario terkecil dan terbesar ditahan sampai kelahiran.</span>",
 
     aboutTitle: "ℹ️ Tentang Aplikasi",
     aboutText: "Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda — tidak ada data yang dikirim atau disimpan ke server mana pun.",
-    aboutVersion: "Versi 1.2.0 &middot; Dibuat oleh <b>Abu Malik</b>",
+    aboutVersion: "Versi 1.3.0 &middot; Dibuat oleh <b>Abu Malik</b>",
 
     card1Title: "1. Data Mayit",
     card1Sub: "Jenis kelamin orang yang meninggal (mayit) menentukan jenis pasangan yang mewarisi.",
@@ -1297,7 +1379,7 @@ const I18N = {
     genderP: "Perempuan",
     badgeWajib: "Wajib dipilih",
     badgeOpsional: "Opsional",
-    totalHartaLabel: "Total harta warisan (Rp)",
+    totalHartaLabel: "Total harta peninggalan (Rp)",
     totalHartaPlaceholder: "cth. 500.000.000",
     totalHartaHint: "untuk menghitung nominal Rupiah tiap ahli waris",
     biayaJenazahLabel: "Biaya pengurusan jenazah (Rp)",
@@ -1469,10 +1551,29 @@ const I18N = {
     gTakmilahD: "نصيب يُكمَّل به فرض من قبله، ويُعرف عند الفقهاء بـ«تكملة الثلثين» — مثاله بنت الابن تأخذ 1/6 تكملةً للثلثين مع البنت صاحبة النصف.",
     gMuqasamahT: "المقاسمة / المشاركة",
     gMuqasamahD: "اشتراك فئتين مختلفتين في الميراث (مثل الجد والإخوة، عند زيد بن ثابت) كأنهما فئة واحدة.",
+    gGroupDasar: "الأساسيات",
+    gGroupPenyesuaian: "تعديل الأنصبة",
+    gGroupKhusus: "مسائل خاصة",
+    gSahamT: "السهم",
+    gSahamD: "وحدة الحصة الصحيحة بعد توحيد المقام (أصل المسألة).",
+    gInkisarT: "الانكسار",
+    gInkisarD: "عدم انقسام سهام فريق على عدد رؤوسهم، فتُضرب السهام في عدد مناسب.",
+    gJaddT: "الجد مع الإخوة",
+    gJaddD: "مسألة خلافية: عند أبي بكر الصديق يحجب الجدُّ الإخوة، وعند زيد بن ثابت يقاسمهم.",
+    gMuaddahT: "المعادّة",
+    gMuaddahD: "يُعدّ الأخ لأب مع الجد لتقليل نصيبه، ثم يأخذ الأخ الشقيق نصيبه.",
+    gAkdariyyahT: "الأكدرية",
+    gAkdariyyahD: "زوج وأم وجد وأخت واحدة؛ تعول المسألة إلى 9 ثم يُقسم نصيب الجد والأخت للذكر مثل حظ الأنثيين.",
+    gMusytarakahT: "المشتركة (الحمارية)",
+    gMusytarakahD: "زوج وأم (أو جدة) وإخوة لأم (اثنان فأكثر) وأخ شقيق؛ الجمهور يحجب الشقيق، وعند عمر يشاركهم.",
+    gMauqufT: "الحمل والموقوف",
+    gMauqufD: "يُوقف جزء من التركة حتى ولادة الحمل ويتبين عدده وجنسه.",
+    gTirkahT: "التركة",
+    gTirkahD: "جميع ما تركه الميت قبل خصم أي شيء؛ يُخرج منها بالترتيب: تجهيز الميت، ثم الديون، ثم الوصية (حتى ثلث الباقي)، والباقي يُقسم على الورثة.",
 
     aboutTitle: "ℹ️ عن التطبيق",
     aboutText: "تساعد حاسبة الفرائض في حساب توزيع التركة وفق علم الفرائض (أحكام الميراث الإسلامي)، متبعةً رأي جمهور العلماء المعتمد عادةً في إندونيسيا. هذا التطبيق مجاني، وتتم جميع الحسابات مباشرة على جهازك — لا تُرسل أو تُخزَّن أي بيانات على أي خادم.",
-    aboutVersion: "الإصدار 1.2.0 &middot; صنعه <b>Abu Malik</b>",
+    aboutVersion: "الإصدار 1.3.0 &middot; صنعه <b>Abu Malik</b>",
 
     card1Title: "1. بيانات الميت",
     card1Sub: "جنس المتوفى يحدد نوع الزوج الوارث.",
@@ -1667,7 +1768,7 @@ function applyI18n(){
   document.title = t('pageTitle');
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     const translated = t(el.getAttribute('data-i18n'));
-    // PENTING: sejumlah label (mis. "Total harta warisan" + <span class="hint">opsional</span>)
+    // PENTING: sejumlah label (mis. "Total harta peninggalan" + <span class="hint">opsional</span>)
     // punya elemen anak (span hint) yang JUGA punya data-i18n sendiri. Bila kita timpa
     // langsung dgn el.textContent, seluruh anak tsb ikut terhapus (itulah sebabnya teks
     // "opsional" pada beberapa field sempat hilang). Jadi: kalau elemen ini punya anak
@@ -1838,7 +1939,6 @@ function applyPreset(name){
   }
   syncDependentRows();
   hitungFaraidh();
-  document.getElementById('results').scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 function resetForm(){
@@ -2251,7 +2351,7 @@ function computeFaraidh(){
   const anyHeir = suami||istriCount>0||ayah||kakek||buyutL||ibu||nenek||buyutP||anakL||anakP||cucuL||cucuP||cicitL||cicitP||saudaraK||saudariK||saudaraA||saudariA||saudaraIbu||keponakanKandung||keponakanSeayah||pamanKandung||pamanSeayah||sepupuKandung||sepupuSeayah;
   if(!anyHeir){
     errEl.textContent = t('errorNoHeir');
-    errEl.style.display='block';
+    errEl.style.display='block'; focusError(errEl);
     document.getElementById('results').style.display='none';
     return null;
   }
@@ -3114,15 +3214,21 @@ function computeFaraidh(){
   if(kakekSaudaraKhilafiyah && !hasFarWarisMudzakkar){
     const kakekLabelUsed = kakek? 'Kakek' : 'Buyut laki-laki';
     const toggleBox = `<label class="checkbox-pill" style="margin-top:8px;display:inline-flex;"><input type="checkbox" ${kakekMuqasamahOpt?'checked':''} onchange="toggleKakekMuqasamah(this.checked)"> Terapkan muqasamah/mu'addah/akdariyyah (Zaid bin Tsabit)</label>`;
-    const khilafiyahNote = kakekMuqasamahOpt
+    const khilafiyahNoteFull = kakekMuqasamahOpt
       ? `<b>${kakekLabelUsed} bersama saudara/i</b> — kasus yang diperselisihkan ulama.<br><br>Pendapat yang dipakai saat ini: <b>Zaid bin Tsabit</b> &mdash; berbagi (muqasamah), bukan menghalangi total.<br><br>${toggleBox}`
       : `<b>${kakekLabelUsed} bersama saudara/i</b> — kasus yang diperselisihkan ulama.<br><br>Pendapat yang dipakai saat ini (default): <b>Abu Bakar ash-Shiddiq</b> &mdash; ${kakekLabelUsed.toLowerCase()} menghalangi total saudara/i.<br><br>Centang di bawah untuk memakai pendapat <b>Zaid bin Tsabit</b> (berbagi/muqasamah) sebagai gantinya.<br><br>${toggleBox}`;
+    // Tampilan layar: catatan lengkap + checkbox. Tampilan cetak: ringkas saja.
+    const opiniDipakai = kakekMuqasamahOpt ? 'Zaid bin Tsabit' : 'Abu Bakar ash-Shiddiq';
+    const khilafiyahNote = `<span class="note-screen">${khilafiyahNoteFull}</span>`
+      + `<span class="note-print-short"><b>${kakekLabelUsed} bersama saudara/i</b> &mdash; sesuai pendapat <b>${opiniDipakai}</b> (pilihan pengguna).</span>`;
     special = special ? (special + "<br><br>" + khilafiyahNote) : khilafiyahNote;
   }
   if(akdariyyahEntries){
     const kakekLabelUsed = kakek? 'kakek' : 'buyut laki-laki';
     const akdariyyahExplain = `Kasus Anda adalah <b>al-Akdariyyah</b>: suami + ibu + ${kakekLabelUsed} + hanya 1 saudari (kandung/seayah) sendirian. Ini kasus khusus dalam pendapat Zaid bin Tsabit: semua diberi bagian tetap dulu (suami 1/2, ibu 1/3, ${kakekLabelUsed} 1/6, saudari 1/2) sehingga terjadi 'aul, lalu bagian ${kakekLabelUsed} &amp; saudari yang sudah disesuaikan 'aul digabung dan dibagi ulang 2:1 di antara keduanya &mdash; bukan mengikuti pola muqasamah biasa.`;
-    special = special ? (special + "<br><br>" + akdariyyahExplain) : akdariyyahExplain;
+    const akdariyyahHtml = `<span class="note-screen">${akdariyyahExplain}</span>`
+      + `<span class="note-print-short">Termasuk kasus <b>al-Akdariyyah</b>.</span>`;
+    special = special ? (special + "<br><br>" + akdariyyahHtml) : akdariyyahHtml;
   }
   if(musytarakahCase){
     const ashlLabel = ibu? 'ibu' : 'nenek';
@@ -3131,7 +3237,9 @@ function computeFaraidh(){
         ? `Anda memilih pendapat <b>musytarakah</b> (diriwayatkan dari Umar bin Khattab, dst.): saudara kandung ikut berbagi rata per kepala (bukan 2:1) bersama saudara/i seibu, sebagaimana terlihat di hasil di bawah.`
         : `Kalkulator ini secara <b>default mengikuti pendapat jumhur</b>: saudara kandung tetap mahjub (tidak dapat bagian), seperti terlihat di hasil di bawah.`)
       + `<br><label class="checkbox-pill" style="margin-top:8px;display:inline-flex;"><input type="checkbox" ${musytarakahOpt?'checked':''} onchange="toggleMusytarakah(this.checked)"> Terapkan pendapat musytarakah (saudara kandung berbagi rata dgn saudara/i seibu)</label>`;
-    special = special ? (special + "<br><br>" + musytarakahNote) : musytarakahNote;
+    const musytarakahHtml = `<span class="note-screen">${musytarakahNote}</span>`
+      + `<span class="note-print-short">Kasus <b>musytarakah (al-Himariyyah)</b> &mdash; sesuai pendapat <b>${musytarakahOpt ? 'Umar bin Khattab' : 'jumhur ulama'}</b> (pilihan pengguna).</span>`;
+    special = special ? (special + "<br><br>" + musytarakahHtml) : musytarakahHtml;
   }
   if(istriDibatasi){
     const istriNote = "Jumlah istri yang dimasukkan melebihi 4, sehingga dihitung sebagai <b>4 istri</b> (batas maksimal menurut syariat).";
@@ -3312,7 +3420,7 @@ function hitungFaraidh(){
     if(!data){
       const errEl = document.getElementById('error');
       errEl.textContent = t('errorNoHeir');
-      errEl.style.display='block';
+      errEl.style.display='block'; focusError(errEl);
       document.getElementById('results').style.display='none';
       return;
     }
@@ -3473,7 +3581,10 @@ function renderResults(results, special, totalHarta, AM0, AM_final, amDetail, in
   box.classList.remove('result-highlight');
   void box.offsetWidth;
   box.classList.add('result-highlight');
-  box.scrollIntoView({behavior:'smooth', block:'start'});
+  { const _fw = document.getElementById('finalWrap');
+    const _target = (_fw && _fw.offsetParent!==null) ? _fw : box;
+    if(!window.__skipScroll) _target.scrollIntoView({behavior:'smooth', block:'start'});
+    window.__skipScroll = false; }
 
   lastResultData = { results, AM_final, totalHarta, hartaInfo };
   updateTableScrollHint();
@@ -4062,6 +4173,195 @@ function renderTestReport(report){
   panel.style.display = 'block';
   panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
+
+// ====================== Penyempurnaan kenyamanan pengguna ======================
+// Toast ringan (pengganti alert) + aksi opsional seperti "Urungkan".
+let _toastTimer = null;
+function showToast(msg, opts){
+  opts = opts || {};
+  let el = document.getElementById('toast');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'toast'; el.className = 'toast';
+    el.setAttribute('role','status'); el.setAttribute('aria-live','polite');
+    document.body.appendChild(el);
+  }
+  el.innerHTML = '';
+  const span = document.createElement('span'); span.textContent = msg; el.appendChild(span);
+  if(opts.actionLabel){
+    const b = document.createElement('button'); b.type='button'; b.textContent = opts.actionLabel;
+    b.onclick = ()=>{ el.classList.remove('show'); try{ opts.onAction && opts.onAction(); }catch(e){} };
+    el.appendChild(b);
+  }
+  void el.offsetWidth; el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(()=>el.classList.remove('show'), opts.duration || 3200);
+}
+(function(){ const _alert = window.alert; window.alert = function(m){ showToast(String(m), {duration:4200}); }; })();
+
+// 1. Pesan error langsung terlihat.
+function focusError(el){
+  try{ el.scrollIntoView({behavior:'smooth', block:'center'}); el.focus({preventScroll:true}); }catch(e){}
+}
+
+// 2. Stepper − / + untuk semua input jumlah; angka otomatis terpilih saat fokus.
+function enhanceNumberInputs(root){
+  (root||document).querySelectorAll('input[type=number]').forEach(inp=>{
+    if(inp.closest('.stepper')) return;
+    const wrap = document.createElement('div'); wrap.className = 'stepper';
+    const mk = (txt, delta, label)=>{
+      const b = document.createElement('button'); b.type='button'; b.textContent = txt;
+      b.setAttribute('aria-label', label); b.tabIndex = -1;
+      b.addEventListener('click', ()=>{
+        if(inp.disabled) return;
+        const min = inp.min!=='' ? +inp.min : 0, max = inp.max!=='' ? +inp.max : Infinity;
+        let v = Math.min(max, Math.max(min, (+inp.value||0) + delta));
+        inp.value = String(v);
+        inp.dispatchEvent(new Event('input',{bubbles:true}));
+        inp.dispatchEvent(new Event('change',{bubbles:true}));
+      });
+      return b;
+    };
+    inp.parentNode.insertBefore(wrap, inp);
+    wrap.appendChild(mk('\u2212', -1, tn('Kurangi','أنقص')));
+    wrap.appendChild(inp);
+    wrap.appendChild(mk('+', 1, tn('Tambah','زد')));
+  });
+}
+document.addEventListener('focusin', e=>{
+  const el = e.target;
+  if(el && el.tagName==='INPUT' && (el.type==='number' || el.classList.contains('rupiah-input'))){
+    setTimeout(()=>{ try{ el.select(); }catch(_){} }, 0);
+  }
+});
+enhanceNumberInputs();
+new MutationObserver(()=>enhanceNumberInputs(document.getElementById('spouseSection')))
+  .observe(document.getElementById('spouseSection'), {childList:true});
+
+// 5. Reset dengan "Urungkan".
+function snapshotForm(){
+  const o = {gender:pewarisGender, vals:{}, resultsShown: document.getElementById('results').style.display==='block'};
+  document.querySelectorAll('input[id]').forEach(el=>{ o.vals[el.id] = el.type==='checkbox' ? el.checked : el.value; });
+  return o;
+}
+function formIsDirty(snap){
+  return Object.keys(snap.vals).some(id=>{
+    const el = document.getElementById(id), v = snap.vals[id];
+    if(!el) return false;
+    return el.type==='checkbox' ? v===true : (v!=='' && v!=='0');
+  });
+}
+function restoreForm(snap){
+  if(snap.gender !== pewarisGender){
+    pewarisGender = snap.gender;
+    [...document.getElementById('genderToggle').children].forEach(b=>b.classList.toggle('active', b.dataset.val===snap.gender));
+    renderSpouseSection();
+  }
+  for(const id in snap.vals){
+    const el = document.getElementById(id); if(!el) continue;
+    if(el.type==='checkbox') el.checked = snap.vals[id]; else el.value = snap.vals[id];
+  }
+  syncDependentRows(); refreshCardSummaries();
+  if(snap.resultsShown){ window.__skipScroll = true; hitungFaraidh(); }
+}
+function resetFormWithUndo(){
+  const snap = snapshotForm();
+  resetForm();
+  if(formIsDirty(snap)){
+    showToast(tn('Formulir dikosongkan.','تم مسح النموذج.'), {actionLabel:tn('Urungkan','تراجع'), onAction:()=>restoreForm(snap), duration:4000});
+  }
+}
+
+// 7. Ringkasan isian di header kartu 1–5 (tampil saat kartu dilipat).
+const CARD_SUMMARY_DEFS = [
+  null,
+  [['istriCount','Istri'],['suami','Suami'],['janinIstri','Janin']],
+  [['ayah','Ayah'],['kakek','Kakek'],['ibu','Ibu'],['nenekIbu','Nenek (ibu)'],['nenekAyah','Nenek (ayah)'],['buyutL','Buyut L'],['buyutDariKakek','Buyut P'],['buyutDariNenekAyah','Buyut P'],['buyutDariNenekIbu','Buyut P']],
+  [['anakL','Anak L'],['anakP','Anak P'],['cucuL','Cucu L'],['cucuP','Cucu P'],['cicitL','Cicit L'],['cicitP','Cicit P']],
+  [['saudaraK','Saudara kdg'],['saudariK','Saudari kdg'],['saudaraA','Saudara syh'],['saudariA','Saudari syh'],['saudaraIbu','Saudara/i sebu']]
+];
+function refreshCardSummaries(){
+  const heads = document.querySelectorAll('h2.card-header');
+  CARD_SUMMARY_DEFS.forEach((defs,i)=>{
+    const h = heads[i]; if(!h) return;
+    let sp = h.querySelector('.card-summary');
+    if(!sp){ sp = document.createElement('span'); sp.className='card-summary'; h.insertBefore(sp, h.querySelector('.chevron')); }
+    let parts = [];
+    if(i===0){
+      parts.push(pewarisGender==='P' ? tn('Perempuan','أنثى') : tn('Laki-laki','ذكر'));
+      const th = document.getElementById('totalHarta'); if(th && th.value) parts.push('Rp '+th.value);
+    } else {
+      defs.forEach(([id,label])=>{
+        const el = document.getElementById(id); if(!el) return;
+        if(el.type==='checkbox'){ if(el.checked) parts.push(label); }
+        else if(+el.value>0) parts.push(label+' '+el.value);
+      });
+    }
+    sp.textContent = parts.join(' · ');
+  });
+}
+['input','change'].forEach(ev=>document.addEventListener(ev, refreshCardSummaries));
+document.addEventListener('click', ()=>setTimeout(refreshCardSummaries,0));
+(function(){
+  const _rf = resetForm; resetForm = function(){ const r=_rf.apply(this,arguments); refreshCardSummaries(); return r; };
+  const _ap = applyPreset; applyPreset = function(){ const r=_ap.apply(this,arguments); refreshCardSummaries(); return r; };
+})();
+refreshCardSummaries();
+
+// 8/kecil. Menu samping: Esc, jebakan fokus, kembalikan fokus.
+(function(){
+  const panel = document.getElementById('mainMenuPanel'), btn = document.getElementById('menuBtn');
+  panel.inert = true;
+  const _om = openMainMenu, _cm = closeMainMenu;
+  openMainMenu = function(){ _om(); panel.inert = false; setTimeout(()=>{ const c=panel.querySelector('.menu-close-btn'); c&&c.focus(); },60); };
+  closeMainMenu = function(){ const was = panel.classList.contains('open'); _cm(); panel.inert = true; if(was) btn.focus(); };
+  document.addEventListener('keydown', e=>{
+    if(!panel.classList.contains('open')) return;
+    if(e.key==='Escape'){ e.preventDefault(); closeMainMenu(); return; }
+    if(e.key==='Tab'){
+      const f = [...panel.querySelectorAll('button,a[href]')].filter(x=>x.offsetParent!==null);
+      if(!f.length) return;
+      const first=f[0], last=f[f.length-1];
+      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+    }
+  });
+})();
+
+// Kecil. Pembaca layar: umumkan hasil & notifikasi mahjub.
+document.querySelectorAll('.mahjub-alert').forEach(el=>el.setAttribute('aria-live','polite'));
+(function(){
+  const _rr = renderResults;
+  renderResults = function(){
+    const r = _rr.apply(this, arguments);
+    try{
+      const n = lastResultData && lastResultData.results ? lastResultData.results.length : 0;
+      const ls = document.getElementById('liveStatus');
+      ls.textContent = '';
+      setTimeout(()=>{ ls.textContent = tn('Hasil pembagian ditampilkan: '+n+' kelompok ahli waris.', 'تم عرض النتيجة: '+n+' مجموعات من الورثة.'); }, 60);
+    }catch(e){}
+    return r;
+  };
+})();
+
+// Kecil. Tombol panah atas: muncul hanya saat menggulir ke atas, di area bilah atas
+// di tengah bawah (di atas bilah tombol sticky pada HP).
+(function(){
+  const b = document.createElement('button');
+  b.type='button'; b.className='to-top-btn'; b.innerHTML='&#8593;';
+  b.setAttribute('aria-label', tn('Kembali ke atas (ubah data)','العودة للأعلى'));
+  b.title = tn('Kembali ke atas','العودة للأعلى');
+  b.onclick = ()=>{ window.scrollTo({top:0, behavior:'smooth'}); b.classList.remove('show'); };
+  document.body.appendChild(b);
+  let lastY = window.scrollY, hideT = null;
+  window.addEventListener('scroll', ()=>{
+    const y = window.scrollY;
+    if(y < 300){ b.classList.remove('show'); }
+    else if(y < lastY - 4){ b.classList.add('show'); clearTimeout(hideT); hideT = setTimeout(()=>b.classList.remove('show'), 3000); }
+    else if(y > lastY + 4){ b.classList.remove('show'); }
+    lastY = y;
+  }, {passive:true});
+})();
 </script>
 </body>
 </html>
