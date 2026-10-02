@@ -16,7 +16,7 @@
     --card:#FFFFFF;
     --border:#E4DCC8;
     --ink:#2B2620;
-    --muted:#786F5E;
+    --muted:#6B6352;
     --emerald:#1F4B3F;
     --emerald-dark:#153328;
     --gold:#B8862F;
@@ -943,6 +943,53 @@
   html[dir="rtl"] .glossary dd .g-ex{padding:4px 10px 4px 0;border-left:none;border-right:3px solid var(--gold-soft);}
   .menu-accordion-body > p.g-intro{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0 0 4px;}
   .glossary dt{font-size:15.5px;}
+
+  :root{color-scheme:light dark;}
+  .icon-actions{display:flex;gap:8px;margin-left:auto;}
+  .icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--emerald-dark);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .icon-btn svg,.btn-print svg,#caseBtn svg{width:20px;height:20px;}
+  .btn-print svg{width:16px;height:16px;vertical-align:-3px;margin-right:6px;}
+  .btn-print.btn-text{border-color:transparent;text-decoration:underline;}
+  #caseBtn{flex:0 0 auto;display:flex;align-items:center;justify-content:center;padding:0 14px;}
+  .dalil-btn{border:none;background:none;color:var(--emerald);font-size:16px;line-height:1;padding:2px 6px;margin-left:2px;cursor:pointer;}
+  .sheet-ov{position:fixed;inset:0;z-index:150;background:rgba(21,17,10,.5);display:none;align-items:flex-end;justify-content:center;}
+  .sheet-ov.show{display:flex;}
+  .sheet{width:100%;max-width:560px;max-height:82vh;overflow:auto;background:var(--card);color:var(--ink);border-radius:18px 18px 0 0;padding:18px 20px calc(22px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(0,0,0,.25);}
+  .sheet h3{margin:0 0 4px;font-size:17px;color:var(--emerald-dark);}
+  .sheet p{font-size:14px;line-height:1.6;margin:8px 0;}
+  .sheet .sh-sub{font-size:12.5px;color:var(--muted);margin:2px 0 8px;}
+  .sheet .sh-ref{border-left:3px solid var(--gold);padding:2px 0 2px 10px;}
+  .sheet input{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:10px;font:inherit;background:var(--card);color:var(--ink);}
+  .sh-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end;}
+  .sh-btn{padding:9px 16px;border:1px solid var(--border);border-radius:9px;background:var(--card);color:var(--ink);font:inherit;font-weight:600;font-size:13px;cursor:pointer;}
+  .sh-btn.primary{background:var(--emerald-dark);border-color:var(--emerald-dark);color:#fff;}
+  .case-item{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border);}
+  @media print{.icon-actions,.dalil-btn,.sheet-ov,#caseBtn{display:none !important;}}
+  @media screen and (prefers-color-scheme:dark){
+    :root{--paper:#12100C;--card:#1D1A14;--border:#3B3528;--ink:#EDE7D8;--muted:#B0A691;--gold-soft:#3A311D;--emerald-dark:#9AD6BF;--emerald:#7CC4A9;--danger:#E58C7C;}
+    header.hero{background:linear-gradient(160deg,#1F4B3F,#153328);}
+    .sh-btn.primary{color:#12100C;}
+    .stepper,.stepper button{background:#26221A;}
+  }
+  .toast{background:#153328;color:#F4EFDF;}
+  .toast button{color:#EFE1C3;}
+  @media screen and (prefers-color-scheme:dark){
+    input[type=number],.toggle button,.lang-btn,.rupiah-input,.stepper,.stepper button,.dzawil-note,.harta-box,.am-detail-box,.final-wrap{background:#26221A;}
+    input[type=number]:disabled,.badge-optional{background:#2E2A20;}
+    .toggle button.active,.toggle button.active:hover{background:var(--emerald);color:#12100C;}
+    .mayit-gender-box{background:linear-gradient(135deg,#3A311D 0%,#26221A 100%);}
+    .final-wrap{background:linear-gradient(180deg,#1E2F28 0%,#1D1A14 90px);}
+    .mahjub-alert,#error{background:#3A1F1A;}
+    .btn-reset:hover{background:#2E2A20;}
+    table.faraidh-table tbody tr:hover{background:#26221A;}
+    .bagian-badge.ashabah{background:#3A311D;} .bagian-badge.mixed{background:#2E2840;} .bagian-badge.mahjub{background:#3A1F1A;} .bagian-badge.mauquf{background:#2E2A20;}
+    .final-banner{background:#2A4A3F;}
+  }
+  .result-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 6px;}
+  .ra-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 4px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--emerald-dark);font:inherit;font-size:11.5px;font-weight:600;cursor:pointer;touch-action:manipulation;}
+  .ra-btn svg{width:20px;height:20px;}
+  .ra-btn:hover{background:var(--gold-soft);}
+  @media print{.result-actions{display:none !important;}}
 </style>
 </head>
 <body>
@@ -1032,7 +1079,7 @@
       </button>
       <div class="menu-accordion-body" hidden>
       <p class="sub" data-i18n="aboutText">Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda &mdash; tidak ada data yang dikirim atau disimpan ke server mana pun.</p>
-      <p class="sub" data-i18n-html="aboutVersion">Versi 1.3.0 &middot; Dibuat oleh <b>Abu Malik</b></p>
+      <p class="sub" data-i18n-html="aboutVersion">Versi 1.4.0 &middot; Dibuat oleh <b>Abu Malik</b></p>
       <a class="support-link" href="https://saweria.co/DanaraOsaRaharsa" target="_blank" rel="noopener noreferrer" style="margin:6px 0 4px;">
         <span class="heart">&#9825;</span><span data-i18n="supportUsLabel">Dukung Kami</span>
       </a>
@@ -1222,6 +1269,7 @@
   <div class="btn-row">
     <button class="btn-hitung" onclick="hitungFaraidh()" data-i18n="btnHitung">Hitung Pembagian Warisan</button>
     <button class="btn-reset" onclick="resetFormWithUndo()" type="button" data-i18n="btnReset">Reset</button>
+    <button class="btn-reset" id="caseBtn" type="button" onclick="bukaDaftarKasus()" aria-label="Kasus tersimpan" title="Kasus tersimpan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button>
   </div>
 
   <div id="results" class="card" style="margin-top:22px;">
@@ -1248,6 +1296,12 @@
 
     <div class="final-wrap" id="finalWrap">
     <div class="final-banner"><span class="final-banner-icon">&#10004;</span><span data-i18n="finalBanner">HASIL AKHIR</span></div>
+    <div class="result-actions">
+      <button class="ra-btn" type="button" onclick="bagikanGambar()" aria-label="Bagikan gambar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Bagikan</span></button>
+      <button class="ra-btn" type="button" onclick="cetakFitPage()" aria-label="Cetak atau simpan PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg><span>Cetak</span></button>
+      <button class="ra-btn" type="button" onclick="simpanKasus()" aria-label="Simpan kasus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Simpan</span></button>
+      <button class="ra-btn" type="button" onclick="bagikanHasil()" aria-label="Salin ringkasan teks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Salin</span></button>
+    </div>
     <div class="case-title" id="finalCaseTitle" data-i18n="rincianSahamTitle">Rincian Saham</div>
     <div id="asalMasalahFinal" class="am-box"></div>
     <div class="ledger" id="ledger"></div>
@@ -1274,10 +1328,6 @@
       <div id="amDetailContent"></div>
     </details>
     <p class="disclaimer" data-i18n="finalDisclaimer">Kalkulator ini menghitung kasus-kasus umum (pasangan, orang tua, anak, saudara/i) mengikuti pendapat jumhur ulama. Untuk kombinasi ahli waris yang sangat jarang terjadi, disarankan berkonsultasi dengan ustadz atau lembaga faraidh terpercaya untuk verifikasi akhir.</p>
-    <div class="btn-group results-footer-actions">
-      <button class="btn-print btn-share" onclick="bagikanHasil()" type="button" data-i18n="btnShare">&#128257; Bagikan Hasil</button>
-      <button class="btn-print" onclick="cetakFitPage()" type="button" data-i18n="btnPrint">&#128424; Cetak / Simpan PDF</button>
-    </div>
   </div>
 
   <footer class="app-footer">
@@ -1371,7 +1421,7 @@ const I18N = {
 
     aboutTitle: "ℹ️ Tentang Aplikasi",
     aboutText: "Kalkulator Faraidh membantu menghitung pembagian warisan sesuai ilmu faraidh (hukum waris Islam), mengikuti pendapat jumhur ulama. Aplikasi ini gratis dan seluruh perhitungan dilakukan langsung di perangkat Anda — tidak ada data yang dikirim atau disimpan ke server mana pun.",
-    aboutVersion: "Versi 1.3.0 &middot; Dibuat oleh <b>Abu Malik</b>",
+    aboutVersion: "Versi 1.4.0 &middot; Dibuat oleh <b>Abu Malik</b>",
 
     card1Title: "1. Data Mayit",
     card1Sub: "Jenis kelamin orang yang meninggal (mayit) menentukan jenis pasangan yang mewarisi.",
@@ -1574,7 +1624,7 @@ const I18N = {
 
     aboutTitle: "ℹ️ عن التطبيق",
     aboutText: "تساعد حاسبة الفرائض في حساب توزيع التركة وفق علم الفرائض (أحكام الميراث الإسلامي)، متبعةً رأي جمهور العلماء المعتمد عادةً في إندونيسيا. هذا التطبيق مجاني، وتتم جميع الحسابات مباشرة على جهازك — لا تُرسل أو تُخزَّن أي بيانات على أي خادم.",
-    aboutVersion: "الإصدار 1.3.0 &middot; صنعه <b>Abu Malik</b>",
+    aboutVersion: "الإصدار 1.4.0 &middot; صنعه <b>Abu Malik</b>",
 
     card1Title: "1. بيانات الميت",
     card1Sub: "جنس المتوفى يحدد نوع الزوج الوارث.",
@@ -4410,6 +4460,133 @@ document.querySelectorAll('.mahjub-alert').forEach(el=>el.setAttribute('aria-liv
 // Service worker (offline + pembaruan halaman network-first, lihat sw.js)
 if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
   window.addEventListener('load', ()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+
+// ====================== Dalil, bagikan gambar, simpan kasus ======================
+function esc(x){ return String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function elHtml(html){ const d=document.createElement('div'); d.innerHTML=html; return d; }
+function openSheet(node){
+  let ov=document.getElementById('sheetOv');
+  if(!ov){ ov=document.createElement('div'); ov.id='sheetOv'; ov.className='sheet-ov';
+    ov.innerHTML='<div class="sheet" role="dialog" aria-modal="true"></div>';
+    ov.addEventListener('click',e=>{ if(e.target===ov) closeSheet(); }); document.body.appendChild(ov); }
+  const sh=ov.firstChild; sh.innerHTML=''; sh.appendChild(node); ov.classList.add('show');
+}
+function closeSheet(){ const ov=document.getElementById('sheetOv'); if(ov) ov.classList.remove('show'); }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeSheet(); });
+
+const DALIL=[
+ [/^Suami/,"QS. An-Nisa' 12","Suami mendapat 1/2 bila istri tidak meninggalkan anak/cucu, dan 1/4 bila ada."],
+ [/^Istri/,"QS. An-Nisa' 12","Istri mendapat 1/4 bila suami tidak meninggalkan anak/cucu, dan 1/8 bila ada. Jika istri lebih dari satu, bagian itu dibagi rata."],
+ [/^Ibu/,"QS. An-Nisa' 11","Ibu mendapat 1/6 bila pewaris meninggalkan anak/cucu atau dua saudara/i atau lebih; selain itu 1/3."],
+ [/^Ayah/,"QS. An-Nisa' 11 dan hadis Ibnu Abbas (HR. Bukhari-Muslim)","Ayah mendapat 1/6 bila ada anak laki-laki/cucu laki-laki. Bila tidak ada anak, ayah mengambil sisa sebagai ashabah."],
+ [/^Kakek/,"Hadis Imran bin Hushain (HR. Abu Dawud) dan ijmak sahabat","Kakek menempati kedudukan ayah bila ayah tidak ada (1/6 atau sisa). Bersama saudara/i, ulama berbeda pendapat; lihat istilah Kakek bersama Saudara/i."],
+ [/^(Nenek|Buyut perempuan)/,"Hadis Buraidah (HR. Abu Dawud)","Rasulullah ﷺ menetapkan 1/6 bagi nenek bila ibu tidak ada."],
+ [/^(Anak|Cucu|Cicit) laki/,"QS. An-Nisa' 11 dan hadis Ibnu Abbas (HR. Bukhari-Muslim)","Bagian laki-laki dua kali bagian perempuan. Cucu dan cicit laki-laki berkedudukan seperti anak bila tidak terhalang. Sisa harta untuk laki-laki yang paling dekat (ashabah)."],
+ [/^(Anak|Cucu|Cicit) perempuan/,"QS. An-Nisa' 11","Satu anak perempuan 1/2, dua atau lebih 2/3. Bersama anak laki-laki, mereka mengambil sisa dengan perbandingan 2 : 1. Cucu/cicit perempuan berkedudukan seperti anak bila tidak terhalang; cucu perempuan mendapat 1/6 untuk menyempurnakan 2/3 bila anak perempuan sudah 1/2."],
+ [/seibu/,"QS. An-Nisa' 12","Saudara/i seibu: 1/6 bila seorang, dan 1/3 dibagi rata bila dua orang atau lebih."],
+ [/^Sauda/,"QS. An-Nisa' 176","Satu saudari 1/2, dua atau lebih 2/3. Saudara laki-laki mengambil sisa (laki-laki 2 : perempuan 1). Saudara kandung lebih didahulukan daripada saudara seayah."]
+];
+function bukaDalil(r){
+  const d=DALIL.find(x=>x[0].test(r.label));
+  const ref=d?d[1]:'Hadis Ibnu Abbas (HR. Bukhari-Muslim)';
+  const tx=d?d[2]:'Ahli waris ini menerima sisa harta sebagai ashabah, yaitu sisa setelah bagian-bagian tetap diberikan, untuk kerabat laki-laki yang paling dekat.';
+  const pct=+(fToNum(r.share)*100).toFixed(2);
+  openSheet(elHtml(`<h3>${esc(translateHeirLabel(r.label))}</h3><div class="sh-sub">${r.saham}/${lastResultData.AM_final} (${pct}%)</div>`
+    +(r.note?`<p>${r.note}</p>`:'')
+    +`<p class="sh-ref"><b>${esc(ref)}</b><br>${esc(tx)}</p>`
+    +`<p class="sh-sub">Ringkasan rujukan untuk belajar, bukan fatwa. Untuk kasus nyata, mohon konfirmasi kepada ustaz atau lembaga faraidh.</p>`
+    +`<div class="sh-actions"><button class="sh-btn" onclick="closeSheet()">Tutup</button></div>`));
+}
+(function(){
+  const _r2=renderResults;
+  renderResults=function(){
+    const x=_r2.apply(this,arguments);
+    try{
+      document.querySelectorAll('#finalTableWrap tbody tr').forEach((tr,i)=>{
+        const r=lastResultData.results[i], n=tr.querySelector('.heir-name');
+        if(!r||!n||n.querySelector('.dalil-btn')||n.textContent.trim()!==translateHeirLabel(r.label)) return;
+        const b=document.createElement('button'); b.type='button'; b.className='dalil-btn'; b.textContent='\u24D8';
+        b.setAttribute('aria-label','Lihat dalil: '+n.textContent.trim()); b.onclick=()=>bukaDalil(r); n.appendChild(b);
+      });
+    }catch(e){}
+    return x;
+  };
+})();
+
+// ---- Bagikan sebagai gambar ----
+function wrapText(ctx,text,maxW){
+  const out=[]; let line='';
+  text.split(/\s+/).forEach(w=>{ const t=line?line+' '+w:w; if(ctx.measureText(t).width>maxW&&line){out.push(line);line=w;}else line=t; });
+  if(line) out.push(line); return out;
+}
+async function bagikanGambar(){
+  if(!lastResultData){ showToast('Hitung dulu sebelum membagikan.'); return; }
+  const {results,AM_final,totalHarta}=lastResultData;
+  const W=1080,M=56,IW=W-2*M,F='system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+  let c=document.createElement('canvas'), ctx=c.getContext('2d');
+  const rows=results.map(r=>{
+    const note=r.note?r.note.replace(/<[^>]+>/g,''):''; ctx.font='24px '+F;
+    const nl=note?wrapText(ctx,note,IW):[];
+    return {r,nm:translateHeirLabel(r.label)+(r.count>1&&!r.isGroup?' \u00D7'+r.count:''),nl,h:74+(totalHarta>0?40:0)+nl.length*32};
+  });
+  const H=190+rows.reduce((a,x)=>a+x.h,0)+90;
+  c.width=W; c.height=H; ctx=c.getContext('2d');
+  ctx.fillStyle='#FAF6EE'; ctx.fillRect(0,0,W,H);
+  const g=ctx.createLinearGradient(0,0,W,150); g.addColorStop(0,'#1F4B3F'); g.addColorStop(1,'#153328');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,150);
+  ctx.textAlign='left'; ctx.fillStyle='#F4EFDF'; ctx.font='700 44px '+F; ctx.fillText('Hasil Pembagian Warisan',M,72);
+  ctx.fillStyle='#EFE1C3'; ctx.font='26px '+F;
+  ctx.fillText(new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})+"  \u00B7  Ashlul mas'alah "+AM_final,M,114);
+  let y=190;
+  rows.forEach(x=>{
+    const r=x.r, pct=+(fToNum(r.share)*100).toFixed(2);
+    ctx.textAlign='left'; ctx.fillStyle='#2B2620'; ctx.font='600 32px '+F; ctx.fillText(x.nm,M,y+34);
+    ctx.textAlign='right'; ctx.fillStyle='#153328'; ctx.font='700 32px '+F; ctx.fillText(r.saham+'/'+AM_final+'  ('+pct+'%)',W-M,y+34);
+    ctx.textAlign='left'; let yy=y+34;
+    if(totalHarta>0){ yy+=40; ctx.fillStyle='#1F4B3F'; ctx.font='700 30px '+F; ctx.fillText('Rp '+Math.round(totalHarta*fToNum(r.share)).toLocaleString('id-ID'),M,yy); }
+    ctx.fillStyle='#6B6352'; ctx.font='24px '+F; x.nl.forEach(l=>{ yy+=32; ctx.fillText(l,M,yy); });
+    y+=x.h; ctx.fillStyle='#E4DCC8'; ctx.fillRect(M,y-20,IW,2);
+  });
+  ctx.fillStyle='#6B6352'; ctx.font='24px '+F; ctx.textAlign='left';
+  ctx.fillText('Dibuat dengan Kalkulator Faraidh \u00B7 hasil perhitungan, bukan fatwa',M,H-40);
+  const blob=await new Promise(res=>c.toBlob(res,'image/png'));
+  const file=new File([blob],'hasil-faraidh.png',{type:'image/png'});
+  try{
+    if(navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],title:'Hasil Pembagian Warisan'}); return; }
+  }catch(e){ if(e&&e.name==='AbortError') return; }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='hasil-faraidh.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  showToast('Gambar hasil disimpan.');
+}
+
+// ---- Simpan kasus (lokal di perangkat) ----
+const CASE_KEY='faraidhCases';
+function loadCases(){ try{ return JSON.parse(localStorage.getItem(CASE_KEY)||'[]'); }catch(e){ return []; } }
+function storeCases(a){ try{ localStorage.setItem(CASE_KEY,JSON.stringify(a)); return true; }catch(e){ return false; } }
+function simpanKasus(){
+  const snap=snapshotForm();
+  if(!formIsDirty(snap)){ showToast('Isi data ahli waris dulu.'); return; }
+  const node=elHtml('<h3>Simpan kasus</h3><div class="sh-sub">Tersimpan di perangkat ini saja.</div><input id="caseName" maxlength="60" placeholder="Nama kasus, mis. Warisan Pak Ahmad" aria-label="Nama kasus"><div class="sh-actions"><button class="sh-btn" onclick="closeSheet()">Batal</button><button class="sh-btn primary" id="caseSave">Simpan</button></div>');
+  openSheet(node);
+  const inp=node.querySelector('#caseName'); setTimeout(()=>inp.focus(),60);
+  node.querySelector('#caseSave').onclick=()=>{
+    const a=loadCases();
+    a.unshift({id:Date.now(),name:inp.value.trim()||('Kasus '+new Date().toLocaleDateString('id-ID')),snap});
+    if(storeCases(a.slice(0,30))){ closeSheet(); showToast('Kasus tersimpan.'); } else showToast('Gagal menyimpan kasus.');
+  };
+}
+function bukaDaftarKasus(){
+  const a=loadCases();
+  const node=elHtml('<h3>Kasus tersimpan</h3>'+(a.length?'':'<p class="sh-sub">Belum ada. Hitung sebuah kasus, lalu ketuk ikon simpan di bagian hasil.</p>'));
+  a.forEach(k=>{
+    const row=elHtml(`<div class="case-item"><div style="flex:1;min-width:0"><b>${esc(k.name)}</b><div class="sh-sub" style="margin:0">${new Date(k.id).toLocaleDateString('id-ID')}</div></div><button class="sh-btn primary">Buka</button><button class="sh-btn" aria-label="Hapus kasus">\u2715</button></div>`).firstChild;
+    row.children[1].onclick=()=>{ closeSheet(); restoreForm(Object.assign({},k.snap,{resultsShown:false})); hitungFaraidh(); };
+    row.children[2].onclick=()=>{ storeCases(loadCases().filter(x=>x.id!==k.id)); bukaDaftarKasus(); };
+    node.appendChild(row);
+  });
+  node.appendChild(elHtml('<div class="sh-actions"><button class="sh-btn" onclick="closeSheet()">Tutup</button></div>').firstChild);
+  openSheet(node);
 }
 </script>
 </body>
