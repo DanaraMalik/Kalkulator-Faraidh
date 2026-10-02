@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#153328">
+<link rel="manifest" href="manifest.json">
 <style>
   :root{
     --paper:#FAF6EE;
@@ -932,7 +933,7 @@
     .preset-row .preset-chip,.preset-row .preset-label{flex:0 0 auto;white-space:nowrap;}
   }
   @media (prefers-reduced-motion:reduce){.toast,.to-top-btn{transition:none;}}
-  @media print{.toast,.to-top-btn{display:none !important;}}
+  @media print{.toast,.to-top-btn,.preset-row-collapsed-toggle,#presetRowToggle,#presetRow{display:none !important;}}
   .note-print-short{display:none;}
   @media print{.note-screen{display:none !important;}.note-print-short{display:inline !important;}}
   .g-group-title{margin:18px 0 2px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);}
@@ -4362,6 +4363,54 @@ document.querySelectorAll('.mahjub-alert').forEach(el=>el.setAttribute('aria-liv
     lastY = y;
   }, {passive:true});
 })();
+
+// ====================== Pembaruan otomatis (TWA / GitHub Pages) ======================
+// Membandingkan waktu "Last-Modified" file di server dengan salinan yang sedang terbuka.
+// Bila server lebih baru: muat ulang otomatis (jika formulir masih kosong) atau tampilkan
+// pesan "Muat ulang" (jika pengguna sedang mengisi / membaca hasil).
+(function(){
+  if(!/^https?:$/.test(location.protocol)) return;       // tidak aktif saat file dibuka lokal
+  const loadedAt = Date.parse(document.lastModified);
+  let lastCheck = 0, checking = false;
+  function aman(){
+    try{
+      const menuOpen = document.getElementById('mainMenuPanel').classList.contains('open');
+      return !menuOpen && !formIsDirty(snapshotForm()) && document.getElementById('results').style.display!=='block';
+    }catch(e){ return false; }
+  }
+  function ditemukan(){
+    let last = 0; try{ last = +sessionStorage.getItem('faraidhAutoReloadAt') || 0; }catch(e){}
+    if(aman() && Date.now() - last > 5*60000){          // batas 1x per 5 menit agar tidak berulang
+      try{ sessionStorage.setItem('faraidhAutoReloadAt', String(Date.now())); }catch(e){}
+      location.reload();
+      return;
+    }
+    showToast(tn('Versi baru tersedia.','يتوفر إصدار جديد.'),
+      {actionLabel: tn('Muat ulang','تحديث'), onAction: ()=>location.reload(), duration: 600000});
+  }
+  async function cekPembaruan(paksa){
+    const now = Date.now();
+    if(checking || (!paksa && now - lastCheck < 60000)) return;
+    checking = true; lastCheck = now;
+    try{
+      const res = await fetch(location.origin + location.pathname + location.search, {method:'HEAD', cache:'no-store'});
+      if(!res.ok) return;
+      const lm = Date.parse(res.headers.get('last-modified') || '');
+      if(lm && loadedAt && lm > loadedAt + 1000) ditemukan();
+    }catch(e){ /* offline: abaikan */ }
+    finally{ checking = false; }
+  }
+  setTimeout(()=>cekPembaruan(true), 2000);
+  document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') cekPembaruan(false); });
+  window.addEventListener('online', ()=>cekPembaruan(true));
+  setInterval(()=>{ if(document.visibilityState==='visible') cekPembaruan(false); }, 15*60000);
+  window.__cekPembaruan = cekPembaruan;                   // untuk pengujian
+})();
+
+// Service worker (offline + pembaruan halaman network-first, lihat sw.js)
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+  window.addEventListener('load', ()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
 </script>
 </body>
 </html>
